@@ -1,15 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { BASE_URL } from "../../constants/constants";
+import {PostRequestHook} from "../../api/Services"
+import { CONFIG_URL } from "../../api/api.config";
+
+const {postRequest,putRequest,deleteRequest,getRequest}=PostRequestHook()
 
 // Define Async Thunk to Fetch Users
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  const response = await axios.get(BASE_URL.USERS);
+  const response = await getRequest(CONFIG_URL.USERS);
   return response.data;
 });
 // Async Thunk to Fetch Posts
 export const fetchPosts = createAsyncThunk("users/fetchPosts", async () => {
-  const response = await axios.get(BASE_URL.POSTS);
+  const response = await getRequest(CONFIG_URL.POSTS);
   return response.data;
 });
 //
@@ -17,12 +19,19 @@ export const fetchPosts = createAsyncThunk("users/fetchPosts", async () => {
 const usersSlice = createSlice({
   name: "users",
   initialState: {
-    users: [],
+    isAuth:false,
+    userdata:null,
+    usersLit: [],
     posts: [],
     loading: false,
-    error: null as string | null,
+    error: null ,
   },
-  reducers: {}, // No regular reducers needed for now
+  reducers: {
+    setIsAuth: (state, action) => {
+      state.isAuth = action.payload.isAuth;
+      state.userdata = action.payload.data;
+    },
+  }, // No regular reducers needed for now
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsers.pending, (state) => {
@@ -51,5 +60,7 @@ const usersSlice = createSlice({
       });
   },
 });
+
+export const {setIsAuth}=usersSlice.actions;
 
 export default usersSlice.reducer;

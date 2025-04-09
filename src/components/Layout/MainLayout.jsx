@@ -113,14 +113,16 @@
 
 import React, { useEffect } from "react";
 import { Content, Footer, Header, Sidebar } from "../../components/Layout";
+import { useSelector } from "react-redux";
+import { replace, useNavigate } from "react-router-dom";
 
 const MainLayout = ({ children }) => {
+  const navigate=useNavigate()
+  const {isAuth}=useSelector(state=>state.users)
   useEffect(() => {
-    // // Open the sidebar on initial load
-    // const sidebar = document.querySelector(".cr-sidebar");
-    // if (sidebar && !sidebar.classList.contains("cr-sidebar--open")) {
-    //   sidebar.classList.add("cr-sidebar--open");
-    // }
+    if(!isAuth){
+      navigate("/",{replace:true})
+    }
   }, []);
 
   const toggleSidebar = () => {

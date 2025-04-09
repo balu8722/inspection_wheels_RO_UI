@@ -1,226 +1,176 @@
+import React, { useMemo, useState } from "react";
 import Page from "../../components/Page";
-import React from "react";
 import "./Dashboard.scss";
-// import {
-//   Alert,
-//   Card,
-//   CardBody,
-//   CardHeader,
-//   Col,
-//   Row,
-//   UncontrolledAlert,
-// } from "reactstrap";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardImg,
-  CardImgOverlay,
-  CardLink,
-  CardText,
-  CardTitle,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Row,
-} from "reactstrap";
-import Badge from "react-bootstrap/Badge";
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchUsers, fetchPosts } from "../../redux/slices/usersSlice";
-import { useNavigate } from "react-router-dom";
-import PageSpinner from "../../components/PageSpinner";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Clientcount from "./ClientCount/ClientCount"
 import Table from "../../components/Table/Table"
+import { Button, Card, CardBody, Col, Form, Row,Badge } from "react-bootstrap";
+import { CommonTable } from "../../components/Table/CommonTable";
 
 const Dashboard = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-      const { users, posts, loading, error } = useSelector((state) => state.users);
-   useEffect(() => {
-         dispatch(fetchUsers());
-         dispatch(fetchPosts());
-      }, [dispatch]);
+      const currentDate = new Date();
+      let _month= new Intl.DateTimeFormat('en-US', { month: 'long' }).format(currentDate)
 
-      if (loading) return  <PageSpinner/>;
-      if (error) return <p>Error: {error}</p>;
+      const [month, setMonth] = useState(_month);
+      const [year, setYear] = useState(currentDate.getFullYear());
+
+      const counts=[{count:1,status:"RO Lead",name:"Total RO-Leads",status_bgclass:"ro_lead"},
+        {count:15,status:"Assigned",name:"Total Assigned",status_bgclass:"assigned"},
+        {count:2,status:"Reassigned",name:"Total Reassigned",status_bgclass:"re-assigned"},
+        {count:2,status:"RO Confirmation",name:"Total RO Confirmation",status_bgclass:"re-assigned"},
+        {count:0,status:"QC",name:"Total QC",status_bgclass:"ro_lead"},
+        {count:0,status:"QC Hold",name:"Total QC-Hold",status_bgclass:"assigned"},
+        {count:115,status:"Inspection Completed",name:"Total Inspection Completed",status_bgclass:"ro_lead"},
+        {count:6,status:"Reject",name:"Total Reject",status_bgclass:"rejected"},
+        {count:142,status:"Total",name:"Total Leads",status_bgclass:"ro_lead"}
+      ]
+
+    
+    
+      const handleFilter = () => {
+        console.log(`Filtering for ${month}, ${year}`);
+      };
+    
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+    
+      const currentYear = currentDate.getFullYear();
+      const years = Array.from({ length: currentYear - 2010 + 1 }, (_, i) => currentYear - i);
+
+      const columns = useMemo(
+        () => [
+            {
+                Header: "Company",
+                accessor: "company"
+            },
+            {
+                Header: "Ro Lead",
+                accessor: "rolead"
+            },
+            {
+                Header: "Assigned",
+                accessor: "assigned"
+            },
+            {
+                Header: "Reassigned",
+                accessor: "reassigned"
+            },
+            {
+                Header: "RO Confirmation",
+                accessor: "roconfirmation"
+            },
+            {
+                Header: "QC",
+                accessor: "qc"
+            },
+            {
+                Header: "QC Hold",
+                accessor: "qchold"
+            },
+            {
+                Header: "Inspection Completed",
+                accessor: "insecptioncompleted"
+            },
+            {
+                Header: "Reject",
+                accessor: "reject"
+            },
+            {
+                Header: "Total",
+                accessor: "total"
+            },
+        ], []
+    );
+
+    const _client_data=[
+      { company: "Chola", rolead: 28, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
+      { company: "Bajaj", rolead: 22, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
+      { company: "ICICI", rolead: 35, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
+      { company: "Kormadana", rolead: 31, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
+      { company: "hdcf", rolead: 26, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
+      { company: "katnataka", rolead: 29, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
+      { company: "BOB", rolead: 40, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
+  ]
+    
   return (
     // add title title="Dashboard"
-    <div className="dashboard">
-      <Page breadcrumbs={[{ name: "Dashboard", active: true }]}>
+    <div className="dashboard mt-3">
+      <Page>
         <div>
-          <h5>Welcome to John</h5>
+          <h3 className="mb-3">Welcome to Inspection Wheels</h3>
         </div>
-        <div className="py-2">
-          <h6>Dashboard</h6>
+        <div className="bg-white p-3 rounded">
+          <Form>
+            <Row className="align-items-end justify-content-end g-3">
+              <Col xs={12} sm={4} md={3}>
+          <Form.Label>Month</Form.Label>
+                <Form.Select value={month} onChange={(e) => setMonth(e.target.value)}>
+                  {months.map((m) => (
+                    <option key={m} value={m}>{m}</option>
+                  ))}
+                </Form.Select>
+              </Col>
+
+              <Col xs={12} sm={4} md={3}>
+                <Form.Label>Year</Form.Label>
+                <Form.Select value={year} onChange={(e) => setYear(e.target.value)}>
+                  {years.map((y) => (
+                    <option key={y} value={y}>{y}</option>
+                  ))}
+                </Form.Select>
+              </Col>
+
+              <Col xs={12} sm={4} md={2}>
+                <Button 
+                  className="w-100 text-white" 
+                  style={{ backgroundColor: '#5c6ac4', borderColor: '#5c6ac4' }}
+                  onClick={handleFilter}
+                >
+                  Filter
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+        <div className="py-2 mt-3">
+          <h5>Dashboard</h5>
         </div>
         <Row>
-          <Col md={3} sm={6} xs={12} lg={3} className="mb-3">
+          {counts.map((item,i)=>{
+            return  <Col md={4} sm={6} xs={12} lg={3} className="mb-3">
             <Card inverse className="border-0 card_padding">
+            <div className="text-end">
+                <Badge className={`font-weight-400 ${item.status_bgclass}`}>{item.status}</Badge>
+              </div>
               <div>
-                <h5 className="count text-black font_18">5</h5>
+                <h5 className="count text-black font_18"><strong>{item.count}</strong></h5>
               </div>
-              <div className="badge_position">
-                <Badge className="font-weight-400 ro_lead">RO Lead</Badge>
-              </div>
+              
               <CardBody className="d-flex p-0">
                 <div>
-                  <p className="text-black">Total RO-Leads</p>
+                  <p className="text-black mb-0">{item.name}</p>
                 </div>
               </CardBody>
             </Card>
           </Col>
-          <Col md={3} sm={6} xs={12} lg={3} className="mb-3">
-            <Card inverse className="border-0 card_padding">
-              <div>
-                <h5 className="count text-black font_18">24</h5>
-              </div>
-              <div className="badge_position">
-                <Badge className="font-weight-400 assigned">Assigned</Badge>
-              </div>
-              <CardBody className="d-flex p-0">
-                <div>
-                  <p className="text-black">Total Assigned</p>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md={3} sm={6} xs={12} lg={3} className="mb-3">
-            <Card inverse className="border-0 card_padding">
-              <div>
-                <h5 className="count text-black font_18">3</h5>
-              </div>
-              <div className="badge_position">
-                <Badge className="font-weight-400 re-assigned">
-                  Reassigned
-                </Badge>
-              </div>
-              <CardBody className="d-flex p-0">
-                <div>
-                  <p className="text-black"> Total Reassigned</p>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md={3} sm={6} xs={12} lg={3} className="mb-3">
-            <Card inverse className="border-0 card_padding">
-              <div>
-                <h5 className="count text-black font_18">13</h5>
-              </div>
-              <div className="badge_position">
-                <Badge className="font-weight-400 re-assigned">
-                  RO Confirmation
-                </Badge>
-              </div>
-              <CardBody className="d-flex p-0">
-                <div>
-                  <p className="text-black">Total RO Confirmation</p>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md={3} sm={6} xs={12} lg={3} className="mb-3">
-            <Card inverse className="border-0 card_padding">
-              <div>
-                <h5 className="count text-black font_18">0</h5>
-              </div>
-              <div className="badge_position">
-                <Badge className="font-weight-400 qc">QC</Badge>
-              </div>
-              <CardBody className="d-flex p-0">
-                <div>
-                  <p className="text-black">Total QC</p>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md={3} sm={6} xs={12} lg={3} className="mb-3">
-            <Card inverse className="border-0 card_padding">
-              <div>
-                <h5 className="count text-black font_18">0</h5>
-              </div>
-              <div className="badge_position ">
-                <Badge className="font-weight-400 assigned">QC hold</Badge>
-              </div>
-              <CardBody className="d-flex p-0">
-                <div>
-                  <p className="text-black">Total QC-Hold</p>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md={3} sm={6} xs={12} lg={3} className="mb-3">
-            <Card inverse className="border-0 card_padding">
-              <div>
-                <h5 className="count text-black font_18">55</h5>
-              </div>
-              <div className="badge_position">
-                <Badge className="font-weight-400 ro_lead">
-                  Inspection Completed
-                </Badge>
-              </div>
-              <CardBody className="d-flex p-0">
-                <div>
-                  <p className="text-black">Total Inspection Completed</p>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md={3} sm={6} xs={12} lg={3} className="mb-3">
-            <Card inverse className="border-0 card_padding">
-              <div>
-                <h5 className="count text-black font_18">0</h5>
-              </div>
-              <div className="badge_position">
-                <Badge className="font-weight-400 rejected">Rejected</Badge>
-              </div>
-              <CardBody className="d-flex p-0">
-                <div>
-                  <p className="text-black">Total Rejected</p>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md={3} sm={6} xs={12} lg={3} className="mb-3">
-            <Card inverse className="border-0 card_padding">
-              <div>
-                <h5 className="count text-black font_18">1234</h5>
-              </div>
-              <div className="badge_position">
-                <Badge className="font-weight-400 re-assigned">Total</Badge>
-              </div>
-              <CardBody className="d-flex p-0">
-                <div>
-                  <p className="text-black">Total Leads</p>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
+          })}
         </Row>
-        {/* <div>
-          <h2>Users List</h2>
-          {loading ? <p>Loading</p> : <p> {error}</p>}
-          <ul>
-            {users.map((user) => (
-              <li key={user.id}>
-                {user.name} - {user.email}
-              </li>
-            ))}
-          </ul>
-        </div> */}
-        <div className="tab_section my-3">
+        
+        <div className="tab_section mt-4 my-3">
           <Tabs
             defaultActiveKey="client"
             id="tab_component"
-            className="mb-3  border-bottom-0 "
+            className="mb-3"
           >
             <Tab eventKey="client" title="Client Count">
               <div className="overflow-hor-scroll">
                 {/* <Clientcount /> */}
                 <h5>Client Count</h5>
-                <Table />
+                <CommonTable propColumns={columns} propData={_client_data} />
+                {/* <Table /> */}
               </div>
             </Tab>
             <Tab eventKey="vehicle" title="Vehicle Type Count">
