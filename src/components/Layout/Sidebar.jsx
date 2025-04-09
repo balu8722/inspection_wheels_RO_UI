@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Collapse, Nav, Navbar, NavItem } from "reactstrap";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import {
   MdDashboard,
   MdWeb,
@@ -159,6 +161,8 @@ const CollapsibleSection = ({ icon: Icon, label, isOpen, toggle, items }) => (
     </Collapse>
   </>
 );
+// const location = useLocation();
+
 
 const Sidebar = () => {
   const [isOpenComponents, setOpenComponents] = useState(false);
@@ -169,75 +173,92 @@ const Sidebar = () => {
    const [isOpenUser, setOpenUser] = useState(false);
 
    const [isOpenMis, setOpenMis] = useState(false);
+   const location = useLocation();
+useEffect(() => {
+  const openPaths = [
+    "/ro-leads",
+    "/assigned",
+    "/reassigned",
+    "/ro-confirmation",
+    "/qc-hold",
+    "/inspection-completed",
+  ];
 
-  return (
-    // <aside className={bem.b()} data-image={sidebarBgImage}>
-    <aside
-      className={`${bem.b()} cr-sidebar--open`}
-      data-image={sidebarBgImage}
-    >
-      <div className={bem.e("background")} style={sidebarBackground} />
-      <div className={bem.e("content")}>
-        <Navbar>
-          <SourceLink className="navbar-brand d-flex">
-            <img src={logo200Image} className="pr-2" alt="logo" />
-            {/* <span className="text-white">
+  if (openPaths.includes(location.pathname)) {
+    setOpenComponents(true);
+  } else {
+    setOpenComponents(false);
+  }
+}, [location.pathname]);
+
+      return (
+        // <aside className={bem.b()} data-image={sidebarBgImage}>
+        <aside
+          className={`${bem.b()} cr-sidebar--open`}
+          data-image={sidebarBgImage}
+        >
+          <div className={bem.e("background")} style={sidebarBackground} />
+          <div className={bem.e("content")}>
+            <Navbar>
+              <SourceLink className="navbar-brand d-flex">
+                <img src={logo200Image} className="pr-2" alt="logo" />
+                {/* <span className="text-white">
               Reduction <FaGithub />
             </span> */}
-          </SourceLink>
-        </Navbar>
-        <Nav vertical>
-          {/* ***************NEW Menus */}
-          {sidebarLabels.map(({ to, name, exact, Icon }, index) => (
-            <NavItem key={index} className={bem.e("nav-item")}>
-              <NavLink
-                to={to}
-                className={({ isActive }) =>
-                  `nav-link ${isActive ? "active" : ""}`
-                }
-                end={exact}
-              >
-                <Icon className={bem.e("nav-item-icon")} />
-                <span>{name}</span>
-              </NavLink>
-            </NavItem>
-          ))}
-          <CollapsibleSection
-            iconClass="custom"
-            icon={MdExtension}
-            label="MY Tray"
-            isOpen={isOpenComponents}
-            toggle={() => setOpenComponents(!isOpenComponents)}
-            items={tray_components}
-          />
+              </SourceLink>
+            </Navbar>
+            <Nav vertical>
+              {/* ***************NEW Menus */}
+              {sidebarLabels.map(({ to, name, exact, Icon }, index) => (
+                <NavItem key={index} className={bem.e("nav-item")}>
+                  <NavLink
+                    to={to}
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                    end={exact}
+                  >
+                    <Icon className={bem.e("nav-item-icon")} />
+                    <span>{name}</span>
+                  </NavLink>
+                </NavItem>
+              ))}
+              <CollapsibleSection
+                iconClass="custom"
+                icon={MdExtension}
+                label="MY Tray"
+                isOpen={isOpenComponents}
+                toggle={() => setOpenComponents(!isOpenComponents)}
+                items={tray_components}
+              />
 
-          <CollapsibleSection
-            iconClass="custom"
-            icon={MdManageAccounts}
-            label="Lead Management"
-            isOpen={isopenLead}
-            toggle={() => setOpenLead(!isopenLead)}
-            items={leadManagement}
-          />
-          <CollapsibleSection
-            iconClass="custom"
-            icon={MdPeopleAlt}
-            label="User Management"
-            isOpen={isOpenUser}
-            toggle={() => setOpenUser(!isOpenUser)}
-            items={userManagement}
-          />
-          <CollapsibleSection
-            iconClass="custom"
-            icon={MdSummarize}
-            label="MIS"
-            isOpen={isOpenMis}
-            toggle={() => setOpenMis(!isOpenMis)}
-            items={mis}
-          />
+              <CollapsibleSection
+                iconClass="custom"
+                icon={MdManageAccounts}
+                label="Lead Management"
+                isOpen={isopenLead}
+                toggle={() => setOpenLead(!isopenLead)}
+                items={leadManagement}
+              />
+              <CollapsibleSection
+                iconClass="custom"
+                icon={MdPeopleAlt}
+                label="User Management"
+                isOpen={isOpenUser}
+                toggle={() => setOpenUser(!isOpenUser)}
+                items={userManagement}
+              />
+              <CollapsibleSection
+                iconClass="custom"
+                icon={MdSummarize}
+                label="MIS"
+                isOpen={isOpenMis}
+                toggle={() => setOpenMis(!isOpenMis)}
+                items={mis}
+              />
 
-          {/* ***************NEW Menus */}
-          {/* {navItems.map(({ to, name, exact, Icon }, index) => (
+              {/* ***************NEW Menus */}
+              {/* {navItems.map(({ to, name, exact, Icon }, index) => (
             <NavItem key={index} className={bem.e("nav-item")}>
               <NavLink
                 to={to}
@@ -252,7 +273,7 @@ const Sidebar = () => {
             </NavItem>
           ))} */}
 
-          {/* <CollapsibleSection
+              {/* <CollapsibleSection
             icon={MdExtension}
             label="Components"
             isOpen={isOpenComponents}
@@ -260,7 +281,7 @@ const Sidebar = () => {
             items={navComponents}
           /> */}
 
-          {/* <CollapsibleSection
+              {/* <CollapsibleSection
             icon={MdSend}
             label="Contents"
             isOpen={isOpenContents}
@@ -268,17 +289,17 @@ const Sidebar = () => {
             items={navContents}
           /> */}
 
-          {/* <CollapsibleSection
+              {/* <CollapsibleSection
             icon={MdPages}
             label="Pages"
             isOpen={isOpenPages}
             toggle={() => setOpenPages(!isOpenPages)}
             items={pageContents}
           /> */}
-        </Nav>
-      </div>
-    </aside>
-  );
+            </Nav>
+          </div>
+        </aside>
+      );
 };
 
 export default Sidebar;

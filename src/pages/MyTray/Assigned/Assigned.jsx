@@ -21,30 +21,38 @@ import PageSpinner from "../../../components/PageSpinner";
 import DataTable from "../../../components/DataTable/DataTable"
 import { MdVisibility, MdEdit, MdDelete } from "react-icons/md";
 
-const Roleads = () => {
-const data = React.useMemo(
-  () => [
-    {
-      contact: "AJITH ALLIPUR BELLARY ",
-      reqno: "CVRTL300812913",
-      vehicledetails: "KA12B5695",
-      clientdetails: "CHOLAMANDALAM IN..",
-      execdetails: "RANGANTHA 7353286216",
-      rouser: "ajvaluesadmin DAVANGERE",
-      assign: "03/04/2025 03:53 PM",
-    },
-    {
-      contact: "ANABURU DAVANGERE",
-      reqno: "CVRTL300812913",
-      vehicledetails: "KA12B5695",
-      clientdetails: "CHOLAMANDALAM IN..",
-      execdetails: "RANGANTHA 7353286216",
-      rouser: "ajvaluesadmin DAVANGERE",
-      assign: "03/04/2025 03:53 PM",
-    },
-  ],
-  []
-);
+const Assigned = () => {
+  const data = React.useMemo(
+    () => [
+      {
+        contact: "AJITH ALLIPUR BELLARY ",
+        reqno: "CVRTL300812913",
+        vehicledetails: "KA12B5695",
+        clientdetails: "CHOLAMANDALAM IN..",
+        valuator: "ajvalues13 BANGALORE",
+        status: "Open",
+        execdetails: "RANGANTHA 7353286216",
+        rouser: "ajvaluesadmin DAVANGERE",
+        assign: "03/04/2025 03:53 PM",
+        remark: "ok",
+        assinon: "08/04/2025 09:26 am",
+      },
+      {
+        contact: "Kumar mysuru ",
+        reqno: "CVRTL300812913",
+        vehicledetails: "KA12B5695",
+        clientdetails: "CHOLAMANDALAM IN..",
+        valuator: "ajvalues13 BANGALORE",
+        status: "Open",
+        execdetails: "RANGANTHA 7353286216",
+        rouser: "ajvaluesadmin DAVANGERE",
+        assign: "03/04/2025 03:53 PM",
+        remark: "ok",
+        assinon: "08/04/2025 09:26 am",
+      },
+    ],
+    []
+  );
   const columns = React.useMemo(
     () => [
       {
@@ -64,16 +72,20 @@ const data = React.useMemo(
         accessor: "clientdetails",
       },
       {
-        Header: "Exec Details",
-        accessor: "execdetails",
+        Header: "Valuator",
+        accessor: "valuator",
       },
       {
-        Header: "RO User",
-        accessor: "rouser",
+        Header: "Status",
+        accessor: "status",
+      },
+      {
+        Header: "Valuator Remark",
+        accessor: "remark",
       },
       {
         Header: "Assigned on",
-        accessor: "assign",
+        accessor: "assinon",
       },
 
       {
@@ -84,7 +96,10 @@ const data = React.useMemo(
             <Form.Select className="selective-field">
               <option>Select</option>
               <option>Remarks</option>
-              <option>Assign</option>
+              <option>Reassign</option>
+              <option>Change Vehicle Catgory</option>
+              <option>Valuation</option>
+              <option>Reject</option>
               <option>History</option>
             </Form.Select>
             {/* <MdVisibility
@@ -107,12 +122,12 @@ const data = React.useMemo(
   );
 
   const { users, posts, loading, error } = useSelector((state) => state.users);
-  
+
   return (
     <Page
       breadcrumbs={[
         { name: "My Tray", link: "/mytray" },
-        { name: "RO Leads", active: true },
+        { name: "Assigned", active: true },
       ]}
     >
       <div>
@@ -124,4 +139,4 @@ const data = React.useMemo(
   );
 };
 
-export default Roleads;
+export default Assigned;

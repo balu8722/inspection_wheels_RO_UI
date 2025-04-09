@@ -1,53 +1,16 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
 
-// function App() {
-//   const [count, setCount] = useState(0)
-
-//   return (
-//     <>
-//       <div>
-//         <a href="https://vite.dev" target="_blank">
-//           <img src={viteLogo} className="logo" alt="Vite logo" />
-//         </a>
-//         <a href="https://react.dev" target="_blank">
-//           <img src={reactLogo} className="logo react" alt="React logo" />
-//         </a>
-//       </div>
-//       <h1>Vite + React</h1>
-//       <div className="card">
-//         <button onClick={() => setCount((count) => count + 1)}>
-//           count is {count}
-//         </button>
-//         <p>
-//           Edit <code>src/App.jsx</code> and save to test HMR
-//         </p>
-//       </div>
-//       <p className="read-the-docs">
-//         Click on the Vite and React logos to learn more
-//       </p>
-//     </>
-//   )
-// }
-
-// export default App
 import { STATE_LOGIN, STATE_SIGNUP } from './components/AuthForm';
 import { EmptyLayout, LayoutRoute, MainLayout } from './components/Layout';
 import PageSpinner from './components/PageSpinner';
 import AuthPage from './pages/AuthPage';
-import React from 'react';
+import React, { useEffect } from "react";
 import componentQueries from 'react-component-queries';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, useLocation } from "react-router-dom";
 import { Navigate, Routes } from "react-router-dom";
 import PropTypes from "prop-types";
-
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/reduction.scss';
 import Dashboard from './pages/Dashboard/Dashboard';
-// import MyTray from './pages/MyTray/MyTray'
-// import "./styles/styles.scss"
+
 
 const AlertPage = React.lazy(() => import('./pages/AlertPage'));
 const AuthModalPage = React.lazy(() => import('./pages/AuthModalPage'));
@@ -65,10 +28,16 @@ const ProgressPage = React.lazy(() => import('./pages/ProgressPage'));
 const TablePage = React.lazy(() => import('./pages/TablePage'));
 const TypographyPage = React.lazy(() => import('./pages/TypographyPage'));
 const WidgetPage = React.lazy(() => import('./pages/WidgetPage'));
-// import PropTypes from "prop-types";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import Roleads from './pages/MyTray/ROLeads/ROLeads';
+import Assigned from './pages/MyTray/Assigned/Assigned';
+import ReAssigned from "./pages/MyTray/ReAssigned/ReAssigned"
+import RoConfirmation from './pages/MyTray/RoConfirmation/RoConfirmation';
+import QcHold from './pages/MyTray/QcHold/QcHold';
+import InspectionCompleted from './pages/MyTray/InspectionCompleted/InspectionCompleted';
+import CreateLead from './pages/LeadManagement/CreateLead/CreateLead';
+import UserList from './pages/UserManagement/UserList/UserList';
 
 
 const getBasename = () => {
@@ -89,62 +58,26 @@ if (import.meta.env.DEV) {
       return; // Suppress this specific warning
     }
 
-    originalConsoleError(...args); // Let others pass through
+    // originalConsoleError(...args); // Let others pass through
   };
 }
+// end  removing popover warning 
+function ScrollToTopOnRouteChange() {
+  const { pathname } = useLocation();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 class App extends React.Component {
   
-  // render() {
-  //   return (
-  //     <BrowserRouter basename={"/react-reduction"}>
-  //       <Routes>
-  //         <LayoutRoute
-  //           exact
-  //           path="/login"
-  //           layout={EmptyLayout}
-  //           component={(props) => (
-  //             <AuthPage {...props} authState={STATE_LOGIN} />
-  //           )}
-  //         />
-  //         <LayoutRoute
-  //           exact
-  //           path="/signup"
-  //           layout={EmptyLayout}
-  //           component={(props) => (
-  //             <AuthPage {...props} authState={STATE_SIGNUP} />
-  //           )}
-  //         />
-
-          // <MainLayout breakpoint={this.props.breakpoint}>
-          //   <React.Suspense fallback={<PageSpinner />}>
-          //     <Route exact path="/" component={DashboardPage} />
-          //     <Route exact path="/login-modal" component={AuthModalPage} />
-          //     <Route exact path="/buttons" component={ButtonPage} />
-          //     <Route exact path="/cards" component={CardPage} />
-          //     <Route exact path="/widgets" component={WidgetPage} />
-          //     <Route exact path="/typography" component={TypographyPage} />
-          //     <Route exact path="/alerts" component={AlertPage} />
-          //     <Route exact path="/tables" component={TablePage} />
-          //     <Route exact path="/badges" component={BadgePage} />
-          //     <Route exact path="/button-groups" component={ButtonGroupPage} />
-          //     <Route exact path="/dropdowns" component={DropdownPage} />
-          //     <Route exact path="/progress" component={ProgressPage} />
-          //     <Route exact path="/modals" component={ModalPage} />
-          //     <Route exact path="/forms" component={FormPage} />
-          //     <Route exact path="/input-groups" component={InputGroupPage} />
-          //     <Route exact path="/charts" component={ChartPage} />
-          //   </React.Suspense>
-          // </MainLayout>
-  //         <Navigate to="/" />
-  //       </Routes>
-  //     </BrowserRouter>
-  //   );
-  // }
+ 
   render() {
-    
     return (
       <BrowserRouter>
+        <ScrollToTopOnRouteChange />
         <Provider store={store}>
           <Routes>
             <Route
@@ -171,6 +104,77 @@ class App extends React.Component {
                 <MainLayout breakpoint={this.props.breakpoint}>
                   <React.Suspense fallback={<PageSpinner />}>
                     <Roleads />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/assigned"
+              element={
+                <MainLayout breakpoint={this.props.breakpoint}>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <Assigned />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/reassigned"
+              element={
+                <MainLayout breakpoint={this.props.breakpoint}>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <ReAssigned />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/ro-confirmation"
+              element={
+                <MainLayout breakpoint={this.props.breakpoint}>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <RoConfirmation />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/qc-hold"
+              element={
+                <MainLayout breakpoint={this.props.breakpoint}>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <QcHold />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/inspection-completed"
+              element={
+                <MainLayout breakpoint={this.props.breakpoint}>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <InspectionCompleted />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+
+            <Route
+              path="/create-lead"
+              element={
+                <MainLayout breakpoint={this.props.breakpoint}>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <CreateLead />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+            <Route
+              path="/user-list"
+              element={
+                <MainLayout breakpoint={this.props.breakpoint}>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <UserList />
                   </React.Suspense>
                 </MainLayout>
               }
@@ -343,54 +347,4 @@ class App extends React.Component {
     );
   }
 }
-
-// const query = ({ width }) => {
-//   if (width < 575) {
-//     return { breakpoint: 'xs' };
-//   }
-
-//   if (576 < width && width < 767) {
-//     return { breakpoint: 'sm' };
-//   }
-
-//   if (768 < width && width < 991) {
-//     return { breakpoint: 'md' };
-//   }
-
-//   if (992 < width && width < 1199) {
-//     return { breakpoint: 'lg' };
-//   }
-
-//   if (width > 1200) {
-//     return { breakpoint: 'xl' };
-//   }
-
-//   return { breakpoint: 'xs' };
-// };
-// const query = ({ width }) => {
-//   if (width < 576) {
-//     return { breakpoint: "xs" };
-//   }
-//   if (width >= 576 && width <= 767) {
-//     return { breakpoint: "sm" };
-//   }
-//   if (width >= 768 && width <= 991) {
-//     return { breakpoint: "md" };
-//   }
-//   if (width >= 992 && width <= 1199) {
-//     return { breakpoint: "lg" };
-//   }
-//   if (width >= 1200) {
-//     return { breakpoint: "xl" };
-//   }
-
-//   return { breakpoint: "xs" };
-// };
-
-// App.propTypes = {
-//   breakpoint: PropTypes.any,
-// };
-
-
-// export default componentQueries(query)(App);
 export default App;

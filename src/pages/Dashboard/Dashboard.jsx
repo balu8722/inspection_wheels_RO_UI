@@ -1,6 +1,7 @@
 import Page from "../../components/Page";
 import React from "react";
 import "./Dashboard.scss";
+import { MdVisibility, MdEdit, MdDelete } from "react-icons/md";
 // import {
 //   Alert,
 //   Card,
@@ -24,6 +25,7 @@ import {
   ListGroupItem,
   Row,
 } from "reactstrap";
+import Form from "react-bootstrap/Form";
 import Badge from "react-bootstrap/Badge";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,9 +35,281 @@ import PageSpinner from "../../components/PageSpinner";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Clientcount from "./ClientCount/ClientCount"
-import Table from "../../components/Table/Table"
+import DataTable from "../../components/DataTable/DataTable";
 
 const Dashboard = () => {
+   const data = React.useMemo(
+     () => [
+       {
+         company: "Adani Capital Private Limited",
+         rolead: 28,
+         assigned: 23,
+         reassigned: 67,
+         roconfirmation: 23,
+         qc: 22,
+         qchold: 99,
+         inspection: 33,
+         reject: 78,
+         total: 102,
+       },
+       {
+         company: "AU Small Finance Bank LTD",
+         rolead: 22,
+         assigned: 23,
+         reassigned: 67,
+         roconfirmation: 23,
+         qc: 22,
+         qchold: 99,
+         inspection: 33,
+         reject: 78,
+         total: 102,
+       },
+       {
+         company: "Axis Bank Ltd",
+         rolead: 22,
+         assigned: 23,
+         reassigned: 67,
+         roconfirmation: 23,
+         qc: 22,
+         qchold: 99,
+         inspection: 33,
+         reject: 78,
+         total: 102,
+       },
+       {
+         company: "BANDHAN BANK LIMITED",
+         rolead: 22,
+         assigned: 23,
+         reassigned: 67,
+         roconfirmation: 23,
+         qc: 22,
+         qchold: 99,
+         inspection: 33,
+         reject: 78,
+         total: 102,
+       },
+       {
+         company: "Ceutics Businesses Private Limited",
+         rolead: 22,
+         assigned: 23,
+         reassigned: 67,
+         roconfirmation: 23,
+         qc: 22,
+         qchold: 99,
+         inspection: 33,
+         reject: 78,
+         total: 102,
+       },
+       {
+         company: "CHOLAMANDALAM INVESTMENT AND FINANCE COMPANY LIMITED",
+         rolead: 22,
+         assigned: 23,
+         reassigned: 67,
+         roconfirmation: 23,
+         qc: 22,
+         qchold: 99,
+         inspection: 33,
+         reject: 78,
+         total: 102,
+       },
+       {
+         company: "Deccan Finance Limited",
+         rolead: 22,
+         assigned: 23,
+         reassigned: 67,
+         roconfirmation: 23,
+         qc: 22,
+         qchold: 99,
+         inspection: 33,
+         reject: 78,
+         total: 102,
+       },
+       {
+         company: "Equitas Small Finance Bank Ltd",
+         rolead: 22,
+         assigned: 23,
+         reassigned: 67,
+         roconfirmation: 23,
+         qc: 22,
+         qchold: 99,
+         inspection: 33,
+         reject: 78,
+         total: 102,
+       },
+       {
+         company: "HDB Financial Services Limited",
+         rolead: 22,
+         assigned: 23,
+         reassigned: 67,
+         roconfirmation: 23,
+         qc: 22,
+         qchold: 99,
+         inspection: 33,
+         reject: 78,
+         total: 102,
+       },
+     ],
+     []
+   );
+
+  //  vehicle data starts
+const vehicledata = React.useMemo(
+  () => [
+    {
+      vehicletype: "Procurement	",
+      rolead: 28,
+      assigned: 23,
+      reassigned: 67,
+      roconfirmation: 23,
+      qc: 22,
+      qchold: 99,
+      inspection: 33,
+      reject: 78,
+      total: 102,
+    },
+    {
+      vehicletype: "Repo	",
+      rolead: 28,
+      assigned: 23,
+      reassigned: 67,
+      roconfirmation: 23,
+      qc: 22,
+      qchold: 99,
+      inspection: 33,
+      reject: 78,
+      total: 102,
+    },
+    {
+      vehicletype: "Retail	",
+      rolead: 28,
+      assigned: 23,
+      reassigned: 67,
+      roconfirmation: 23,
+      qc: 22,
+      qchold: 99,
+      inspection: 33,
+      reject: 78,
+      total: 102,
+    },
+  ],
+  []
+);
+
+  // vehicle data end
+
+   const columns = React.useMemo(
+     () => [
+       {
+         Header: "Company",
+         accessor: "company",
+       },
+       {
+         Header: "RO Lead",
+         accessor: "rolead",
+       },
+       {
+         Header: "Assigned",
+         accessor: "assigned",
+       },
+       {
+         Header: "Reassigned",
+         accessor: "reassigned",
+       },
+       {
+         Header: "RO Confirmation",
+         accessor: "roconfirmation",
+       },
+       {
+         Header: "QC",
+         accessor: "qc",
+       },
+       {
+         Header: "QC Hold",
+         accessor: "qchold",
+       },
+       {
+         Header: "Inspection Completed",
+         accessor: "inspection",
+       },
+       {
+         Header: "Reject",
+         accessor: "reject",
+       },
+       {
+         Header: "Total",
+         accessor: "total",
+       },
+      //  {
+      //    Header: "Actions",
+      //    id: "actions",
+      //    Cell: ({ row }) => (
+      //      <div className="d-flex gap-2">
+      //        <MdVisibility
+      //          style={{ cursor: "pointer" }}
+      //          onClick={() => alert(`Viewing ${row.original.company}`)}
+      //        />
+      //        <MdEdit
+      //          style={{ cursor: "pointer" }}
+      //          onClick={() => alert(`Editing ${row.original.company}`)}
+      //        />
+      //        <MdDelete
+      //          style={{ cursor: "pointer" }}
+      //          onClick={() => alert(`Deleting ${row.original.company}`)}
+      //        />
+      //      </div>
+      //    ),
+      //  },
+     ],
+     []
+   );
+  //  Vehicle type
+  
+const vehiclecolumns = React.useMemo(
+  () => [
+    {
+      Header: "Vehicle Type",
+      accessor: "vehicletype",
+    },
+    {
+      Header: "RO Lead",
+      accessor: "rolead",
+    },
+    {
+      Header: "Assigned",
+      accessor: "assigned",
+    },
+    {
+      Header: "Reassigned",
+      accessor: "reassigned",
+    },
+    {
+      Header: "RO Confirmation",
+      accessor: "roconfirmation",
+    },
+    {
+      Header: "QC",
+      accessor: "qc",
+    },
+    {
+      Header: "QC Hold",
+      accessor: "qchold",
+    },
+    {
+      Header: "Inspection Completed",
+      accessor: "inspection",
+    },
+    {
+      Header: "Reject",
+      accessor: "reject",
+    },
+    {
+      Header: "Total",
+      accessor: "total",
+    },
+  ],
+  []
+);
+  // vehicle type
     const navigate = useNavigate();
     const dispatch = useDispatch();
       const { users, posts, loading, error } = useSelector((state) => state.users);
@@ -44,15 +318,65 @@ const Dashboard = () => {
          dispatch(fetchPosts());
       }, [dispatch]);
 
-      if (loading) return  <PageSpinner/>;
-      if (error) return <p>Error: {error}</p>;
+      // if (loading) return  <PageSpinner/>;
+      // if (error) return <p>Error: {error}</p>;
+      
   return (
     // add title title="Dashboard"
     <div className="dashboard">
-      <Page breadcrumbs={[{ name: "Dashboard", active: true }]}>
+      <Page
+        breadcrumbs={[{ name: "Dashboard", active: true }]}
+     
+      >
         <div>
           <h5>Welcome to John</h5>
         </div>
+        <Col md={12} sm={12} xs={12} lg={12} className="mb-3">
+          <Card inverse className="border-0 card_padding">
+            <Row>
+              <Col className="offset-md-3 align-self-center" md={4}>
+                <Form.Select className="selective-field">
+                  <option>Select Month</option>
+                  <option value="1">Jan</option>
+                  <option value="1">FEb</option>
+                  <option value="1">March</option>
+                  <option value="1">April</option>
+                  <option value="1">May</option>
+                  <option value="1">June</option>
+                  <option value="1">July</option>
+                  <option value="1">Aug</option>
+                  <option value="1">Sept</option>
+                  <option value="1">Oct</option>
+                  <option value="1">Nov</option>
+                  <option value="1">Dec</option>
+                </Form.Select>
+              </Col>
+              <Col className="align-self-center" md={4}>
+                <Form.Select className="selective-field">
+                  <option>Select Year</option>
+                  <option value="1">2025</option>
+                  <option value="1">2024</option>
+                  <option value="1">2023</option>
+                  <option value="1">2023</option>
+                  <option value="1">2021</option>
+                  <option value="1">2020</option>
+                  <option value="1">2019</option>
+                  <option value="1">2018</option>
+                  <option value="1">2017</option>
+                  <option value="1">2016</option>
+                  <option value="1">2015</option>
+                </Form.Select>
+              </Col>
+              <Col className="text-right align-self-center" md={1}>
+                <Button color="primary" className="text-white ">
+                  Filter
+                </Button>
+              </Col>
+            </Row>
+
+            <div></div>
+          </Card>
+        </Col>
         <div className="py-2">
           <h6>Dashboard</h6>
         </div>
@@ -220,12 +544,13 @@ const Dashboard = () => {
               <div className="overflow-hor-scroll">
                 {/* <Clientcount /> */}
                 <h5>Client Count</h5>
-                <Table />
+                {/* <Table /> */}
+                <DataTable columns={columns} data={data} />
               </div>
             </Tab>
             <Tab eventKey="vehicle" title="Vehicle Type Count">
-               <h5>Vehicle Type Count</h5>
-              {/* <Table /> */}
+              <h5>Vehicle Type Count</h5>
+              <DataTable columns={vehiclecolumns} data={vehicledata} />
             </Tab>
           </Tabs>
         </div>
