@@ -1,0 +1,60 @@
+// @import "variables";
+
+// // libraries
+// @import "~bootstrap/scss/bootstrap.scss";
+// @import "~react-infinite-calendar/styles";
+
+// // base
+// @import "base";
+// @import "overrides";
+// @import "extends";
+// @import "animations";
+// @import "utils/utils";
+
+// // components
+// @import "components/header";
+// @import "components/sidebar";
+// @import "components/content";
+// @import "components/page";
+// @import "components/widget";
+// @import "components/search-input";
+
+// // themes
+// @import "themes/colors";
+
+// // demos (only for demo pages)
+// @import "demos/demos";
+
+
+@import "variables";
+
+
+// ✅ Always import Bootstrap's functions and variables first
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// ✅ Import your custom variables, mixins, and other styles AFTER Bootstrap
+@import "base";
+@import "overrides";
+@import "extends";
+@import "animations";
+@import "utils/utils";
+
+// ✅ Import libraries
+// @import "../../node_modules/react-infinite-calendar/styles";
+
+// ✅ Import components
+@import "components/header";
+@import "components/sidebar";
+@import "components/content";
+@import "components/page";
+@import "components/widget";
+@import "components/search-input";
+
+// ✅ Import themes
+@import "themes/colors";
+
+// ✅ Import demos (only for demo pages)
+@import "demos/demos";
