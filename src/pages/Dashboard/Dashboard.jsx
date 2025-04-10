@@ -93,7 +93,7 @@ const Dashboard = () => {
       { company: "hdcf", rolead: 26, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
       { company: "katnataka", rolead: 29, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
       { company: "BOB", rolead: 40, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
-  ]
+    ]
 
   const vehiclecolumns = React.useMemo(
     () => [
@@ -195,12 +195,12 @@ const vehicledata = React.useMemo(
           <Form>
             <Row className="align-items-end justify-content-end g-3">
               <Col xs={12} sm={4} md={3}>
-          <Form.Label>Month</Form.Label>
-                <Form.Select value={month} onChange={(e) => setMonth(e.target.value)}>
-                  {months.map((m) => (
-                    <option key={m} value={m}>{m}</option>
-                  ))}
-                </Form.Select>
+                <Form.Label>Month</Form.Label>
+                  <Form.Select value={month} onChange={(e) => setMonth(e.target.value)}>
+                    {months.map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </Form.Select>
               </Col>
 
               <Col xs={12} sm={4} md={3}>

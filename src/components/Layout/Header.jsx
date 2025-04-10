@@ -4,7 +4,7 @@ import Notifications from '../../components/Notifications';
 import SearchInput from '../../components/SearchInput';
 import { notificationsData } from '../../demos/header';
 import withBadge from '../../hocs/withBadge';
-import React from 'react';
+import React, { useState } from 'react';
 import Form from "react-bootstrap/Form";
 import {
   MdClearAll,
@@ -29,59 +29,57 @@ import {
   PopoverBody,
 } from 'reactstrap';
 import bn from '../../utils/bemnames';
-
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setIsAuth } from '../../redux/slices/usersSlice';
 const bem = bn.create('header');
 
-const MdNotificationsActiveWithBadge = withBadge({
-  size: 'md',
-  color: 'primary',
-  style: {
-    top: -10,
-    right: -10,
-    display: 'inline-flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  children: <small>5</small>,
-})(MdNotificationsActive);
+// const MdNotificationsActiveWithBadge = withBadge({
+//   size: 'md',
+//   color: 'primary',
+//   style: {
+//     top: -10,
+//     right: -10,
+//     display: 'inline-flex',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   children: <small>5</small>,
+// })(MdNotificationsActive);
 
-class Header extends React.Component {
-  state = {
-    // isOpenNotificationPopover: false,
-    // isNotificationConfirmed: false,
-    isOpenUserCardPopover: false,
+const Header =() => {
+  const navigate=useNavigate();
+  const dispatch=useDispatch();
+  const [isOpenUserCardPopover,setOpenUserCardPopover]=useState(false)
+  
+
+  const toggleUserCardPopover = () => {
+    setOpenUserCardPopover(!isOpenUserCardPopover)
+    // this.setState({
+    //   isOpenUserCardPopover: !this.state.isOpenUserCardPopover,
+    // });
   };
 
-  // toggleNotificationPopover = () => {
-  //   this.setState({
-  //     isOpenNotificationPopover: !this.state.isOpenNotificationPopover,
-  //   });
+  const logout=()=>{
+    localStorage.setItem("isAuth",false)
+    dispatch(setIsAuth(false))
+    navigate("/",{replace:true})
+  }
 
-  //   if (!this.state.isNotificationConfirmed) {
-  //     this.setState({ isNotificationConfirmed: true });
-  //   }
-  // };
-
-  toggleUserCardPopover = () => {
-    this.setState({
-      isOpenUserCardPopover: !this.state.isOpenUserCardPopover,
-    });
-  };
-
-  handleSidebarControlButton = event => {
+  const handleSidebarControlButton = event => {
     event.preventDefault();
     event.stopPropagation();
 
     document.querySelector('.cr-sidebar ').classList.toggle('cr-sidebar--open');
   };
 
-  render() {
+  // render() {
     // const { isNotificationConfirmed } = this.state;
 
     return (
       <Navbar light expand className={bem.b("")}>
         <Nav navbar className="mr-2">
-          <Button outline onClick={this.handleSidebarControlButton}>
+          <Button outline onClick={handleSidebarControlButton}>
             <MdClearAll size={25} />
           </Button>
         </Nav>
@@ -128,14 +126,14 @@ class Header extends React.Component {
           <NavItem>
             <NavLink id="Popover2">
               <Avatar
-                onClick={this.toggleUserCardPopover}
+                onClick={toggleUserCardPopover}
                 className="can-click"
               />
             </NavLink>
             <Popover
               placement="bottom-end"
-              isOpen={this.state.isOpenUserCardPopover}
-              toggle={this.toggleUserCardPopover}
+              isOpen={isOpenUserCardPopover}
+              toggle={toggleUserCardPopover}
               target="Popover2"
               className="p-0 border-0"
               style={{ minWidth: 150 }}
@@ -157,20 +155,13 @@ class Header extends React.Component {
                   >
                     <MdVpnKey /> Change Password
                   </ListGroupItem>
-                  {/* <ListGroupItem tag="button" action className="border-light">
-                      <MdInsertChart /> Stats
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdMessage /> Messages
-                    </ListGroupItem>
-                    
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdPassword /> Help
-                    </ListGroupItem> */}
                   <ListGroupItem
                     tag="button"
                     action
                     className="pr_button  border-light"
+                    onClick={()=>{
+                     logout()
+                    }}
                   >
                     <MdExitToApp /> Signout
                   </ListGroupItem>
@@ -182,7 +173,7 @@ class Header extends React.Component {
         </Nav>
       </Navbar>
     );
-  }
+  // }
 }
 
 export default Header;
