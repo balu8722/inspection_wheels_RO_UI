@@ -95,15 +95,15 @@ const mis = [
   { to: "/mfc-global", name: "MFC Global MIS", exact: true, Icon: MdSummarize },
 ];
 
-// 
 
-const navItems = [
-  { to: "/dashboard", name: "dashboard", exact: true, Icon: MdDashboard },
+const adminNavItems = [
+  // { to: "/dashboard", name: "dashboard", exact: true, Icon: MdDashboard },
  
   
-  { to: "/cards", name: "cards", exact: false, Icon: MdWeb },
-  { to: "/charts", name: "charts", exact: false, Icon: MdInsertChart },
-  { to: "/widgets", name: "widgets", exact: false, Icon: MdWidgets },
+  { to: "/manageclient", name: "Manage Client", exact: false, Icon: MdInsertChart },
+  { to: "/managero", name: "Manage RO", exact: false, Icon: MdWeb },
+  { to: "/managevaluator", name: "Manage Valuator", exact: false, Icon: MdWidgets },
+  { to: "/roles", name: "Manage roles", exact: false, Icon: MdWidgets },
 ];
 
 const navComponents = [
@@ -257,45 +257,23 @@ useEffect(() => {
                 items={mis}
               />
 
-              {/* ***************NEW Menus */}
-              {/* {navItems.map(({ to, name, exact, Icon }, index) => (
-            <NavItem key={index} className={bem.e("nav-item")}>
-              <NavLink
-                to={to}
-                className={({ isActive }) =>
-                  `nav-link ${isActive ? "active" : ""}`
-                }
-                end={exact}
-              >
-                <Icon className={bem.e("nav-item-icon")} />
-                <span>{name}</span>
-              </NavLink>
-            </NavItem>
-          ))} */}
+              
+{adminNavItems.map(({ to, name, exact, Icon }, index) => (
+                <NavItem key={index} className={bem.e("nav-item")}>
+                  <NavLink
+                    to={to}
+                    className={({ isActive }) =>
+                      `nav-link ${isActive ? "active" : ""}`
+                    }
+                    end={exact}
+                  >
+                    <Icon className={bem.e("nav-item-icon")} />
+                    <span>{name}</span>
+                  </NavLink>
+                </NavItem>
+              ))}
 
-              {/* <CollapsibleSection
-            icon={MdExtension}
-            label="Components"
-            isOpen={isOpenComponents}
-            toggle={() => setOpenComponents(!isOpenComponents)}
-            items={navComponents}
-          /> */}
-
-              {/* <CollapsibleSection
-            icon={MdSend}
-            label="Contents"
-            isOpen={isOpenContents}
-            toggle={() => setOpenContents(!isOpenContents)}
-            items={navContents}
-          /> */}
-
-              {/* <CollapsibleSection
-            icon={MdPages}
-            label="Pages"
-            isOpen={isOpenPages}
-            toggle={() => setOpenPages(!isOpenPages)}
-            items={pageContents}
-          /> */}
+              
             </Nav>
           </div>
         </aside>

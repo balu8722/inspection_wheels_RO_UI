@@ -2,14 +2,17 @@
 .cr-page {
   min-height: 100vh;
   &__header {
-    display: flex;
-    align-items: flex-end;
-    align-self: center;
+    // display: flex;
+    // align-items: flex-end;
+    // align-self: center;
     
     @include media-breakpoint-down(sm) {
       flex-direction: column;
       align-items: flex-start;
     }
+  }
+  .f-14{
+    font-size:14px;
   }
 
   &__title {
@@ -28,6 +31,11 @@
     padding: 0;
     text-transform: capitalize;
     background: theme-color('light');
+
+    .breadcrumb{
+      margin-bottom: 8px !important;
+      font-size: 12px !important;
+    }
   }
 
   .row {

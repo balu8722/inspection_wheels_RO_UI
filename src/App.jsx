@@ -37,6 +37,12 @@ import UserList from './pages/UserManagement/UserList/UserList';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuth } from './redux/slices/usersSlice';
+import ROList from './pages/AdminScreens/ManageRO/ROList';
+import AddNewRO from './pages/AdminScreens/ManageRO/AddNewRo';
+import ClientsList from './pages/AdminScreens/Clients/ClientsList';
+import AddNewClient from './pages/AdminScreens/Clients/AddNewClient';
+import ValuatorList from './pages/AdminScreens/Valuator/ValuatorList';
+import AddNewValuator from './pages/AdminScreens/Valuator/AddNewValuator';
 
 // removing popover warning
 if (import.meta.env.DEV) {
@@ -65,7 +71,6 @@ const App =()=> {
   const {isAuth}=useSelector(state=>state.users)
   useEffect(()=>{
     let _isAuth= localStorage.getItem("isAuth")
-    console.log("_isAuth",_isAuth,typeof(_isAuth))
 
     dispatch(setIsAuth(
       {
@@ -73,11 +78,6 @@ const App =()=> {
         data:{role:"RO"}
       }
     ))
-    // if(_isAuth){
-    //   navigate("/dashboards")
-    // }else{
-    //   navigate("/")
-    // }
   },[])
   
        
@@ -341,6 +341,57 @@ const App =()=> {
                 <MainLayout>
                   <React.Suspense fallback={<PageSpinner />}>
                     <TablePage />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+
+
+            {/* admin screens Routes  */}
+            <Route path="/managero" element={
+                <MainLayout>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <ROList />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+            <Route path="/addnewro" element={
+                <MainLayout>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <AddNewRO />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+            <Route path="/manageclient" element={
+                <MainLayout>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <ClientsList />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+            <Route path="/addnewclient" element={
+                <MainLayout>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <AddNewClient />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+            <Route path="/managevaluator" element={
+                <MainLayout>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <ValuatorList />
+                  </React.Suspense>
+                </MainLayout>
+              }
+            />
+            <Route path="/addnewvaluator" element={
+                <MainLayout>
+                  <React.Suspense fallback={<PageSpinner />}>
+                    <AddNewValuator />
                   </React.Suspense>
                 </MainLayout>
               }

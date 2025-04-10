@@ -90,13 +90,7 @@ const Page = ({
   return (
     <Tag className={classes} {...restProps}>
       <div className={bem.e("header")}>
-        {title && typeof title === "string" ? (
-          <Typography type="h1" className={bem.e("title")}>
-            {title}
-          </Typography>
-        ) : (
-          title
-        )}
+        <div>
         {breadcrumbs && (
           <Breadcrumb className={bem.e("breadcrumb")}>
             {/* <BreadcrumbItem>Home</BreadcrumbItem> */}
@@ -108,6 +102,16 @@ const Page = ({
               ))}
           </Breadcrumb>
         )}
+        </div>
+        <div>
+        {title && typeof title === "string" ? (
+          <Typography type="h3" className={bem.e("title")}>
+            {title}
+          </Typography>
+        ) : (
+          title
+        )}
+        </div>
       </div>
       {children}
     </Tag>

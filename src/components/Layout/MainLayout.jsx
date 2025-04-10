@@ -114,23 +114,27 @@
 import React, { useEffect } from "react";
 import { Content, Footer, Header, Sidebar } from "../../components/Layout";
 import { useSelector } from "react-redux";
-import { replace, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 const MainLayout = ({ children }) => {
   const navigate=useNavigate()
   const {isAuth}=useSelector(state=>state.users)
+  
   useEffect(() => {
-    if(!isAuth){
+  console.log("isAuth",isAuth)
+    let _isAuth=localStorage.getItem("isAuth")
+    // console.log("_isAuth",_isAuth)
+    if(_isAuth!="true"){
       navigate("/",{replace:true})
     }
-  }, []);
+  }, [isAuth]);
 
-  const toggleSidebar = () => {
-    const sidebar = document.querySelector(".cr-sidebar");
-    if (!sidebar) return;
+  // const toggleSidebar = () => {
+  //   const sidebar = document.querySelector(".cr-sidebar");
+  //   if (!sidebar) return;
 
-    sidebar.classList.toggle("cr-sidebar--open");
-  };
+  //   sidebar.classList.toggle("cr-sidebar--open");
+  // };
 
   return (
     <main className="cr-app bg-light">
