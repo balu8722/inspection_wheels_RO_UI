@@ -43,6 +43,8 @@ import ClientsList from './pages/AdminScreens/Clients/ClientsList';
 import AddNewClient from './pages/AdminScreens/Clients/AddNewClient';
 import ValuatorList from './pages/AdminScreens/Valuator/ValuatorList';
 import AddNewValuator from './pages/AdminScreens/Valuator/AddNewValuator';
+import SummaryMis from './pages/MIS/SummaryMis/SummaryMis';
+import RoMis from './pages/MIS/RoMis/RoMis';
 
 // removing popover warning
 if (import.meta.env.DEV) {
@@ -83,106 +85,126 @@ const App =()=> {
        
   // console.log("isAuth",isAuth)
     return (
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <EmptyLayout>
-                  <AuthPage authState={STATE_LOGIN} />
-                </EmptyLayout>
-              }
-            />
-            <Route
-              path="/dashboards"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <Dashboard />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/ro-leads"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <Roleads />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/assigned"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <Assigned />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/reassigned"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <ReAssigned />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/ro-confirmation"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <RoConfirmation />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/qc-hold"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <QcHold />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/inspection-completed"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <InspectionCompleted />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <EmptyLayout>
+              <AuthPage authState={STATE_LOGIN} />
+            </EmptyLayout>
+          }
+        />
+        <Route
+          path="/dashboards"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <Dashboard />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/ro-leads"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <Roleads />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/assigned"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <Assigned />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/reassigned"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <ReAssigned />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/ro-confirmation"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <RoConfirmation />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/qc-hold"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <QcHold />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/inspection-completed"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <InspectionCompleted />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
 
-            <Route
-              path="/create-lead"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <CreateLead />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/user-list"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <UserList />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
+        <Route
+          path="/create-lead"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <CreateLead />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/user-list"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <UserList />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/summary-mis"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <SummaryMis />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/ro-mis"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <RoMis />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
 
             <Route
               path="/signup"

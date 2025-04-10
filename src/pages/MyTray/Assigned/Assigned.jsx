@@ -3,6 +3,7 @@
 import Page from "../../../components/Page";
 // import Typography from "../components/Typography";
 import React from "react";
+import { CommonTable } from "../../../components/Table/CommonTable"; 
 import {
   Alert,
   Card,
@@ -125,6 +126,7 @@ const Assigned = () => {
 
   return (
     <Page
+      title="Assigned"
       breadcrumbs={[
         { name: "My Tray", link: "/mytray" },
         { name: "Assigned", active: true },
@@ -132,7 +134,7 @@ const Assigned = () => {
     >
       <div>
         <div>
-          <DataTable columns={columns} data={data} />
+          <CommonTable propColumns={columns} propData={data} />
         </div>
       </div>
     </Page>

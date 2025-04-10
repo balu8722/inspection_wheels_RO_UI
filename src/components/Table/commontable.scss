@@ -59,6 +59,7 @@
     color: #0e4b67;
     background-color: transparent;
     cursor: default;
+    font-size: 14px;
   }
 
   .searchInput {
@@ -142,6 +143,17 @@
       margin: 0px;
     }
   }
+  .three_dots.dropdown-toggle::after{
+    display: none;
+  }
+    .dropdown-menu {
+    position: absolute;
+    z-index: 1050;
+    top: 100%; // below the dropdown toggle
+    left: 0;
+    transform: translateY(0); // prevent accidental scrolling off screen
+  }
+
 }
 .tablenav {
   display: flex;
@@ -186,3 +198,4 @@
     opacity: 0.5;
   }
 }
+

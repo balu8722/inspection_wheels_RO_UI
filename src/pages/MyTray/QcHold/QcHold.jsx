@@ -2,13 +2,15 @@
 
 import Page from "../../../components/Page";
 // import Typography from "../components/Typography";
-import React from "react";
+import React, { useState } from "react";
+import { CommonTable } from "../../../components/Table/CommonTable";
 import {
   Alert,
   Card,
   CardBody,
   CardHeader,
   Col,
+  Button,
   Row,
   UncontrolledAlert,
 } from "reactstrap";
@@ -20,8 +22,14 @@ import { useNavigate } from "react-router-dom";
 import PageSpinner from "../../../components/PageSpinner";
 import DataTable from "../../../components/DataTable/DataTable";
 import { MdVisibility, MdEdit, MdDelete } from "react-icons/md";
-
+import "./Qchold.scss"
+import MultiSelectDropdown from "../../../components/MultiSelectDropdown/MultiSelectDropdown"; 
 const QcHold = () => {
+    const [selectedCompany, setselectedCompany] = useState([]);
+      const companyList = [
+        { value: "ro", label: "ICICI" },
+        { value: "admin", label: "BOB" },
+      ];
   const data = React.useMemo(
     () => [
       {
@@ -77,17 +85,54 @@ const QcHold = () => {
   );
 
   const { users, posts, loading, error } = useSelector((state) => state.users);
-
+  const handleFilter = () => {
+    console.log(`Filtering for `);
+  };
+    
   return (
     <Page
+      title="QC Hold"
       breadcrumbs={[
         { name: "My Tray", link: "/mytray" },
         { name: "QC Hold", active: true },
       ]}
     >
       <div>
+        <div className="qc_hold mb-3">
+          <Row>
+            <label>Company</label>
+            <Col className="mb-0" xs={12} sm={12} md={6}>
+              <div className="">
+                <Form.Group>
+                  {/* <Form.Label>
+                          Client Company<span className="text-danger">*</span>
+                        </Form.Label> */}
+                  <MultiSelectDropdown
+                    options={companyList}
+                    value={selectedCompany}
+                    onChange={setselectedCompany}
+                    placeholder="Choose client company"
+                    isMulti={false}
+                    isSearchable={true}
+                    closeMenuOnSelect={true}
+                    showControls={false}
+                  />
+                </Form.Group>
+              </div>
+            </Col>
+            <Col className="align-self-center mb-0" xs={12} sm={12} md={6}>
+              <Button
+                className="px-2 text-white"
+                style={{ backgroundColor: "#5c6ac4", borderColor: "#5c6ac4" }}
+                onClick={handleFilter}
+              >
+                Search
+              </Button>
+            </Col>
+          </Row>
+        </div>
         <div>
-          <DataTable columns={columns} data={data} />
+          <CommonTable propColumns={columns} propData={data} />
         </div>
       </div>
     </Page>

@@ -2,7 +2,8 @@
 
 import Page from "../../../components/Page";
 // import Typography from "../components/Typography";
-import React from "react";
+import React, { useState } from "react";
+import { CommonTable } from "../../../components/Table/CommonTable";
 import {
   Alert,
   Card,
@@ -12,6 +13,8 @@ import {
   Row,
   UncontrolledAlert,
 } from "reactstrap";
+import { Dropdown, Button } from "react-bootstrap";
+// import { ThreeDotsVertical } from "react-bootstrap-icons";
 import Form from "react-bootstrap/Form";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,9 +22,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PageSpinner from "../../../components/PageSpinner";
 import DataTable from "../../../components/DataTable/DataTable"
-import { MdVisibility, MdEdit, MdDelete } from "react-icons/md";
+import { MdVisibility, MdEdit, MdDelete, MdMoreVert } from "react-icons/md";
+import CommanModel from "../../../components/CommanModel/CommanModel";
 
 const Roleads = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [title, setTitle] = useState();
 const data = React.useMemo(
   () => [
     {
@@ -79,28 +85,62 @@ const data = React.useMemo(
       {
         Header: "Actions",
         id: "actions",
-        Cell: ({ row }) => (
-          <div className="d-flex gap-2">
-            <Form.Select className="selective-field">
-              <option>Select</option>
-              <option>Remarks</option>
-              <option>Assign</option>
-              <option>History</option>
-            </Form.Select>
-            {/* <MdVisibility
-              style={{ cursor: "pointer" }}
-              onClick={() => alert(`Viewing ${row.original.company}`)}
-            />
-            <MdEdit
-              style={{ cursor: "pointer" }}
-              onClick={() => alert(`Editing ${row.original.company}`)}
-            />
-            <MdDelete
-              style={{ cursor: "pointer" }}
-              onClick={() => alert(`Deleting ${row.original.company}`)}
-            /> */}
-          </div>
-        ),
+        Cell: ({ row }) => {
+          const handleSelect = (action) => {
+                  console.log("actions",action);
+                  
+               setShowModal(true)
+              setTitle(action);
+            // const rowData = row.original;
+         
+            // switch (action) {
+            //   case "Remarks":
+            //     console.log("Opening remarks for:", rowData);
+            //     break;
+            //   case "Assign":
+            //     console.log("Assigning request:", rowData.reqno);
+            //     break;
+            //   case "History":
+            //     console.log("Showing history for:", rowData);
+            //     break;
+            //   default:
+            //     break;
+            // }
+          };
+
+          return (
+            <Dropdown>
+              <Dropdown.Toggle
+                variant="light"
+                className="p-1 border-0 shadow-none three_dots"
+                id="dropdown-basic"
+              >
+                <MdMoreVert />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  className="fontsize-14"
+                  onClick={() => handleSelect("Remarks")}
+                >
+                  Remarks
+                </Dropdown.Item>
+                <Dropdown.Item
+                  className="fontsize-14"
+                  onClick={() => handleSelect("Assign")}
+                >
+                  Assign
+                </Dropdown.Item>
+                <Dropdown.Item
+                  className="fontsize-14"
+                  onClick={() => handleSelect("History")}
+                >
+                  History
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          );
+        },
       },
     ],
     []
@@ -110,6 +150,7 @@ const data = React.useMemo(
   
   return (
     <Page
+      title="RO Leads"
       breadcrumbs={[
         { name: "My Tray", link: "/mytray" },
         { name: "RO Leads", active: true },
@@ -117,7 +158,18 @@ const data = React.useMemo(
     >
       <div>
         <div>
-          <DataTable columns={columns} data={data} />
+          {/* <Button onClick={() => setShowModal(true)}>Open Modal</Button> */}
+
+          <CommanModel
+            show={showModal}
+            onClose={() => setShowModal(false)}
+            title="Lead Remarks"
+            buttontext="Update"
+            closebuttontext="Close"
+          >
+            <p>This modal is fully reusable!</p>
+          </CommanModel>
+          <CommonTable propColumns={columns} propData={data} />
         </div>
       </div>
     </Page>
