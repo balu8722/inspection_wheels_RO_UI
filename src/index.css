@@ -67,3 +67,20 @@ button:focus-visible {
   }
 }
 
+
+.text-right{
+  text-align: right;
+}
+.form-control,.form-control:focus{
+  outline: 0 !important;
+  box-shadow: none!important;
+  border-color: #ccc!important;
+  font-size: 14px !important;
+}
+.fontsize-12{
+  font-size: 12px;
+}
+
+.fontsize-14{
+  font-size: 14px;
+}

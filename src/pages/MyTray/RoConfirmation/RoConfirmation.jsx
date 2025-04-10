@@ -2,7 +2,8 @@
 
 import Page from "../../../components/Page";
 // import Typography from "../components/Typography";
-import React from "react";
+import React, {useState } from "react";
+import { CommonTable } from "../../../components/Table/CommonTable";
 import {
   Alert,
   Card,
@@ -10,6 +11,7 @@ import {
   CardHeader,
   Col,
   Row,
+  Button,
   UncontrolledAlert,
 } from "reactstrap";
 import Form from "react-bootstrap/Form";
@@ -20,7 +22,8 @@ import { useNavigate } from "react-router-dom";
 import PageSpinner from "../../../components/PageSpinner";
 import DataTable from "../../../components/DataTable/DataTable";
 import { MdVisibility, MdEdit, MdDelete } from "react-icons/md";
-
+import "./RoConfirmation.scss";
+import MultiSelectDropdown from "../../../components/MultiSelectDropdown/MultiSelectDropdown"; 
 const RoConfirmation = () => {
   const data = React.useMemo(
     () => [
@@ -94,17 +97,55 @@ const RoConfirmation = () => {
   );
 
   const { users, posts, loading, error } = useSelector((state) => state.users);
-
+  const [selectedCompany, setselectedCompany] = useState([]);
+    const companyList = [
+      { value: "ro", label: "ICICI" },
+      { value: "admin", label: "BOB" },
+    ];
   return (
     <Page
+      title="RO Confirmation"
       breadcrumbs={[
         { name: "My Tray", link: "/mytray" },
         { name: "Ro Confirmation", active: true },
       ]}
     >
-      <div>
-        <div>
-          <DataTable columns={columns} data={data} />
+      <div className="ro_confirmation mb-3">
+        <Row>
+           <label>Company</label>
+          <Col className="mb-0" xs={12} sm={12} md={6}>
+            <div className="">
+              <Form.Group>
+                {/* <Form.Label>
+                  Client Company<span className="text-danger">*</span>
+                </Form.Label> */}
+                <MultiSelectDropdown
+                  options={companyList}
+                  value={selectedCompany}
+                  onChange={setselectedCompany}
+                  placeholder="Choose client company"
+                  isMulti={false}
+                  isSearchable={true}
+                  closeMenuOnSelect={true}
+                  showControls={false}
+                />
+              </Form.Group>
+            </div>
+          </Col>
+           <Col className="align-self-center mb-0" xs={12} sm={12} md={6}>
+              <Button
+                           className="px-2 text-white"
+                           style={{ backgroundColor: "#5c6ac4", borderColor: "#5c6ac4" }}
+                         
+                         >
+                           Search
+                         </Button>
+           </Col>
+        </Row>
+      </div>
+      <div className="ro_confirmation">
+        <div className="">
+          <CommonTable propColumns={columns} propData={data} />
         </div>
       </div>
     </Page>

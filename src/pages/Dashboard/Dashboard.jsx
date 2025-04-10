@@ -195,27 +195,37 @@ const vehicledata = React.useMemo(
           <Form>
             <Row className="align-items-end justify-content-end g-3">
               <Col xs={12} sm={4} md={3}>
-          <Form.Label>Month</Form.Label>
-                <Form.Select value={month} onChange={(e) => setMonth(e.target.value)}>
+                <Form.Label>Month</Form.Label>
+                <Form.Select
+                  value={month}
+                  onChange={(e) => setMonth(e.target.value)}
+                >
                   {months.map((m) => (
-                    <option key={m} value={m}>{m}</option>
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
                   ))}
                 </Form.Select>
               </Col>
 
               <Col xs={12} sm={4} md={3}>
                 <Form.Label>Year</Form.Label>
-                <Form.Select value={year} onChange={(e) => setYear(e.target.value)}>
+                <Form.Select
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                >
                   {years.map((y) => (
-                    <option key={y} value={y}>{y}</option>
+                    <option key={y} value={y}>
+                      {y}
+                    </option>
                   ))}
                 </Form.Select>
               </Col>
 
               <Col xs={12} sm={4} md={2}>
-                <Button 
-                  className="w-100 text-white" 
-                  style={{ backgroundColor: '#5c6ac4', borderColor: '#5c6ac4' }}
+                <Button
+                  className="w-100 text-white"
+                  style={{ backgroundColor: "#5c6ac4", borderColor: "#5c6ac4" }}
                   onClick={handleFilter}
                 >
                   Filter
@@ -228,32 +238,34 @@ const vehicledata = React.useMemo(
           <h5>Dashboard</h5>
         </div>
         <Row>
-          {counts.map((item,i)=>{
-            return  <Col md={4} sm={6} xs={12} lg={3} className="mb-3">
-            <Card inverse className="border-0 card_padding">
-            <div className="text-end">
-                <Badge className={`font-weight-400 ${item.status_bgclass}`}>{item.status}</Badge>
-              </div>
-              <div>
-                <h5 className="count text-black font_18"><strong>{item.count}</strong></h5>
-              </div>
-              
-              <CardBody className="d-flex p-0">
-                <div>
-                  <p className="text-black mb-0">{item.name}</p>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
+          {counts.map((item, i) => {
+            return (
+              <Col md={4} sm={6} xs={12} lg={3} className="mb-3">
+                <Card inverse className="border-0 card_padding">
+                  <div className="text-end">
+                    <Badge className={`font-weight-400 ${item.status_bgclass}`}>
+                      {item.status}
+                    </Badge>
+                  </div>
+                  <div>
+                    <h5 className="count text-black font_18">
+                      <strong>{item.count}</strong>
+                    </h5>
+                  </div>
+
+                  <CardBody className="d-flex p-0">
+                    <div>
+                      <p className="text-black mb-0">{item.name}</p>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+            );
           })}
         </Row>
-        
+
         <div className="tab_section mt-4 my-3">
-          <Tabs
-            defaultActiveKey="client"
-            id="tab_component"
-            className="mb-3"
-          >
+          <Tabs defaultActiveKey="client" id="tab_component" className="mb-3">
             <Tab eventKey="client" title="Client Count">
               <div className="overflow-hor-scroll">
                 {/* <Clientcount /> */}
@@ -265,7 +277,10 @@ const vehicledata = React.useMemo(
             <Tab eventKey="vehicle" title="Vehicle Type Count">
               <h5>Vehicle Type Count</h5>
               {/* <DataTable columns={vehiclecolumns} data={vehicledata} /> */}
-              <CommonTable propColumns={vehiclecolumns} propData={vehicledata} />
+              <CommonTable
+                propColumns={vehiclecolumns}
+                propData={vehicledata}
+              />
             </Tab>
           </Tabs>
         </div>
