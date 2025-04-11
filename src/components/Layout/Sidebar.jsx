@@ -41,9 +41,11 @@ import {
 import { FaGithub } from "react-icons/fa";
 
 import logo200Image from "../../assets/img/logo/logo.svg";
+import logo from "../../assets/img/logo/inspection_logo.png";
 import sidebarBgImage from "../../assets/img/sidebar/sidebar-4.jpg";
 import SourceLink from "../../components/SourceLink";
 import bn from "../../utils/bemnames";
+import { useSelector } from "react-redux";
 
 const bem = bn.create("sidebar");
 
@@ -161,10 +163,12 @@ const CollapsibleSection = ({ icon: Icon, label, isOpen, toggle, items }) => (
     </Collapse>
   </>
 );
-// const location = useLocation();
 
 
 const Sidebar = () => {
+  const {userdata}=useSelector(state=>state.users)
+  let role=userdata?.role?userdata?.role:"";
+
   const [isOpenComponents, setOpenComponents] = useState(false);
   const [isOpenContents, setOpenContents] = useState(false);
   const [isOpenPages, setOpenPages] = useState(true);
@@ -201,7 +205,7 @@ useEffect(() => {
           <div className={bem.e("content")}>
             <Navbar>
               <SourceLink className="navbar-brand d-flex">
-                <img src={logo200Image} className="pr-2" alt="logo" />
+                <img src={logo} className="img-fluid pr-2" alt="logo" />
                 {/* <span className="text-white">
               Reduction <FaGithub />
             </span> */}
@@ -223,42 +227,45 @@ useEffect(() => {
                   </NavLink>
                 </NavItem>
               ))}
-              <CollapsibleSection
-                iconClass="custom"
-                icon={MdExtension}
-                label="MY Tray"
-                isOpen={isOpenComponents}
-                toggle={() => setOpenComponents(!isOpenComponents)}
-                items={tray_components}
-              />
-
-              <CollapsibleSection
-                iconClass="custom"
-                icon={MdManageAccounts}
-                label="Lead Management"
-                isOpen={isopenLead}
-                toggle={() => setOpenLead(!isopenLead)}
-                items={leadManagement}
-              />
-              <CollapsibleSection
-                iconClass="custom"
-                icon={MdPeopleAlt}
-                label="User Management"
-                isOpen={isOpenUser}
-                toggle={() => setOpenUser(!isOpenUser)}
-                items={userManagement}
-              />
-              <CollapsibleSection
-                iconClass="custom"
-                icon={MdSummarize}
-                label="MIS"
-                isOpen={isOpenMis}
-                toggle={() => setOpenMis(!isOpenMis)}
-                items={mis}
-              />
 
               
-{adminNavItems.map(({ to, name, exact, Icon }, index) => (
+                <CollapsibleSection
+                  iconClass="custom"
+                  icon={MdExtension}
+                  label="MY Tray"
+                  isOpen={isOpenComponents}
+                  toggle={() => setOpenComponents(!isOpenComponents)}
+                  items={tray_components}
+                />
+
+              {role=="RO" &&<>
+                <CollapsibleSection
+                  iconClass="custom"
+                  icon={MdManageAccounts}
+                  label="Lead Management"
+                  isOpen={isopenLead}
+                  toggle={() => setOpenLead(!isopenLead)}
+                  items={leadManagement}
+                />
+                <CollapsibleSection
+                  iconClass="custom"
+                  icon={MdPeopleAlt}
+                  label="User Management"
+                  isOpen={isOpenUser}
+                  toggle={() => setOpenUser(!isOpenUser)}
+                  items={userManagement}
+                />
+                <CollapsibleSection
+                  iconClass="custom"
+                  icon={MdSummarize}
+                  label="MIS"
+                  isOpen={isOpenMis}
+                  toggle={() => setOpenMis(!isOpenMis)}
+                  items={mis}
+                />
+              </>}
+              
+              {role=="Admin"&&adminNavItems.map(({ to, name, exact, Icon }, index) => (
                 <NavItem key={index} className={bem.e("nav-item")}>
                   <NavLink
                     to={to}
@@ -272,8 +279,6 @@ useEffect(() => {
                   </NavLink>
                 </NavItem>
               ))}
-
-              
             </Nav>
           </div>
         </aside>

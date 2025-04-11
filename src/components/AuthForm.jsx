@@ -1,9 +1,12 @@
 import React, { useMemo, useCallback } from 'react';
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-import logo200Image from '../assets/img/logo/logo_200.svg';
+import logo from "../assets/img/logo/inspection_logo.png"
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setIsAuth } from '../redux/slices/usersSlice';
+import { Button, Form } from 'react-bootstrap';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { PasswordShowHide } from './PasswordShow/PasswordShowHide';
 
 export const STATE_LOGIN = 'LOGIN';
 export const STATE_SIGNUP = 'SIGNUP';
@@ -11,27 +14,9 @@ export const STATE_SIGNUP = 'SIGNUP';
 const AuthForm = (props) => {
   const {
     authState = STATE_LOGIN,
-    showLogo = true,
-    usernameLabel = 'Username',
-    usernameInputProps = {
-      type: 'text',
-      placeholder: 'Enter username',
-    },
-    passwordLabel = 'Password',
-    passwordInputProps = {
-      type: 'password',
-      placeholder: 'Enter password',
-    },
-    confirmPasswordLabel = 'Confirm Password',
-    confirmPasswordInputProps = {
-      type: 'password',
-      placeholder: 'confirm your password',
-    },
-    onLogoClick = () => {},
     onChangeAuthState,
-    buttonText,
-    children,
   }=props
+
 const dispatch=useDispatch();
 const navigate=useNavigate();
   const isLogin = useMemo(() => authState === STATE_LOGIN, [authState]);
@@ -45,90 +30,135 @@ const navigate=useNavigate();
     [onChangeAuthState]
   );
 
-  const handleSubmit = useCallback((event) => {
-    event.preventDefault();
+  const handleSubmit = (values)=> {
     if(isLogin){
       dispatch(setIsAuth(
         {
           isAuth:true,
-          data:{role:"RO"}
+          data:{role:values.username=="admin@gmail.com"?"Admin":"RO"}
         }
       ))
       localStorage.setItem("isAuth",true)
+      localStorage.setItem("role",values.username=="admin@gmail.com"?"Admin":"RO")
       navigate("/dashboards",{replace:true})
+    }else{
+      alert("Reuest sent to the Admin")
     }
-  }, []);
+  };
 
-  const renderButtonText = useMemo(() => {
-    if (!buttonText && isLogin) return 'Login';
-    if (!buttonText && isSignup) return 'Signup';
-    return buttonText;
-  }, [buttonText, isLogin, isSignup]);
+
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+      email: '',
+    },
+    validationSchema: Yup.object(
+      isSignup
+        ? {
+            email: Yup.string()
+              .email('Invalid email address')
+              .required('Required'),
+          }
+        : {
+            username: Yup.string().required('Required'),
+            password: Yup.string().required('Required'),
+          }
+    ),
+    onSubmit: (values,{resetForm}) => {
+      resetForm()
+      handleSubmit(values)
+    },
+  });
 
   return (
-    <Form onSubmit={handleSubmit}>
-      {showLogo && (
-        <div className="text-center pb-4">
+    <>
+      <div className="text-center pb-4">
           <img
-            src={logo200Image}
+            src={logo}
             className="rounded"
-            style={{ width: 60, height: 60, cursor: 'pointer' }}
+            style={{ width:130, height: 'auto'}}
             alt="logo"
-            onClick={onLogoClick}
           />
         </div>
+      <Form onSubmit={formik.handleSubmit}>
+      {!isSignup && (
+        <>
+          <Form.Group className='mb-3'>
+            <Form.Label htmlFor="username">Username</Form.Label>
+            <Form.Control
+              type="text"
+              id="username"
+              name="username"
+              placeholder="username"
+              value={formik.values.username}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isInvalid={formik.touched.username && !!formik.errors.username}
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.username}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+                                  <PasswordShowHide
+                                    name="password"
+                                    input_label="Password"
+                                    placeholder="Password"
+                                    handleChange={formik.handleChange}
+                                    handleBlur={formik.handleBlur}
+                                    value={formik.values.password}
+                                    formikValidation={formik.touched.password && formik.errors.password ? (
+                                        <>
+                                            <span className="text-danger small">{formik.errors.password}</span>
+                                        </>
+                                    ) : null}
+                                />
+        </>
       )}
-
-      <FormGroup>
-        <Label for={usernameLabel}>{usernameLabel}</Label>
-        <Input {...usernameInputProps} />
-      </FormGroup>
-
-      <FormGroup>
-        <Label for={passwordLabel}>{passwordLabel}</Label>
-        <Input {...passwordInputProps} />
-      </FormGroup>
 
       {isSignup && (
-        <FormGroup>
-          <Label for={confirmPasswordLabel}>{confirmPasswordLabel}</Label>
-          <Input {...confirmPasswordInputProps} />
-        </FormGroup>
+        <Form.Group>
+          <Form.Label htmlFor="email">Email</Form.Label>
+          <Form.Control
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter registered email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            isInvalid={formik.touched.email && !!formik.errors.email}
+          />
+          <Form.Control.Feedback type="invalid">
+            {formik.errors.email}
+          </Form.Control.Feedback>
+        </Form.Group>
       )}
 
-      {isSignup && <FormGroup check>
-        <Label check>
-          <Input type="checkbox" /> Agree the terms and policy
-        </Label>
-      </FormGroup>}
-
-      <hr />
-      <Button
-        size="lg"
-        className="bg-gradient-theme-left border-0"
-        block
-        onClick={handleSubmit}
-      >
-        {renderButtonText}
-      </Button>
-
-      <div className="text-center pt-1">
-        <h6>or</h6>
-        <h6>
-          {isSignup ? (
-            <Link to="/login" onClick={handleChangeAuthState(STATE_LOGIN)}>
-              Login
-            </Link>
-          ) : (
-            <Link to="/signup" onClick={handleChangeAuthState(STATE_SIGNUP)}>
-              Signup
-            </Link>
-          )}
-        </h6>
+      {/* <hr /> */}
+      <div className="text-center mt-3">
+        <Button
+          size={isSignup ? "md" : "md"}
+          variant="outline-primary"
+          type="submit"
+        >
+          {isSignup ? 'Request Password Change' : 'Log In'}
+        </Button>
       </div>
-
-      {children}
     </Form>
+
+    
+      
+
+    <div className="text-end mt-3">
+        <Link className='text-dark' to={isSignup?"/login":"/forgotpassword"} 
+        onClick={handleChangeAuthState(isSignup?STATE_LOGIN:STATE_SIGNUP)}>
+              {isSignup?"Back to Login":"Forgot Password"}
+            </Link>
+      </div>
+          
+    </>
   );
 };
 

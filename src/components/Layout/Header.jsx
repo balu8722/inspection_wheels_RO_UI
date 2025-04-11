@@ -61,8 +61,14 @@ const Header =() => {
   };
 
   const logout=()=>{
-    localStorage.setItem("isAuth",false)
+    localStorage.clear();
     dispatch(setIsAuth(false))
+    dispatch(setIsAuth(
+          {
+            isAuth:false,
+            data:{role:""}
+          }
+        ))
     navigate("/",{replace:true})
   }
 
@@ -152,6 +158,10 @@ const Header =() => {
                     tag="button"
                     action
                     className="pr_button border-light"
+                    onClick={()=>{
+                      navigate("/changepassword")
+                      toggleUserCardPopover()
+                    }}
                   >
                     <MdVpnKey /> Change Password
                   </ListGroupItem>

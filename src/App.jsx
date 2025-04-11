@@ -2,7 +2,7 @@
 import { STATE_LOGIN, STATE_SIGNUP } from './components/AuthForm';
 import { EmptyLayout, LayoutRoute, MainLayout } from './components/Layout';
 import PageSpinner from './components/PageSpinner';
-import AuthPage from './pages/AuthPage';
+import AuthPage from './pages/Auth/AuthPage';
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -45,6 +45,7 @@ import ValuatorList from './pages/AdminScreens/Valuator/ValuatorList';
 import AddNewValuator from './pages/AdminScreens/Valuator/AddNewValuator';
 import SummaryMis from './pages/MIS/SummaryMis/SummaryMis';
 import RoMis from './pages/MIS/RoMis/RoMis';
+import ChangePassword from './pages/Auth/ChangePassword';
 
 // removing popover warning
 if (import.meta.env.DEV) {
@@ -63,9 +64,6 @@ if (import.meta.env.DEV) {
     // originalConsoleError(...args); // Let others pass through
   };
 }
-// end  removing popover warning 
-// function ScrollToTopOnRouteChange() {
-//   const { pathname } = useLocation();
 
 const App =()=> {
   const dispatch=useDispatch();
@@ -73,17 +71,16 @@ const App =()=> {
   const {isAuth}=useSelector(state=>state.users)
   useEffect(()=>{
     let _isAuth= localStorage.getItem("isAuth")
+    let _role=localStorage.getItem("role")
 
     dispatch(setIsAuth(
       {
         isAuth:_isAuth=="true"?true:false,
-        data:{role:"RO"}
+        data:{role:_role}
       }
     ))
   },[])
   
-       
-  // console.log("isAuth",isAuth)
     return (
       <Routes>
         <Route
@@ -207,7 +204,7 @@ const App =()=> {
         />
 
             <Route
-              path="/signup"
+              path="/forgotpassword"
               element={
                 <EmptyLayout>
                   <AuthPage authState={STATE_SIGNUP} />
@@ -238,131 +235,11 @@ const App =()=> {
             <Route path="*" element={<Navigate to="/" />} />
             {/* <Route exact path="/buttons" component={ButtonPage} /> */}
             <Route
-              path="/buttons"
+              path="/changepassword"
               element={
                 <MainLayout>
                   <React.Suspense fallback={<PageSpinner />}>
-                    <ButtonPage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/forms"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <FormPage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/cards"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <CardPage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/widgets"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <WidgetPage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/button-groups"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <ButtonGroupPage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/input-groups"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <InputGroupPage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/dropdowns"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <DropdownPage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/badges"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <BadgePage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/alerts"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <AlertPage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/progress"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <ProgressPage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/modals"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <ModalPage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/typography"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <TypographyPage />
-                  </React.Suspense>
-                </MainLayout>
-              }
-            />
-            <Route
-              path="/tables"
-              element={
-                <MainLayout>
-                  <React.Suspense fallback={<PageSpinner />}>
-                    <TablePage />
+                    <ChangePassword />
                   </React.Suspense>
                 </MainLayout>
               }
