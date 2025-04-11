@@ -205,7 +205,7 @@ useEffect(() => {
           <div className={bem.e("content")}>
             <Navbar>
               <SourceLink className="navbar-brand d-flex">
-                <img src={logo} className="img-fluid pr-2" alt="logo" />
+                <img src={logo200Image} className="img-fluid pr-2" alt="logo" />
                 {/* <span className="text-white">
               Reduction <FaGithub />
             </span> */}

@@ -1,9 +1,11 @@
 /* eslint-disable jsx-a11y/href-no-hash */
-import Page from "../../../components/Page";
+import Page from "../../../../components/Page";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect,  useState  } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+import MultiSelectDropdown from "../../../../components/MultiSelectDropdown/MultiSelectDropdown"; 
 import {
   Button,
   Card,
@@ -14,59 +16,57 @@ import {
   Badge,
   FormGroup,
 } from "react-bootstrap";
-import MultiSelectDropdown from "../../../components/MultiSelectDropdown/MultiSelectDropdown"; 
 
-const SummaryMis = () => {
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [selectedClient, setselectedClient] = useState([]);
-  const [selectedLead, setselectedLead] = useState([]);
-  const [selectedVehilce, setselectedVehilce] = useState([]);
-  const [selectedCategory, setselectedCategory] = useState([]);
-  ;
-  
-   const datefilteroptions = [
-     { value: "ro", label: "RO Valuator" },
-     { value: "admin", label: "Admin" },
-     { value: "client", label: "Client" },
-     { value: "manager", label: "Manager" },
-   ];
-  
-    const leadList = [
-      { value: "ro", label: "Kumar" },
-      { value: "admin", label: "Ashok" },
-      { value: "client", label: "Naveen" },
-      { value: "manager", label: "Praveen" }
-     
+const RoMis = () => {
+const [selectedOptions, setSelectedOptions] = useState([]);
+const [selectedClient, setselectedClient] = useState([]);
+const [selectedLead, setselectedLead] = useState([]);
+const [selectedVehilce, setselectedVehilce] = useState([]);
+const [selectedCategory, setselectedCategory] = useState([]);
+;
+
+ const datefilteroptions = [
+   { value: "ro", label: "RO Valuator" },
+   { value: "admin", label: "Admin" },
+   { value: "client", label: "Client" },
+   { value: "manager", label: "Manager" },
+ ];
+
+  const leadList = [
+    { value: "ro", label: "Kumar" },
+    { value: "admin", label: "Ashok" },
+    { value: "client", label: "Naveen" },
+    { value: "manager", label: "Praveen" }
+   
+  ];
+    const vehilceType = [
+      { value: "ro", label: "2 wheeler" },
+      { value: "admin", label: "4 wheeler" },
+      { value: "client", label: "10 wheeler" },
+      { value: "manager", label: "6 wheeler" },
     ];
-      const vehilceType = [
-        { value: "ro", label: "2 wheeler" },
-        { value: "admin", label: "4 wheeler" },
-        { value: "client", label: "10 wheeler" },
-        { value: "manager", label: "6 wheeler" },
-      ];
-  
-          const vehilceCategory = [
-            { value: "ro", label: "2 wheeler" },
-            { value: "admin", label: "4 wheeler" }
-           
-          ];
-  
-    const clientList = [
-      { value: "ro", label: "RO Valuator" },
-      { value: "admin", label: "Admin" },
-      { value: "client", label: "Client" },
-      { value: "manager", label: "Manager" },
-    ];
-  
- 
+
+        const vehilceCategory = [
+          { value: "ro", label: "2 wheeler" },
+          { value: "admin", label: "4 wheeler" }
+         
+        ];
+
+  const clientList = [
+    { value: "ro", label: "RO Valuator" },
+    { value: "admin", label: "Admin" },
+    { value: "client", label: "Client" },
+    { value: "manager", label: "Manager" },
+  ];
+
   return (
     <Page
-      title="Summary Mis"
+      title="Ro Mis"
       breadcrumbs={[{ name: "Mis" }, { name: "Ro Mis", active: true }]}
     >
       <div className="create_lead">
         <div>
-          <Form>
+          <Form >
             <div className="mt-4">
               <h5>Lead Download</h5>
             </div>
@@ -80,7 +80,7 @@ const SummaryMis = () => {
                     type="text"
                     placeholder="Date Range"
                   />
-                
+               
                 </Form.Group>
               </Col>
               <Col className="mb-4" xs={12} sm={12} md={6}>
@@ -177,4 +177,4 @@ const SummaryMis = () => {
   );
 };
 
-export default SummaryMis;
+export default RoMis;

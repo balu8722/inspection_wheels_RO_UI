@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/href-no-hash */
-import Page from "../../../components/Page";
+import Page from "../../../../components/Page";
 import React from "react";
 
 import Form from "react-bootstrap/Form";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { CommonTable } from "../../../components/Table/CommonTable";
+import { CommonTable } from "../../../../components/Table/CommonTable";
 import { MdEdit, MdDelete } from "react-icons/md";
 const UserList = () => {
     const data = React.useMemo(

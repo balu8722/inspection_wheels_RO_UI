@@ -5,6 +5,7 @@ import "./CommanModel.scss"
 const CommanModel = ({
   show,
   onClose,
+  // onSubmit,
   title = "",
   children,
   buttontext = '',
@@ -21,11 +22,13 @@ const CommanModel = ({
       backdrop={backdrop}
       keyboard={keyboard}
     >
-      <Modal.Header closeButton>
-        <Modal.Title>{title}</Modal.Title>
+      <Modal.Header className="border-0 py-3" closeButton>
+        <Modal.Title>
+          <h5>{title}</h5>
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
-      <Modal.Footer>
+      {/* <Modal.Footer>
         <Button
           className="text-white fontsize-14"
           variant="secondary"
@@ -33,10 +36,15 @@ const CommanModel = ({
         >
           {closebuttontext}
         </Button>
-        <Button className="text-white fontsize-14" variant="primary">
+        <Button
+          type="submit"
+          className="text-white fontsize-14"
+          variant="primary"
+          onClick={onSubmit}
+        >
           {buttontext}
         </Button>
-      </Modal.Footer>
+      </Modal.Footer> */}
     </Modal>
   );
 };
