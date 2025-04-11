@@ -125,10 +125,7 @@ const Header =() => {
 
           <NavItem>
             <NavLink id="Popover2">
-              <Avatar
-                onClick={toggleUserCardPopover}
-                className="can-click"
-              />
+              <Avatar onClick={toggleUserCardPopover} className="can-click" />
             </NavLink>
             <Popover
               placement="bottom-end"
@@ -145,6 +142,10 @@ const Header =() => {
                     tag="button"
                     action
                     className="pr_button border-light"
+                    onClick={() => {
+                      navigate("/profile", { replace: true });
+                       setOpenUserCardPopover(!isOpenUserCardPopover);
+                    }}
                   >
                     <MdPersonPin /> Profile
                   </ListGroupItem>
@@ -159,8 +160,8 @@ const Header =() => {
                     tag="button"
                     action
                     className="pr_button  border-light"
-                    onClick={()=>{
-                     logout()
+                    onClick={() => {
+                      logout();
                     }}
                   >
                     <MdExitToApp /> Signout

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/href-no-hash */
-import Page from "../../../components/Page";
+import Page from "../../../../components/Page";
 import React, {useState} from "react";
 import './CreateLead.scss'
 import { useEffect } from "react";
@@ -15,7 +15,8 @@ import {
   Badge,
   FormGroup,
 } from "react-bootstrap";
-import MultiSelectDropdown from "../../../components/MultiSelectDropdown/MultiSelectDropdown"; 
+import MultiSelectDropdown from "../../../../components/MultiSelectDropdown/MultiSelectDropdown"; 
+
 
 const CreateLead = () => {
 const [selectedCompany, setselectedCompany] = useState([]);

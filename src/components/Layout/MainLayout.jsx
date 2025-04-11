@@ -121,7 +121,7 @@ const MainLayout = ({ children }) => {
   const {isAuth}=useSelector(state=>state.users)
   
   useEffect(() => {
-  console.log("isAuth",isAuth)
+  // console.log("isAuth",isAuth)
     let _isAuth=localStorage.getItem("isAuth")
     // console.log("_isAuth",_isAuth)
     if(_isAuth!="true"){
