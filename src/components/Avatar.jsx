@@ -72,7 +72,7 @@ const Avatar = ({
         className={classes}
         {...restProps}
       />
-      <span className="px-2 cursor-pointer">John</span>
+      <span className="px-2 cursor-pointer mobile-fs-12">John</span>
     </div>
   );
 };

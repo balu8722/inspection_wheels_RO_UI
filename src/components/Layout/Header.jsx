@@ -92,8 +92,8 @@ const Header =() => {
         <Nav navbar>{/* <SearchInput /> */}</Nav>
 
         <Nav navbar className={bem.e("nav-right")}>
-          <NavItem className="d-inline-flex">
-            <NavLink>
+          <NavItem className="d-md-inline-flex w-100 align-self-center">
+            <NavLink className="d-none d-md-inline-flex ">
               Global Search: <SearchInput />
             </NavLink>
             <NavLink>
@@ -129,7 +129,7 @@ const Header =() => {
             </Popover> */}
           </NavItem>
 
-          <NavItem>
+          <NavItem className="text-center">
             <NavLink id="Popover2">
               <Avatar onClick={toggleUserCardPopover} className="can-click" />
             </NavLink>
@@ -150,7 +150,7 @@ const Header =() => {
                     className="pr_button border-light"
                     onClick={() => {
                       navigate("/profile", { replace: true });
-                       setOpenUserCardPopover(!isOpenUserCardPopover);
+                      setOpenUserCardPopover(!isOpenUserCardPopover);
                     }}
                   >
                     <MdPersonPin /> Profile
@@ -159,9 +159,9 @@ const Header =() => {
                     tag="button"
                     action
                     className="pr_button border-light"
-                    onClick={()=>{
-                      navigate("/changepassword")
-                      toggleUserCardPopover()
+                    onClick={() => {
+                      navigate("/changepassword");
+                      toggleUserCardPopover();
                     }}
                   >
                     <MdVpnKey /> Change Password

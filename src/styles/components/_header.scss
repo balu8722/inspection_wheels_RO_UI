@@ -49,3 +49,12 @@
 .pr_button:hover{
   background-color: #ccc !important;
 }
+
+@media (max-width: 767px) {
+.selective-field{
+  font-size: 13px;
+}
+.mobile-fs-12{
+  font-size: 13px;
+}
+}
