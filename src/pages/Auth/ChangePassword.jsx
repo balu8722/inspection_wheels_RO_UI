@@ -8,19 +8,6 @@ const ChangePassword = (props) => {
     
   const handleSubmit = (values)=> {
     console.log("values",values)
-    // if(isLogin){
-    //   dispatch(setIsAuth(
-    //     {
-    //       isAuth:true,
-    //       data:{role:values.username=="admin@gmail.com"?"Admin":"RO"}
-    //     }
-    //   ))
-    //   localStorage.setItem("isAuth",true)
-    //   localStorage.setItem("role",values.username=="admin@gmail.com"?"Admin":"RO")
-    //   navigate("/dashboards",{replace:true})
-    // }else{
-    //   alert("Reuest sent to the Admin")
-    // }
   };
 
 

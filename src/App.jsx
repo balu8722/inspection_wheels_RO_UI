@@ -15,7 +15,7 @@ const BadgePage = React.lazy(() => import('./pages/BadgePage'));
 const ButtonGroupPage = React.lazy(() => import('./pages/ButtonGroupPage'));
 const ButtonPage = React.lazy(() => import('./pages/ButtonPage'));
 const CardPage = React.lazy(() => import('./pages/CardPage'));
-const ChartPage = React.lazy(() => import('./pages/ChartPage'));
+// const ChartPage = React.lazy(() => import('./pages/ChartPage'));
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const DropdownPage = React.lazy(() => import('./pages/DropdownPage'));
 const FormPage = React.lazy(() => import('./pages/FormPage'));

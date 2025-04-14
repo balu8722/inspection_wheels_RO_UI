@@ -19,7 +19,6 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PageSpinner from "../../../../components/PageSpinner";
-import DataTable from "../../../../components/DataTable/DataTable";
 import { MdVisibility, MdEdit, MdDelete, MdMoreVert } from "react-icons/md"; 
 import "./Qchold.scss"
 import MultiSelectDropdown from "../../../../components/MultiSelectDropdown/MultiSelectDropdown"; 

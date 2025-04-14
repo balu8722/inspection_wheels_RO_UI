@@ -25,6 +25,9 @@
     &::-webkit-scrollbar-thumb {
       background-color: #fff;
     }
+    // @media (max-width:767px) {
+    //   width: 100%;
+    // }
   }
 
   table td,
@@ -199,3 +202,26 @@
   }
 }
 
+.cr-sidebar.cr-sidebar--open + .cr-content {
+  .table_design .table_scroll{
+    width: calc(100vw - 300px) !important;
+ }
+}
+.cr-sidebar + .cr-content{
+  .table_design .table_scroll{
+    width: calc(100vw - 60px) !important;
+ }
+}
+
+@media (max-width:767px) {
+  .cr-sidebar.cr-sidebar--open + .cr-content {
+    .table_design .table_scroll{
+      width: calc(100vw - 60px) !important;
+   }
+  }
+  .cr-sidebar + .cr-content{
+    .table_design .table_scroll{
+      width: calc(100vw - 300px) !important;
+   }
+  }
+}

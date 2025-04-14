@@ -7,8 +7,12 @@ import Clientcount from "./ClientCount/ClientCount"
 // import Table from "../../components/Table/Table"
 import { Button, Card, CardBody, Col, Form, Row,Badge } from "react-bootstrap";
 import { CommonTable } from "../../components/Table/CommonTable";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
+  const {userdata}=useSelector(state=>state.users)
+  let role=userdata?.role?userdata?.role:"";
+
       const currentDate = new Date();
       let _month= new Intl.DateTimeFormat('en-US', { month: 'long' }).format(currentDate)
 
@@ -189,7 +193,7 @@ const vehicledata = React.useMemo(
     <div className="dashboard mt-3">
       <Page>
         <div>
-          <h3 className="mb-3">Welcome to Inspect Wheels</h3>
+          <h3 className="mb-3">Welcome to {role=="Admin"?"Admin":"RO"}</h3>
         </div>
         <div className="bg-white p-3 rounded">
           <Form>

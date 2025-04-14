@@ -35,11 +35,11 @@ const navigate=useNavigate();
       dispatch(setIsAuth(
         {
           isAuth:true,
-          data:{role:values.username=="admin@gmail.com"?"Admin":"RO"}
+          data:{role:values.username=="admin"?"Admin":"RO"}
         }
       ))
       localStorage.setItem("isAuth",true)
-      localStorage.setItem("role",values.username=="admin@gmail.com"?"Admin":"RO")
+      localStorage.setItem("role",values.username=="admin"?"Admin":"RO")
       navigate("/dashboards",{replace:true})
     }else{
       alert("Reuest sent to the Admin")

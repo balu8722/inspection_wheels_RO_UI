@@ -126,6 +126,19 @@
       }
     }
   }
+  @media (max-width:767px) {
+    left: 0;
+    + .cr-content {
+      margin: 0 0 0 $cr-sidebar-width;
+    }
+    &--open{
+      left: -$cr-sidebar-width;
+      + .cr-content {
+        margin: 0 0 0 0;
+      }
+    }
+
+  }
 }
 
 // @include gradient-y(#02aab0, #00cdac); // green beach

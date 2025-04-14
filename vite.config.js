@@ -10,5 +10,6 @@ export default defineConfig({
         silenceDeprecations: ["import"] // ✅ Silences import deprecations
       }
     }
-  }
+  },
+  base: "/"
 })

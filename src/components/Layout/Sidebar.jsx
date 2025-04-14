@@ -141,6 +141,11 @@ const CollapsibleSection = ({ icon: Icon, label, isOpen, toggle, items }) => (
         <NavItem key={index} className={bem.e("nav-item sub-collapse")}>
           <NavLink
             to={to}
+            onClick={()=>{
+              if (window.innerWidth <= 767) {
+                document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
+              }
+            }}
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
           >
             <Icon className={bem.e("nav-item-icon")} />

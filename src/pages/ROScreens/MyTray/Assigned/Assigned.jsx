@@ -31,7 +31,6 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup"; 
 import { useNavigate } from "react-router-dom";
 import PageSpinner from "../../../../components/PageSpinner";
-import DataTable from "../../../../components/DataTable/DataTable"
 import { MdVisibility, MdEdit, MdDelete, MdMoreVert } from "react-icons/md";
 import CommanModel from "../../../../components/CommanModel/CommanModel"
 import LeadHistory from "../../../../components/LeadHistory/LeadHistory";

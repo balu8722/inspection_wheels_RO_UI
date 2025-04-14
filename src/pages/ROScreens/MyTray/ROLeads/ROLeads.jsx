@@ -40,7 +40,6 @@ import { useSelector, useDispatch } from "react-redux";
 // import { fetchUsers, fetchPosts } from "../../redux/slices/usersSlice";
 import { useNavigate } from "react-router-dom";
 import PageSpinner from "../../../../components/PageSpinner";
-import DataTable from "../../../../components/DataTable/DataTable"
 import { MdVisibility, MdEdit, MdDelete, MdMoreVert } from "react-icons/md";
 import CommanModel from "../../../../components/CommanModel/CommanModel";
 import { Background } from "victory";

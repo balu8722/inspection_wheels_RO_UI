@@ -79,9 +79,6 @@ const Header =() => {
     document.querySelector('.cr-sidebar ').classList.toggle('cr-sidebar--open');
   };
 
-  // render() {
-    // const { isNotificationConfirmed } = this.state;
-
     return (
       <Navbar light expand className={bem.b("")}>
         <Nav navbar className="mr-2">
