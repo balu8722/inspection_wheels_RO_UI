@@ -72,7 +72,8 @@ export const CommonTable = (props) => {
                     setFilter={setGlobalFilter}
                   />
                   <div>
-                    Show
+                    <span className="d-none d-md-block">Show</span>
+                    
                     <select
                       id="tablenumber"
                       value={pageSize}
