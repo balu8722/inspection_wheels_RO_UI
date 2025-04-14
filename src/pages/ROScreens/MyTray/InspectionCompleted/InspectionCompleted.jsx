@@ -105,6 +105,7 @@ const InspectionCompleted = () => {
       {
         Header: "Mail/SMS/Copy",
         id: "mail",
+        accessor: "copy",
         Cell: ({ row }) => (
           <div
             className="text-center"
@@ -112,7 +113,7 @@ const InspectionCompleted = () => {
           >
             <MdContentCopy
               style={{ cursor: "pointer" }}
-              onClick={() => alert(`Viewing ${row.original.vehicledetails}`)}
+              onClick={() => alert(`Viewing ${row.original.accessor}`)}
             />
           </div>
         ),
