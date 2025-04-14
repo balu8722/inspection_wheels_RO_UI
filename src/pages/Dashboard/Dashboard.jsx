@@ -189,7 +189,7 @@ const vehicledata = React.useMemo(
     <div className="dashboard mt-3">
       <Page>
         <div>
-          <h3 className="mb-3">Welcome to Inspection Wheels</h3>
+          <h3 className="mb-3">Welcome to Inspect Wheels</h3>
         </div>
         <div className="bg-white p-3 rounded">
           <Form>

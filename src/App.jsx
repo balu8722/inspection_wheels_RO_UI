@@ -48,6 +48,10 @@ import ChangePassword from './pages/Auth/ChangePassword';
 import ProfileScreen from './pages/ROScreens/ProfileScreen/ProfileScreen';
 import SummaryMis from './pages/ROScreens/MIS/SummaryMis/SummaryMis';
 import RoMis from './pages/ROScreens/MIS/RoMis/RoMis';
+import VehicleType from './pages/AdminScreens/Settings/vehicletype';
+import VehicleCategory from './pages/AdminScreens/Settings/VehicleCategory';
+import RCStatus from './pages/AdminScreens/Settings/RCStatus';
+import ManageRoles from './pages/AdminScreens/Settings/ManageRoles';
 
 // removing popover warning
 if (import.meta.env.DEV) {
@@ -312,6 +316,46 @@ const App =()=> {
             <MainLayout>
               <React.Suspense fallback={<PageSpinner />}>
                 <AddNewValuator />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/vehicletype"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <VehicleType />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/vehiclecategory"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <VehicleCategory />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/rcstatus"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <RCStatus />
+              </React.Suspense>
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/roles"
+          element={
+            <MainLayout>
+              <React.Suspense fallback={<PageSpinner />}>
+                <ManageRoles />
               </React.Suspense>
             </MainLayout>
           }

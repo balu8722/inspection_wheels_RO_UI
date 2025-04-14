@@ -37,7 +37,9 @@ import {
   MdContacts,
   MdSummarize,
   MdOutlineListAlt,
+  MdSettings,
 } from "react-icons/md";
+import { FiChevronsRight } from "react-icons/fi";
 import { FaGithub } from "react-icons/fa";
 
 import logo200Image from "../../assets/img/logo/logo.svg";
@@ -104,30 +106,16 @@ const adminNavItems = [
   
   { to: "/manageclient", name: "Manage Client", exact: false, Icon: MdInsertChart },
   { to: "/managero", name: "Manage RO", exact: false, Icon: MdWeb },
-  { to: "/managevaluator", name: "Manage Valuator", exact: false, Icon: MdWidgets },
-  { to: "/roles", name: "Manage roles", exact: false, Icon: MdWidgets },
+  { to: "/managevaluator", name: "Manage Valuator", exact: false, Icon: MdWidgets }
 ];
 
-const navComponents = [
-  { to: "/buttons", name: "buttons", Icon: MdRadioButtonChecked },
-  { to: "/button-groups", name: "button groups", Icon: MdGroupWork },
-  { to: "/forms", name: "forms", Icon: MdChromeReaderMode },
-  { to: "/input-groups", name: "input groups", Icon: MdViewList },
-  { to: "/dropdowns", name: "dropdowns", Icon: MdArrowDropDownCircle },
-  { to: "/badges", name: "badges", Icon: MdStar },
-  { to: "/alerts", name: "alerts", Icon: MdNotificationsActive },
-  { to: "/progress", name: "progress", Icon: MdBrush },
-  { to: "/modals", name: "modals", Icon: MdViewDay },
-];
-
-const navContents = [
-  { to: "/typography", name: "typography", Icon: MdTextFields },
-  { to: "/tables", name: "tables", Icon: MdBorderAll },
-];
-
-const pageContents = [
-  { to: "/login", name: "login / signup", Icon: MdAccountCircle },
-  { to: "/login-modal", name: "login modal", Icon: MdViewCarousel },
+const settings = [
+  { to: "/roles", name: "Manage Roles", Icon: FiChevronsRight },
+  { to: "/vehicletype", name: "Vehicle Type", Icon: FiChevronsRight },
+  { to: "/vehiclecategory", name: "Vehicle Category", Icon: FiChevronsRight },
+  { to: "/rcstatus", name: "RC status", Icon: FiChevronsRight },
+  // { to: "/input-groups", name: "Reasons Type", Icon: FiChevronsRight },
+  // { to: "/dropdowns", name: "Account Type", Icon: FiChevronsRight }
 ];
 
 const CollapsibleSection = ({ icon: Icon, label, isOpen, toggle, items }) => (
@@ -170,7 +158,7 @@ const Sidebar = () => {
   let role=userdata?.role?userdata?.role:"";
 
   const [isOpenComponents, setOpenComponents] = useState(false);
-  const [isOpenContents, setOpenContents] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
   const [isOpenPages, setOpenPages] = useState(true);
   // 
   const [isopenLead, setOpenLead] = useState(false);;
@@ -279,6 +267,16 @@ useEffect(() => {
                   </NavLink>
                 </NavItem>
               ))}
+
+              {role=="Admin" &&<>
+                <CollapsibleSection
+                  iconClass="custom"
+                  icon={MdSettings}
+                  label="Settings"
+                  isOpen={openSettings}
+                  toggle={() => setOpenSettings(!openSettings)}
+                  items={settings}
+                /></>}
             </Nav>
           </div>
         </aside>

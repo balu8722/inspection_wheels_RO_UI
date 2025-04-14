@@ -28,23 +28,6 @@ const CommanModel = ({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
-      {/* <Modal.Footer>
-        <Button
-          className="text-white fontsize-14"
-          variant="secondary"
-          onClick={onClose}
-        >
-          {closebuttontext}
-        </Button>
-        <Button
-          type="submit"
-          className="text-white fontsize-14"
-          variant="primary"
-          onClick={onSubmit}
-        >
-          {buttontext}
-        </Button>
-      </Modal.Footer> */}
     </Modal>
   );
 };
