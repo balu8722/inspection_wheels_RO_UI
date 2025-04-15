@@ -210,6 +210,11 @@ useEffect(() => {
                 <NavItem key={index} className={bem.e("nav-item")}>
                   <NavLink
                     to={to}
+                    onClick={()=>{
+                      if (window.innerWidth <= 767) {
+                        document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
+                      }
+                    }}
                     className={({ isActive }) =>
                       `nav-link ${isActive ? "active" : ""}`
                     }
@@ -262,6 +267,11 @@ useEffect(() => {
                 <NavItem key={index} className={bem.e("nav-item")}>
                   <NavLink
                     to={to}
+                    onClick={()=>{
+                      if (window.innerWidth <= 767) {
+                        document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
+                      }
+                    }}
                     className={({ isActive }) =>
                       `nav-link ${isActive ? "active" : ""}`
                     }
