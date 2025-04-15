@@ -191,6 +191,7 @@ const CreateLead = () => {
                         <BootstrapForm.Check
                           label="Repo"
                           type="radio"
+                          name="vehicleType"
                           id="inline-radio-repo"
                           value="Repo"
                           onChange={() => setFieldValue("vehicleType", "Repo")}
@@ -198,13 +199,13 @@ const CreateLead = () => {
                         <BootstrapForm.Check
                           label="Retail"
                           type="radio"
+                          name="vehicleType"
                           id="inline-radio-retail"
                           value="Retail"
                           onChange={() =>
                             setFieldValue("vehicleType", "Retail")
                           }
                         />
-                    
                       </div>
                       <ErrorMessage
                         name="vehicleType"
