@@ -179,12 +179,12 @@ const InspectionCompleted = () => {
                 >
                   Remarks
                 </Dropdown.Item>
-                <Dropdown.Item
+                {/* <Dropdown.Item
                   className="fontsize-14"
                   onClick={() => handleSelect("Push To Server")}
                 >
                   Push to server
-                </Dropdown.Item>
+                </Dropdown.Item> */}
               </Dropdown.Menu>
             </Dropdown>
           );
@@ -208,7 +208,7 @@ const InspectionCompleted = () => {
         <div className="inspection_completed mb-3">
           <Row>
             <label>Company</label>
-            <Col className="mb-0" xs={12} sm={12} md={6}>
+            <Col className="mb-3 mb-md-0" xs={12} sm={12} md={6}>
               <div className="">
                 {/* <Form.Group> */}
                 {/* <Form.Label>

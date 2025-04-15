@@ -76,21 +76,21 @@ const UserList = () => {
           Header: "Created",
           accessor: "created",
         },
-        {
-          Header: "Actions",
-          id: "actions",
-          Cell: ({ row }) => (
-            <div
-              className="text-center"
-              style={{ color: "#f96262", fontSize: "20px" }}
-            >
-              <MdEdit
-                style={{ cursor: "pointer" }}
-                onClick={() => alert(`Viewing ${row.original.company}`)}
-              />
-            </div>
-          ),
-        },
+        // {
+        //   Header: "Actions",
+        //   id: "actions",
+        //   Cell: ({ row }) => (
+        //     <div
+        //       className="text-center"
+        //       style={{ color: "#f96262", fontSize: "20px" }}
+        //     >
+        //       <MdEdit
+        //         style={{ cursor: "pointer" }}
+        //         onClick={() => alert(`Viewing ${row.original.company}`)}
+        //       />
+        //     </div>
+        //   ),
+        // },
       ],
       []
     );

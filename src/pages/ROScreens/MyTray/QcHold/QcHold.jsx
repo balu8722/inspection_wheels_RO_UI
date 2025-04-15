@@ -174,7 +174,7 @@ const QcHold = () => {
         <div className="qc_hold mb-3">
           <Row>
             <label>Company</label>
-            <Col className="mb-0" xs={12} sm={12} md={6}>
+            <Col className="mb-3 mb-md-0" xs={12} sm={12} md={6}>
               <div className="">
                
                   <MultiSelectDropdown

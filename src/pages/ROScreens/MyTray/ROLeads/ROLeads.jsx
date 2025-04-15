@@ -66,8 +66,10 @@ const Roleads = () => {
   const [title, setTitle] = useState();
   const [selectedCompany, setselectedCompany] = useState([]);
       const companyList = [
-        { value: "ro", label: "ICICI" },
-        { value: "admin", label: "BOB" },
+        { value: "ro", label: "John AJ Values-Ro valuator" },
+        { value: "admin", label: "Smith  AJ Values-Ro valuator" },
+        { value: "admin", label: "Roy  AJ Values-Ro valuator" },
+        { value: "admin", label: "Joe  AJ Values-Ro valuator" },
       ];
 const data = React.useMemo(
   () => [
@@ -376,7 +378,7 @@ const data = React.useMemo(
                                 options={companyList}
                                 value={selectedCompany}
                                 // onChange={setselectedCompany}
-                                placeholder="Choose client company"
+                                placeholder="Choose Valuator"
                                 isMulti={false}
                                 isSearchable={true}
                                 closeMenuOnSelect={true}

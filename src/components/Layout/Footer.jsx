@@ -7,9 +7,9 @@ import SourceLink from '../../components/SourceLink';
 const Footer = () => {
   return (
     <Navbar>
-      <Nav navbar className='mx-auto'>
+      <Nav navbar className="mx-auto">
         <NavItem>
-          2025 Dollarbird Technologies pvt ltd Mysuru
+          <p className='fontsize-13'> 2025 Dollarbird Technologies pvt ltd Mysuru</p>
         </NavItem>
       </Nav>
     </Navbar>

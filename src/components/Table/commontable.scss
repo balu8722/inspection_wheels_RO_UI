@@ -10,6 +10,11 @@
     border: 1px solid #e2dfdf;
     width: 100%;
   }
+.select-btn{
+  border-radius: 8px;
+    padding: 6px 10px !important;
+    border: 1px solid rgb(204, 204, 204);
+}
 
   .table_scroll {
     width: calc(100vw - 300px);
@@ -223,5 +228,13 @@
     .table_design .table_scroll{
       width: calc(100vw - 300px) !important;
    }
+  }
+  // table font size
+
+  .table_design table th{
+      font-size: 13px;
+  }
+    .table_design table tr td{
+      font-size: 13px;
   }
 }

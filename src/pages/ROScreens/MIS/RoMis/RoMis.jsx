@@ -26,37 +26,41 @@ const [selectedCategory, setselectedCategory] = useState([]);
 ;
 
  const datefilteroptions = [
-   { value: "ro", label: "RO Valuator" },
-   { value: "admin", label: "Admin" },
-   { value: "client", label: "Client" },
-   { value: "manager", label: "Manager" },
+   { value: "ro", label: "Lead created" },
+   { value: "admin", label: "RO confirmation done" },
+   { value: "client", label: "QC hold" },
+   { value: "manager", label: "Inspection completed" },
  ];
 
   const leadList = [
-    { value: "ro", label: "Kumar" },
-    { value: "admin", label: "Ashok" },
-    { value: "client", label: "Naveen" },
-    { value: "manager", label: "Praveen" }
-   
+    { value: "ro", label: "RO lead" },
+    { value: "admin", label: "Assigned leads" },
+    { value: "client", label: "Reassigned leads" },
+    { value: "manager", label: "RO confirmation leads" },
+    { value: "manager", label: "Approved leads" },
+    { value: "manager", label: "Rejected lead" },
+    { value: "manager", label: "Inspection completed leads" }
+    
   ];
     const vehilceType = [
-      { value: "ro", label: "2 wheeler" },
-      { value: "admin", label: "4 wheeler" },
-      { value: "client", label: "10 wheeler" },
-      { value: "manager", label: "6 wheeler" },
+      { value: "retails", label: "Retail" },
+      { value: "repo", label: "Repo" }
+     
     ];
 
         const vehilceCategory = [
           { value: "ro", label: "2 wheeler" },
-          { value: "admin", label: "4 wheeler" }
-         
+          { value: "admin", label: "4 wheeler" },
+          { value: "admin", label: "commercial vehicles" },
+          { value: "admin", label: "farm equipments" },
+          { value: "admin", label: "construction equipments" },
         ];
 
   const clientList = [
-    { value: "ro", label: "RO Valuator" },
-    { value: "admin", label: "Admin" },
-    { value: "client", label: "Client" },
-    { value: "manager", label: "Manager" },
+    { value: "ro", label: "ICICI Bank" },
+    { value: "admin", label: "Cholamandal" },
+    { value: "client", label: "IDBI Bank" },
+    { value: "manager", label: "HDFC Bank" },
   ];
 
   return (
@@ -77,7 +81,7 @@ const [selectedCategory, setselectedCategory] = useState([]);
                     Date Range<span className="text-danger">*</span>
                   </Form.Label>
                   <Form.Control
-                    type="text"
+                    type="date"
                     placeholder="Date Range"
                   />
                
@@ -89,7 +93,7 @@ const [selectedCategory, setselectedCategory] = useState([]);
                   options={clientList}
                   value={selectedClient}
                   onChange={setselectedClient}
-                  placeholder="Select role types"
+                  placeholder="Choose Company"
                   isMulti={true}
                   isSearchable={true}
                   closeMenuOnSelect={false}
@@ -105,7 +109,7 @@ const [selectedCategory, setselectedCategory] = useState([]);
                   options={vehilceCategory}
                   value={selectedCategory}
                   onChange={setselectedCategory}
-                  placeholder="Select role types"
+                  placeholder="Choose Vehicle Category"
                   isMulti={true}
                   isSearchable={true}
                   closeMenuOnSelect={false}
@@ -121,7 +125,7 @@ const [selectedCategory, setselectedCategory] = useState([]);
                   options={vehilceType}
                   value={selectedVehilce}
                   onChange={setselectedVehilce}
-                  placeholder="Select role types"
+                  placeholder="Choose Vehicle Type"
                   isMulti={true}
                   isSearchable={true}
                   closeMenuOnSelect={false}
@@ -137,7 +141,7 @@ const [selectedCategory, setselectedCategory] = useState([]);
                   options={datefilteroptions}
                   value={selectedOptions}
                   onChange={setSelectedOptions}
-                  placeholder="Select role types"
+                  placeholder="Choose your required date field "
                   isMulti={false}
                   isSearchable={true}
                   closeMenuOnSelect={true}
@@ -153,7 +157,7 @@ const [selectedCategory, setselectedCategory] = useState([]);
                   options={leadList}
                   value={selectedLead}
                   onChange={setselectedLead}
-                  placeholder="Select role types"
+                  placeholder="Choose status"
                   isMulti={true}
                   isSearchable={true}
                   closeMenuOnSelect={false}

@@ -77,7 +77,7 @@ export const CommonTable = (props) => {
                     <select
                       id="tablenumber"
                       value={pageSize}
-                      className="selectTag ms-2"
+                      className="selectTag ms-2 select-btn p-2"
                       onChange={(e) => setPageSize(Number(e.target.value))}
                     >
                       <option value="" disabled>

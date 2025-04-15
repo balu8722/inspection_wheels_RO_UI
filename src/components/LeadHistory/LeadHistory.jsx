@@ -56,9 +56,11 @@ const LeadHistory = () => {
               </div>
             </div>
             <div>
-              <h5>Executive Info</h5>
+              <h5>Client Info</h5>
               <div>
-                <label className="fontsize-14">RANGANTHA | 7353286216</label>
+                <label className="fontsize-14">
+                  CHOLAMANDALAM INVESTMENT AND FINANCE COMPANY
+                </label>
               </div>
             </div>
           </Col>
@@ -81,7 +83,7 @@ const LeadHistory = () => {
                 <tr>
                   <td>122</td>
                   <td>32142422</td>
-                  <td>12th sept</td>
+                  <td>Card</td>
                   <td>3456</td>
                   <td>date</td>
                   <td>paid</td>
@@ -103,9 +105,9 @@ const LeadHistory = () => {
                 <tbody>
                   <tr>
                     <td>122</td>
-                    <td>32142422</td>
                     <td>12th sept</td>
-                    <td>3456</td>
+                    <td>Assigned</td>
+                    <td>Vehicle inspection</td>
                   </tr>
                 </tbody>
               </Table>

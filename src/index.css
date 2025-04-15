@@ -91,3 +91,12 @@ button:focus-visible {
   font-size: 13px;
 }
 
+@media (max-width: 767px) {
+  .fontsize-13{
+  font-size: 13px;
+}
+}
+
+.form-select:focus{
+  box-shadow: none !important;
+}

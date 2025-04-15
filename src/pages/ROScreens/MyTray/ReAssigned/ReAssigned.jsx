@@ -55,8 +55,10 @@ const ReAssigned = () => {
       const [title, setTitle] = useState();
       const [selectedCompany, setselectedCompany] = useState([]);
           const companyList = [
-            { value: "ro", label: "ICICI" },
-            { value: "admin", label: "BOB" },
+            { value: "ro", label: "John AJ Values-Ro valuator" },
+            { value: "admin", label: "Smith  AJ Values-Ro valuator" },
+            { value: "admin", label: "Roy  AJ Values-Ro valuator" },
+            { value: "admin", label: "Joe  AJ Values-Ro valuator" },
           ];
   const data = React.useMemo(
     () => [
@@ -417,7 +419,7 @@ const ReAssigned = () => {
                               className="mb-3"
                             >
                               <BootstrapForm.Label className="mb-1">
-                                Choose evaluator{" "}
+                                Choose Valuator{" "}
                                 <span className="text-danger">*</span>
                               </BootstrapForm.Label>
                               <MultiSelectDropdown

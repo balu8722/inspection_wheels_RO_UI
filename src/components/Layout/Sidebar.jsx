@@ -89,12 +89,12 @@ const userManagement = [
 ];
 
 const mis = [
-  {
-    to: "/summary-mis",
-    name: "Summary Mis",
-    exact: true,
-    Icon: MdOutlineListAlt,
-  },
+  // {
+  //   to: "/summary-mis",
+  //   name: "Summary Mis",
+  //   exact: true,
+  //   Icon: MdOutlineListAlt,
+  // },
   { to: "/ro-mis", name: "Ro Mis", exact: true, Icon: MdWeb },
   // { to: "/mfc-global", name: "MFC Global MIS", exact: true, Icon: MdSummarize },
 ];

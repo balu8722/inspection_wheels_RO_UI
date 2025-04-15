@@ -75,7 +75,6 @@ const CreateLead = () => {
 
   return (
     <Page
-      title="Lead Details"
       breadcrumbs={[
         { name: "Lead Management", link: "/mytray" },
         { name: "New", active: true },
@@ -117,6 +116,7 @@ const CreateLead = () => {
             {({ setFieldValue }) => (
               <Form>
                 <Row>
+                  <h4>Lead Details</h4>
                   <Col md={6}>
                     <BootstrapForm.Group
                       controlId="selectedCompany"
@@ -204,22 +204,7 @@ const CreateLead = () => {
                             setFieldValue("vehicleType", "Retail")
                           }
                         />
-                        <BootstrapForm.Check
-                          label="B2C"
-                          type="radio"
-                          id="inline-radio-b2c"
-                          value="B2C"
-                          onChange={() => setFieldValue("vehicleType", "B2C")}
-                        />
-                        <BootstrapForm.Check
-                          label="Asset Verification"
-                          type="radio"
-                          id="inline-radio-asset-verification"
-                          value="Asset Verification"
-                          onChange={() =>
-                            setFieldValue("vehicleType", "Asset Verification")
-                          }
-                        />
+                    
                       </div>
                       <ErrorMessage
                         name="vehicleType"
@@ -347,7 +332,7 @@ const CreateLead = () => {
                       />
                     </BootstrapForm.Group>
                   </Col>
-                  <Col md={6}>
+                  {/* <Col md={6}>
                     <BootstrapForm.Group
                       controlId="prospectNo"
                       className="mb-2"
@@ -362,7 +347,7 @@ const CreateLead = () => {
                         placeholder="Enter Prospect No."
                       />
                     </BootstrapForm.Group>
-                  </Col>
+                  </Col> */}
                   <Col md={6}>
                     <BootstrapForm.Group controlId="vehicle" className="mb-2">
                       <BootstrapForm.Label className="mb-1">
@@ -615,7 +600,7 @@ const CreateLead = () => {
                     </BootstrapForm.Group>
                   </Col>
                   <div>
-                    <h4>Vehicle Details</h4>
+                    <h4>Executive Details</h4>
                   </div>
                   <Col md={6}>
                     <BootstrapForm.Group
