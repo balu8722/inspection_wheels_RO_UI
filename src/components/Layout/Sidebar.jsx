@@ -226,7 +226,7 @@ useEffect(() => {
                 </NavItem>
               ))}
 
-              
+              {role=="RO" && <>
                 <CollapsibleSection
                   iconClass="custom"
                   icon={MdExtension}
@@ -236,7 +236,7 @@ useEffect(() => {
                   items={tray_components}
                 />
 
-              {role=="RO" &&<>
+              
                 <CollapsibleSection
                   iconClass="custom"
                   icon={MdManageAccounts}

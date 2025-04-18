@@ -5,7 +5,7 @@ import "./CommanModel.scss"
 const CommanModel = ({
   show,
   onClose,
-  // onSubmit,
+  size = "lg",
   title = "",
   children,
   buttontext = '',
@@ -16,7 +16,7 @@ const CommanModel = ({
   return (
     <Modal
       className="comman_model"
-      size="lg"
+      size={size}
       show={show}
       onHide={onClose}
       backdrop={backdrop}

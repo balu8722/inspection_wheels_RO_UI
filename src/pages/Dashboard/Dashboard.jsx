@@ -30,6 +30,22 @@ const Dashboard = () => {
         {count:142,status:"Total",name:"Total Leads",status_bgclass:"ro_lead"}
       ]
 
+      const adminCounts=[
+        {count:17,name:"Total Users",status_bgclass:"assigned"},
+        {count:2,name:"TOTAL RO's",status_bgclass:"re-assigned"},
+        {count:10,name:"TOTAL CLIENTS",status_bgclass:"ro_lead"},
+        {count:5,name:"TOTAL VALUATOR",status_bgclass:"re-assigned"},
+        {count:1,status:"RO Lead",name:"Total RO-Leads",status_bgclass:"ro_lead"},
+        {count:15,status:"Assigned",name:"Total Assigned",status_bgclass:"assigned"},
+        {count:2,status:"Reassigned",name:"Total Reassigned",status_bgclass:"re-assigned"},
+        {count:2,status:"RO Confirmation",name:"Total RO Confirmation",status_bgclass:"re-assigned"},
+        {count:0,status:"QC",name:"Total QC",status_bgclass:"ro_lead"},
+        {count:0,status:"QC Hold",name:"Total QC-Hold",status_bgclass:"assigned"},
+        {count:115,status:"Inspection Completed",name:"Total Inspection Completed",status_bgclass:"ro_lead"},
+        {count:6,status:"Reject",name:"Total Reject",status_bgclass:"rejected"},
+        {count:142,status:"Total",name:"Total Leads",status_bgclass:"ro_lead"}
+      ]
+
     
     
       const handleFilter = () => {
@@ -237,15 +253,15 @@ const vehicledata = React.useMemo(
           <h5>Dashboard</h5>
         </div>
         <Row>
-          {counts.map((item, i) => {
+          {(role=="Admin"?adminCounts:counts).map((item, i) => {
             return (
-              <Col md={4} sm={6} xs={12} lg={3} className="mb-3">
+              <Col key={i} md={4} sm={6} xs={12} lg={3} className="mb-3">
                 <Card inverse className="border-0 card_padding">
-                  <div className="text-end">
+                 {item.status && <div className="text-end">
                     <Badge className={`font-weight-400 ${item.status_bgclass}`}>
                       {item.status}
                     </Badge>
-                  </div>
+                  </div>}
                   <div>
                     <h5 className="count text-black font_18">
                       <strong>{item.count}</strong>
@@ -263,7 +279,7 @@ const vehicledata = React.useMemo(
           })}
         </Row>
 
-        <div className="tab_section mt-4 my-3">
+        {role=="RO" &&<div className="tab_section mt-4 my-3">
           <Tabs defaultActiveKey="client" id="tab_component" className="mb-3">
             <Tab eventKey="client" title="Client Count">
               <div className="overflow-hor-scroll">
@@ -282,7 +298,7 @@ const vehicledata = React.useMemo(
               />
             </Tab>
           </Tabs>
-        </div>
+        </div>}
       </Page>
     </div>
   );

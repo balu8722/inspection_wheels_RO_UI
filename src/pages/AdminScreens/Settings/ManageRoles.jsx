@@ -61,14 +61,19 @@ const ManageRoles = () => {
 
     const validationSchema = Yup.object({
         rolename: Yup.string().required("Required"),
-        permissions: Yup.string(),
+        permissions: Yup.array().of(
+            Yup.object().shape({
+                value: Yup.string().required(),
+                label: Yup.string().required(),
+            })
+        ).required("Required"),
         description: Yup.string(),
     });
 
     const formik = useFormik({
         initialValues: {
             rolename: "",
-            permissions: [],
+            permissions: '',
             description: "",
         },
         validationSchema,
@@ -116,7 +121,7 @@ const ManageRoles = () => {
                                 onBlur={formik.handleBlur}
                                 isInvalid={formik.touched.rolename && !!formik.errors.rolename}
                             />
-                            <Form.Control.Feedback type="invalid">
+                            <Form.Control.Feedback type="invalid" className="text-danger f-12">
                                 {formik.errors.rolename}
                             </Form.Control.Feedback>
                         </Form.Group>
@@ -139,7 +144,7 @@ const ManageRoles = () => {
                                 isInvalid={formik.touched.permissions && !!formik.errors.permissions}
                             />
                             {formik.touched.permissions && formik.errors.permissions && (
-                                <div className="text-danger">{formik.errors.permissions}</div>
+                                <div className="text-danger f-12">{formik.errors.permissions}</div>
                             )}
                         </Form.Group>
 
@@ -153,7 +158,7 @@ const ManageRoles = () => {
                                 onBlur={formik.handleBlur}
                                 isInvalid={formik.touched.description && !!formik.errors.description}
                             />
-                            <Form.Control.Feedback type="invalid">
+                            <Form.Control.Feedback type="invalid" className="text-danger">
                                 {formik.errors.description}
                             </Form.Control.Feedback>
                         </Form.Group>

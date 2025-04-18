@@ -49,9 +49,9 @@ const handleClose = () => setShowModel(false);
         return [
             { vehicletype: "Retail", description: "A vehicle used for retail purposes" },
             { vehicletype: "Repo", description: "A repossessed vehicle" },
-            { vehicletype: "CANDO", description: "A vehicle used for construction and development operations" },
-            { vehicletype: "Asset verification", description: "A vehicle used for asset verification tasks" },
-            { vehicletype: "Refurb", description: "A refurbished vehicle" },
+            // { vehicletype: "CANDO", description: "A vehicle used for construction and development operations" },
+            // { vehicletype: "Asset verification", description: "A vehicle used for asset verification tasks" },
+            // { vehicletype: "Refurb", description: "A refurbished vehicle" },
         ];
     }, []);
 const validationSchema = Yup.object({
