@@ -15,7 +15,7 @@ const SearchInput = () => {
       <Input
         type="search"
         className="cr-search-form__input"
-        placeholder="Req/Veh.Reg no"
+        placeholder="Lead ID/Veh.Reg no"
       />
     </Form>
   );

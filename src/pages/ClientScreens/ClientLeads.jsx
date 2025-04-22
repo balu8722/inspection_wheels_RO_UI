@@ -1,36 +1,49 @@
 /* eslint-disable jsx-a11y/href-no-hash */
 
-import Page from "../../../../components/Page";
+import Page from "../../components/Page";
 // import Typography from "../components/Typography";
-import React from "react";
-import { CommonTable } from "../../../../components/Table/CommonTable";
-import { Dropdown } from "react-bootstrap";
+import React, { useState } from "react";
+import  { useRef } from "react";
+
+import { CommonTable } from "../../components/Table/CommonTable";
+import  MultiSelectDropdown  from "../../components/MultiSelectDropdown/MultiSelectDropdown";
 import {
   Alert,
-  Card,
   CardBody,
   CardHeader,
-  Col,
-  Row,
   UncontrolledAlert,
+  
 } from "reactstrap";
-// import Form from "react-bootstrap/Form"; 
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-// import { fetchUsers, fetchPosts } from "../../redux/slices/usersSlice";
-import { useNavigate } from "react-router-dom";
-import PageSpinner from "../../../../components/PageSpinner";
-import { MdVisibility, MdEdit, MdDelete, MdMoreVert } from "react-icons/md";
-import CommanModel from "../../../../components/CommanModel/CommanModel";
-import LeadHistory from "../../../../components/LeadHistory/LeadHistory";
-import MultiSelectDropdown from "../../../../components/MultiSelectDropdown/MultiSelectDropdown";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import {
+  Formik,
+  Field,
+  Form,
+  ErrorMessage
+} from 'formik';
+import * as Yup from 'yup'; 
 import {
   Form as BootstrapForm,
   Button,
+  Row,
+  Col,
+  OverlayTrigger,
+  Tooltip,
+  Card,
   Table,
 } from "react-bootstrap";
-import * as Yup from "yup"; 
+import { Dropdown } from "react-bootstrap";
+// import { ThreeDotsVertical } from "react-bootstrap-icons";
+// import Form from "react-bootstrap/Form";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+// import { fetchUsers, fetchPosts } from "../../redux/slices/usersSlice";
+import { useNavigate } from "react-router-dom";
+import PageSpinner from "../../components/PageSpinner";
+import { MdVisibility, MdEdit, MdDelete, MdMoreVert } from "react-icons/md";
+import CommanModel from "../../components/CommanModel/CommanModel";
+import { Background } from "victory";
+import LeadHistory from "../../components/LeadHistory/LeadHistory";
+
 
 const validationSchema = Yup.object({
   remarks: Yup.string().required("Required"),
@@ -46,134 +59,71 @@ const rejectSchema = Yup.object({
   reject: Yup.string().required("Required"),
 });
 
-const categorySchema = Yup.object({
-  category: Yup.string().required("Required"),
-});
-
-const ReAssigned = () => {
-    const [showModal, setShowModal] = useState(false);
-      const [title, setTitle] = useState();
-      const [selectedCompany, setselectedCompany] = useState([]);
-          const companyList = [
-            { value: "ro", label: "John AJ Values-Ro valuator" },
-            { value: "admin", label: "Smith  AJ Values-Ro valuator" },
-            { value: "admin", label: "Roy  AJ Values-Ro valuator" },
-            { value: "admin", label: "Joe  AJ Values-Ro valuator" },
-          ];
+const ClientLeads = () => {
+  const formikRef = useRef();
+  const [showModal, setShowModal] = useState(false);
+  const [title, setTitle] = useState();
+  const [selectedCompany, setselectedCompany] = useState([]);
+  const companyList = [
+    { value: "ro", label: "John AJ Values-Ro valuator" },
+    { value: "admin", label: "Smith  AJ Values-Ro valuator" },
+    { value: "admin", label: "Roy  AJ Values-Ro valuator" },
+    { value: "admin", label: "Joe  AJ Values-Ro valuator" },
+  ];
   const data = React.useMemo(
     () => [
       {
-        contact: "Kumar mysuru ",
+        contact: "AJITH ALLIPUR BELLARY ",
         reqno: "CVRTL300812913",
         vehicledetails: "KA12B5695",
         clientdetails: "CHOLAMANDALAM IN..",
-        valuator: "ajvalues13 BANGALORE",
-        status: "Open",
         execdetails: "RANGANTHA 7353286216",
-        rouser: "ajvaluesadmin DAVANGERE",
+        souser: "ajvaluesadmin DAVANGERE",
         assign: "03/04/2025 03:53 PM",
-        remark: "ok",
-        assinon: "08/04/2025 09:26 am",
       },
       {
-        contact: "BASAVARAJ R HIDA..ATHANIBELGAUM ",
+        contact: "ANABURU DAVANGERE",
         reqno: "CVRTL300812913",
         vehicledetails: "KA12B5695",
         clientdetails: "CHOLAMANDALAM IN..",
-        valuator: "ajvalues13 BANGALORE",
-        status: "Open",
         execdetails: "RANGANTHA 7353286216",
-        rouser: "ajvaluesadmin DAVANGERE",
+        souser: "ajvaluesadmin DAVANGERE",
         assign: "03/04/2025 03:53 PM",
-        remark: "ok",
-        assinon: "08/04/2025 09:26 am",
       },
       {
-        contact: "NAGESH NIPNALBELGAUM ",
+        contact: "ANABURU DAVANGERE",
         reqno: "CVRTL300812913",
         vehicledetails: "KA12B5695",
         clientdetails: "CHOLAMANDALAM IN..",
-        valuator: "ajvalues13 BANGALORE",
-        status: "Open",
         execdetails: "RANGANTHA 7353286216",
-        rouser: "ajvaluesadmin DAVANGERE",
+        souser: "ajvaluesadmin DAVANGERE",
         assign: "03/04/2025 03:53 PM",
-        remark: "ok",
-        assinon: "08/04/2025 09:26 am",
       },
       {
-        contact: "NAGESH NIPNALBELGAUM ",
+        contact: "ANABURU DAVANGERE",
         reqno: "CVRTL300812913",
         vehicledetails: "KA12B5695",
         clientdetails: "CHOLAMANDALAM IN..",
-        valuator: "ajvalues13 BANGALORE",
-        status: "Open",
         execdetails: "RANGANTHA 7353286216",
-        rouser: "ajvaluesadmin DAVANGERE",
+        souser: "ajvaluesadmin DAVANGERE",
         assign: "03/04/2025 03:53 PM",
-        remark: "ok",
-        assinon: "08/04/2025 09:26 am",
       },
       {
-        contact: "NAGESH NIPNALBELGAUM ",
+        contact: "ANABURU DAVANGERE",
         reqno: "CVRTL300812913",
         vehicledetails: "KA12B5695",
         clientdetails: "CHOLAMANDALAM IN..",
-        valuator: "ajvalues13 BANGALORE",
-        status: "Open",
         execdetails: "RANGANTHA 7353286216",
-        rouser: "ajvaluesadmin DAVANGERE",
+        souser: "ajvaluesadmin DAVANGERE",
         assign: "03/04/2025 03:53 PM",
-        remark: "ok",
-        assinon: "08/04/2025 09:26 am",
       },
-      {
-        contact: "NAGESH NIPNALBELGAUM ",
-        reqno: "CVRTL300812913",
-        vehicledetails: "KA12B5695",
-        clientdetails: "CHOLAMANDALAM IN..",
-        valuator: "ajvalues13 BANGALORE",
-        status: "Open",
-        execdetails: "RANGANTHA 7353286216",
-        rouser: "ajvaluesadmin DAVANGERE",
-        assign: "03/04/2025 03:53 PM",
-        remark: "ok",
-        assinon: "08/04/2025 09:26 am",
-      },
-      {
-        contact: "NAGESH NIPNALBELGAUM ",
-        reqno: "CVRTL300812913",
-        vehicledetails: "KA12B5695",
-        clientdetails: "CHOLAMANDALAM IN..",
-        valuator: "ajvalues13 BANGALORE",
-        status: "Open",
-        execdetails: "RANGANTHA 7353286216",
-        rouser: "ajvaluesadmin DAVANGERE",
-        assign: "03/04/2025 03:53 PM",
-        remark: "ok",
-        assinon: "08/04/2025 09:26 am",
-      },
-      {
-        contact: "NAGESH NIPNALBELGAUM ",
-        reqno: "CVRTL300812913",
-        vehicledetails: "KA12B5695",
-        clientdetails: "CHOLAMANDALAM IN..",
-        valuator: "ajvalues13 BANGALORE",
-        status: "Open",
-        execdetails: "RANGANTHA 7353286216",
-        rouser: "ajvaluesadmin DAVANGERE",
-        assign: "03/04/2025 03:53 PM",
-        remark: "ok",
-        assinon: "08/04/2025 09:26 am",
-      },
-
     ],
     []
   );
   const columns = React.useMemo(
     () => [
       {
-        Header: "Contact Information",
+        Header: "Contact Details",
         accessor: "contact",
       },
       {
@@ -189,20 +139,16 @@ const ReAssigned = () => {
         accessor: "clientdetails",
       },
       {
-        Header: "Valuator",
-        accessor: "valuator",
+        Header: "Executive Information",
+        accessor: "execdetails",
       },
       {
-        Header: "Status",
-        accessor: "status",
-      },
-      {
-        Header: "Valuator Status",
-        accessor: "remark",
+        Header: "SO User",
+        accessor: "souser",
       },
       {
         Header: "Logged on",
-        accessor: "assinon",
+        accessor: "assign",
       },
 
       {
@@ -214,6 +160,21 @@ const ReAssigned = () => {
             setShowModal(true);
             setTitle(action);
             setselectedCompany();
+            // const rowData = row.original;
+
+            // switch (action) {
+            //   case "Remarks":
+            //     console.log("Opening remarks for:", rowData);
+            //     break;
+            //   case "Assign":
+            //     console.log("Assigning request:", rowData.reqno);
+            //     break;
+            //   case "History":
+            //     console.log("Showing history for:", rowData);
+            //     break;
+            //   default:
+            //     break;
+            // }
           };
 
           return (
@@ -237,19 +198,7 @@ const ReAssigned = () => {
                   className="fontsize-14"
                   onClick={() => handleSelect("Allocate To Valuator")}
                 >
-                  Reallocate
-                </Dropdown.Item>
-                <Dropdown.Item
-                  className="fontsize-14"
-                  onClick={() => handleSelect("Change Vehicle Catgory")}
-                >
-                  Change Vehicle Catgory
-                </Dropdown.Item>
-                <Dropdown.Item
-                  className="fontsize-14"
-                  onClick={() => handleSelect("Valuation")}
-                >
-                  Valuation
+                  Allcoate
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="fontsize-14"
@@ -276,15 +225,13 @@ const ReAssigned = () => {
 
   return (
     <Page
-      title="Reallocated"
-      breadcrumbs={[
-        { name: "Lead board" },
-        { name: "Reallocated", active: true },
-      ]}
+      title="Client Leads"
+      breadcrumbs={[{ name: "Lead board" }, { name: "Client Leads", active: true }]}
     >
       <div>
         <div>
-          <CommonTable propColumns={columns} propData={data} />
+          {/* <Button onClick={() => setShowModal(true)}>Open Modal</Button> */}
+
           <CommanModel
             show={showModal}
             onClose={() => setShowModal(false)}
@@ -317,7 +264,7 @@ const ReAssigned = () => {
                                 className="mb-3"
                               >
                                 <BootstrapForm.Label className="mb-1">
-                                 Status <span className="text-danger">*</span>
+                                  Status <span className="text-danger">*</span>
                                 </BootstrapForm.Label>
                                 <Field
                                   name="remarks"
@@ -381,7 +328,7 @@ const ReAssigned = () => {
                 </div>
               )}
 
-              {/* *********************Re ASSIGN******************/}
+              {/* *********************ASSIGN******************/}
               {title === "Allocate To Valuator" && (
                 <div className="lead_assign">
                   <Formik
@@ -419,14 +366,14 @@ const ReAssigned = () => {
                               className="mb-3"
                             >
                               <BootstrapForm.Label className="mb-1">
-                                Choose Valuator{" "}
+                                Choose evaluator{" "}
                                 <span className="text-danger">*</span>
                               </BootstrapForm.Label>
                               <MultiSelectDropdown
                                 options={companyList}
                                 value={selectedCompany}
                                 // onChange={setselectedCompany}
-                                placeholder="Choose client company"
+                                placeholder="Choose Valuator"
                                 isMulti={false}
                                 isSearchable={true}
                                 closeMenuOnSelect={true}
@@ -664,102 +611,13 @@ const ReAssigned = () => {
                   <LeadHistory />
                 </div>
               )}
-              {/*Vehicle Category change  */}
-              {title === "Change Vehicle Catgory" && (
-                <div className="lead_reject">
-                  <Formik
-                    initialValues={{
-                      category: "", // default to empty (no radio selected)
-                    }}
-                    validationSchema={categorySchema}
-                    onSubmit={(values) => {
-                      console.log("=====lead=====", values);
-                      setShowModal(false);
-                    }}
-                  >
-                    {() => (
-                      <Form>
-                        <Row>
-                          <Col className="mx-auto" md={6}>
-                            <BootstrapForm.Group
-                              controlId="reject"
-                              className="mb-3"
-                            >
-                              <BootstrapForm.Label className="mb-1">
-                                Vehicle Category{" "}
-                                <span className="text-danger">*</span>
-                              </BootstrapForm.Label>
-
-                              <div className="">
-                                <div className="form-check mb-2">
-                                  <Field
-                                    type="radio"
-                                    name="category"
-                                    value="Customer is not Reachable"
-                                    className="form-check-input"
-                                    id="reject-reachable"
-                                    checked
-                                  />
-                                  <label
-                                    className="form-check-label fontsize-14"
-                                    htmlFor="reject-reachable"
-                                  >
-                                    2 Wheeler
-                                  </label>
-                                </div>
-
-                                <div className="form-check">
-                                  <Field
-                                    type="radio"
-                                    name="category"
-                                    value="Vehicle Sold Out / Released from Yard"
-                                    className="form-check-input"
-                                    id="reject-sold"
-                                  />
-                                  <label
-                                    className="form-check-label fontsize-14"
-                                    htmlFor="reject-sold"
-                                  >
-                                    4 Wheeler
-                                  </label>
-                                </div>
-                              </div>
-
-                              <ErrorMessage
-                                name="category"
-                                component="div"
-                                className="text-danger errormessage"
-                              />
-                            </BootstrapForm.Group>
-                          </Col>
-                        </Row>
-                        <div className="text-end">
-                          <Button
-                            className="text-white fontsize-14 mx-1"
-                            variant="secondary"
-                            onClick={() => setShowModal(false)}
-                          >
-                            Close
-                          </Button>
-                          <Button
-                            type="submit"
-                            className="text-white fontsize-14 mx-1"
-                            variant="primary"
-                          >
-                            Confirm
-                          </Button>
-                        </div>
-                      </Form>
-                    )}
-                  </Formik>
-                </div>
-              )}
             </div>
           </CommanModel>
+          <CommonTable propColumns={columns} propData={data} />
         </div>
       </div>
     </Page>
   );
 };
 
-export default ReAssigned;
+export default ClientLeads;

@@ -64,25 +64,25 @@ const RoConfirmation = () => {
         reqno: "CVRTL300812913",
         vehicledetails: "KA12B5695",
         client: "Mahindra & Mahin..BANGALORE",
-        roconfirmation: "29/03/2025 12:02 pm",
+        soconfirmation: "29/03/2025 12:02 pm",
       },
       {
         reqno: "CVRTL300722451",
         vehicledetails: "KA12B5695",
         client: "Indostar Capital..HOSPET",
-        roconfirmation: "29/03/2025 12:02 pm",
+        soconfirmation: "29/03/2025 12:02 pm",
       },
       {
         reqno: "CVRTL300722451",
         vehicledetails: "KA12B5695",
         client: "Indostar Capital..HOSPET",
-        roconfirmation: "29/03/2025 12:02 pm",
+        soconfirmation: "29/03/2025 12:02 pm",
       },
       {
         reqno: "CVRTL300722451",
         vehicledetails: "KA12B5695",
         client: "Indostar Capital..HOSPET",
-        roconfirmation: "29/03/2025 12:02 pm",
+        soconfirmation: "29/03/2025 12:02 pm",
       },
     ],
     []
@@ -90,11 +90,11 @@ const RoConfirmation = () => {
   const columns = React.useMemo(
     () => [
       {
-        Header: "Req.No",
+        Header: "Lead ID",
         accessor: "reqno",
       },
       {
-        Header: "Vehicle Details",
+        Header: "Vehicle Information",
         accessor: "vehicledetails",
       },
       {
@@ -117,8 +117,8 @@ const RoConfirmation = () => {
         ),
       },
       {
-        Header: "In Time of RO Confirmation",
-        accessor: "roconfirmation",
+        Header: "In Time of SO Confirmation",
+        accessor: "soconfirmation",
       },
 
       {
@@ -144,16 +144,16 @@ const RoConfirmation = () => {
              <Dropdown.Menu>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Lead Remarks")}
+                  onClick={() => handleSelect("Lead Status")}
                 >
-                  Remarks
+                  Status
                 </Dropdown.Item>
                 <Dropdown.Item className="fontsize-14">Approve</Dropdown.Item>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Lead Reject")}
+                  onClick={() => handleSelect("Decline Lead")}
                 >
-                  Reject
+                  Decline
                 </Dropdown.Item>
           
 
@@ -161,7 +161,7 @@ const RoConfirmation = () => {
                   className="fontsize-14"
                   onClick={() => handleSelect("Lead History")}
                 >
-                  History
+                  Case File
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -175,10 +175,10 @@ const RoConfirmation = () => {
 
   return (
     <Page
-      title="RO Confirmation"
+      title="SO Confirmation"
       breadcrumbs={[
-        { name: "My Tray", link: "/mytray" },
-        { name: "Ro Confirmation", active: true },
+        { name: "Lead board"},
+        { name: "So Confirmation", active: true },
       ]}
     >
       <div className="ro_confirmation mb-3">
@@ -241,7 +241,7 @@ const RoConfirmation = () => {
               closebuttontext="Close"
             >
               <div>
-                {title === "Lead Remarks" && (
+                {title === "Lead Status" && (
                   <div className="lead_remarks ">
                     <div>
                       <Formik
@@ -264,7 +264,7 @@ const RoConfirmation = () => {
                                   className="mb-3"
                                 >
                                   <BootstrapForm.Label className="mb-1">
-                                    Remarks{" "}
+                                    Status{" "}
                                     <span className="text-danger">*</span>
                                   </BootstrapForm.Label>
                                   <Field
@@ -329,7 +329,7 @@ const RoConfirmation = () => {
                   </div>
                 )}
 
-                {title === "Lead Reject" && (
+                {title === "Decline Lead" && (
                   <div className="lead_reject">
                     <Formik
                       initialValues={{

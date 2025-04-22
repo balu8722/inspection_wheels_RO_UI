@@ -130,15 +130,15 @@ const Assigned = () => {
         accessor: "contact",
       },
       {
-        Header: "Req.No",
+        Header: "Lead ID",
         accessor: "reqno",
       },
       {
-        Header: "Vehicle Details",
+        Header: "Vehicle Information",
         accessor: "vehicledetails",
       },
       {
-        Header: "Client Details",
+        Header: "Client Information",
         accessor: "clientdetails",
       },
       {
@@ -150,11 +150,11 @@ const Assigned = () => {
         accessor: "status",
       },
       {
-        Header: "Valuator Remark",
+        Header: "Valuator Status",
         accessor: "remark",
       },
       {
-        Header: "Assigned on",
+        Header: "Logged on",
         accessor: "assinon",
       },
 
@@ -182,15 +182,15 @@ const Assigned = () => {
               <Dropdown.Menu>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Lead Remarks")}
+                  onClick={() => handleSelect("Lead Status")}
                 >
-                  Remarks
+                  Status
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Assign To Valuator")}
+                  onClick={() => handleSelect("Allocate To Valuator")}
                 >
-                  Reassign
+                  Reallocate
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="fontsize-14"
@@ -206,15 +206,15 @@ const Assigned = () => {
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Lead Reject")}
+                  onClick={() => handleSelect("Decline Lead")}
                 >
-                  Reject
+                  Decline
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="fontsize-14"
                   onClick={() => handleSelect("Lead History")}
                 >
-                  History
+                  Case File
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -229,10 +229,10 @@ const Assigned = () => {
 
   return (
     <Page
-      title="Assigned"
+      title="Allocated"
       breadcrumbs={[
-        { name: "My Tray", link: "/mytray" },
-        { name: "Assigned", active: true },
+        { name: "Lead board" },
+        { name: "Allocated", active: true },
       ]}
     >
       <div>
@@ -247,7 +247,7 @@ const Assigned = () => {
             closebuttontext="Close"
           >
             <div>
-              {title === "Lead Remarks" && (
+              {title === "Lead Status" && (
                 <div className="lead_remarks ">
                   <div>
                     <Formik
@@ -270,7 +270,7 @@ const Assigned = () => {
                                 className="mb-3"
                               >
                                 <BootstrapForm.Label className="mb-1">
-                                  Remarks <span className="text-danger">*</span>
+                                  Status <span className="text-danger">*</span>
                                 </BootstrapForm.Label>
                                 <Field
                                   name="remarks"
@@ -335,7 +335,7 @@ const Assigned = () => {
               )}
 
               {/* *********************Re ASSIGN******************/}
-              {title === "Assign To Valuator" && (
+              {title === "Allocate To Valuator" && (
                 <div className="lead_assign">
                   <Formik
                     initialValues={{
@@ -524,7 +524,7 @@ const Assigned = () => {
                   </Formik>
                 </div>
               )}
-              {title === "Lead Reject" && (
+              {title === "Decline Lead" && (
                 <div className="lead_reject">
                   <Formik
                     initialValues={{
@@ -648,7 +648,7 @@ const Assigned = () => {
                                   <Field
                                     type="radio"
                                     name="category"
-                                    value="Customer is not Reachable" 
+                                    value="Customer is not Reachable"
                                     className="form-check-input"
                                     id="reject-reachable"
                                     checked

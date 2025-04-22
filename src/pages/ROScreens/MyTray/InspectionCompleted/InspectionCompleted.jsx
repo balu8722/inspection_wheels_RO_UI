@@ -90,33 +90,33 @@ const InspectionCompleted = () => {
   const columns = React.useMemo(
     () => [
       {
-        Header: "Client ",
+        Header: "Client Information",
         accessor: "client",
       },
       {
-        Header: "Req.No",
+        Header: "Lead Id",
         accessor: "reqno",
       },
       {
-        Header: "Vehicle Details",
+        Header: "Vehicle Information",
         accessor: "vehicledetails",
       },
-      {
-        Header: "Mail/SMS/Copy",
-        id: "mail",
-        accessor: "copy",
-        Cell: ({ row }) => (
-          <div
-            className="text-center"
-            style={{ color: "#f96262", fontSize: "20px" }}
-          >
-            <MdContentCopy
-              style={{ cursor: "pointer" }}
-              onClick={() => alert(`Viewing ${row.original.accessor}`)}
-            />
-          </div>
-        ),
-      },
+      // {
+      //   Header: "Mail/SMS/Copy",
+      //   id: "mail",
+      //   accessor: "copy",
+      //   Cell: ({ row }) => (
+      //     <div
+      //       className="text-center"
+      //       style={{ color: "#f96262", fontSize: "20px" }}
+      //     >
+      //       <MdContentCopy
+      //         style={{ cursor: "pointer" }}
+      //         onClick={() => alert(`Viewing ${row.original.accessor}`)}
+      //       />
+      //     </div>
+      //   ),
+      // },
       {
         Header: "Download",
         id: "download",
@@ -175,9 +175,9 @@ const InspectionCompleted = () => {
               <Dropdown.Menu>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Lead Remarks")}
+                  onClick={() => handleSelect("Lead Status")}
                 >
-                  Remarks
+                  Status
                 </Dropdown.Item>
                 {/* <Dropdown.Item
                   className="fontsize-14"
@@ -198,10 +198,10 @@ const InspectionCompleted = () => {
 
   return (
     <Page
-      title="Inspection Completed"
+      title="Lead Approved"
       breadcrumbs={[
-        { name: "My Tray", link: "/mytray" },
-        { name: "Inspection Completed", active: true },
+        { name: "Lead board"},
+        { name: "Lead Approved", active: true },
       ]}
     >
       <div>
@@ -249,7 +249,7 @@ const InspectionCompleted = () => {
               closebuttontext="Close"
             >
               <div>
-                {title === "Lead Remarks" && (
+                {title === "Lead Status" && (
                   <div className="lead_remarks ">
                     <div>
                       <Formik
@@ -272,7 +272,7 @@ const InspectionCompleted = () => {
                                   className="mb-3"
                                 >
                                   <BootstrapForm.Label className="mb-1">
-                                    Remarks{" "}
+                                    Status{" "}
                                     <span className="text-danger">*</span>
                                   </BootstrapForm.Label>
                                   <Field

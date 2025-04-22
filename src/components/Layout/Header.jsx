@@ -89,9 +89,9 @@ const Header =() => {
         <Nav navbar>{/* <SearchInput /> */}</Nav>
 
         <Nav navbar className={bem.e("nav-right")}>
-          <NavItem className="d-md-inline-flex w-100 align-self-center">
+          <NavItem className="d-md-inline-flex  align-self-center">
             <NavLink className="d-none d-md-inline-flex ">
-              Global Search: <SearchInput />
+              Quick Search: <SearchInput />
             </NavLink>
             <NavLink>
               <Form.Select className="selective-field">
@@ -150,7 +150,7 @@ const Header =() => {
                       setOpenUserCardPopover(!isOpenUserCardPopover);
                     }}
                   >
-                    <MdPersonPin /> Profile
+                    <MdPersonPin />Account Information
                   </ListGroupItem>
                   <ListGroupItem
                     tag="button"
@@ -161,7 +161,7 @@ const Header =() => {
                       toggleUserCardPopover();
                     }}
                   >
-                    <MdVpnKey /> Change Password
+                    <MdVpnKey /> Password Reset
                   </ListGroupItem>
                   <ListGroupItem
                     tag="button"
@@ -171,7 +171,7 @@ const Header =() => {
                       logout();
                     }}
                   >
-                    <MdExitToApp /> Signout
+                    <MdExitToApp /> Log out
                   </ListGroupItem>
                 </ListGroup>
                 {/* </UserCard> */}
