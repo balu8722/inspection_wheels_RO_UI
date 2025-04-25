@@ -97,13 +97,14 @@ const UserList = () => {
 
   return (
     <Page
+      title="All Users"
       breadcrumbs={[
-        { name: "User Management"},
-        { name: "All User", active: true }, 
+        { name: "User Management" },
+        { name: "All User", active: true },
       ]}
     >
       <div>
-          <CommonTable propColumns={columns} propData={data} />
+        <CommonTable propColumns={columns} propData={data} />
       </div>
     </Page>
   );

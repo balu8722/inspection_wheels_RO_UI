@@ -63,20 +63,31 @@ const sidebarLabels = [
 // 
 
 const tray_components = [
-  { to: "/ro-leads", name: "RO Leads", Icon: MdWeb },
-  { to: "/assigned", name: "Assigned", Icon: MdAssignmentInd },
-  { to: "/reassigned", name: "Reassigned", Icon: MdSwapHoriz },
+  { to: "/leadboard/so-leads", name: "SO Leads", Icon: MdWeb },
+  { to: "/leadboard/allocated", name: "Allocated", Icon: MdAssignmentInd },
+  { to: "/leadboard/reassigned", name: "Reallocated", Icon: MdSwapHoriz },
   {
-    to: "/ro-confirmation",
-    name: "RO Confirmation",
+    to: "/leadboard/so-confirmation",
+    name: "SO Confirmation",
     Icon: MdVerified,
   },
-  { to: "/qc-hold", name: "QC Hold", Icon: MdPauseCircleFilled },
+  { to: "/leadboard/qc-hold", name: "QC Hold", Icon: MdPauseCircleFilled },
   {
-    to: "/inspection-completed",
-    name: "Inspection Completed",
+    to: "/leadboard/so-leads",
+    name: "Client Leads",
+    Icon: MdWeb,
+  },
+  {
+    to: "/leadboard/lead-approved",
+    name: "Lead Approved",
     Icon: MdTaskAlt,
   },
+
+  // {
+  //   to: "/leadboard/lead-approved",
+  //   name: "Completed Leads",
+  //   Icon: MdTaskAlt,
+  // },
 ];
 
 // 
@@ -95,10 +106,12 @@ const mis = [
   //   exact: true,
   //   Icon: MdOutlineListAlt,
   // },
-  { to: "/ro-mis", name: "Ro Mis", exact: true, Icon: MdWeb },
+  { to: "/mis/so-mis", name: "So MIS", exact: true, Icon: MdWeb },
   // { to: "/mfc-global", name: "MFC Global MIS", exact: true, Icon: MdSummarize },
 ];
-
+const clientmis = [
+  { to: "/mis/client-mis", name: "Client MIS", exact: true, Icon: MdWeb },
+];
 
 const adminNavItems = [
   // { to: "/dashboard", name: "dashboard", exact: true, Icon: MdDashboard },
@@ -116,6 +129,10 @@ const settings = [
   { to: "/rcstatus", name: "RC status", Icon: FiChevronsRight },
   // { to: "/input-groups", name: "Reasons Type", Icon: FiChevronsRight },
   // { to: "/dropdowns", name: "Account Type", Icon: FiChevronsRight }
+];
+
+const clientLeadmgmt = [
+  { to: "/create-lead", name: "Manage Lead", exact: true, Icon: MdPersonAdd },
 ];
 
 const CollapsibleSection = ({ icon: Icon, label, isOpen, toggle, items }) => (
@@ -161,6 +178,18 @@ const CollapsibleSection = ({ icon: Icon, label, isOpen, toggle, items }) => (
 const Sidebar = () => {
   const {userdata}=useSelector(state=>state.users)
   let role=userdata?.role?userdata?.role:"";
+     console.log("role",role);
+     const normalizedRole = role?.trim().toLowerCase();
+     const filteredTrayComponents =
+       normalizedRole === "admin"
+         ? tray_components
+         : normalizedRole === "client"
+         ? tray_components.filter((item) =>
+             ["Client Leads", "Lead Approved"].includes(item.name)
+           )
+         : tray_components.filter(
+             (item) => !["Client Leads", "Lead Approved"].includes(item.name)
+           );
 
   const [isOpenComponents, setOpenComponents] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
@@ -169,7 +198,8 @@ const Sidebar = () => {
   const [isopenLead, setOpenLead] = useState(false);;
    const [isOpenUser, setOpenUser] = useState(false);
 
-   const [isOpenMis, setOpenMis] = useState(false);
+   const [isOpenClientMgmt, setOpenClientMgmt] = useState(false);
+    const [isOpenMis, setOpenMis] = useState(false);
    const location = useLocation();
 useEffect(() => {
   const openPaths = [
@@ -210,9 +240,11 @@ useEffect(() => {
                 <NavItem key={index} className={bem.e("nav-item")}>
                   <NavLink
                     to={to}
-                    onClick={()=>{
+                    onClick={() => {
                       if (window.innerWidth <= 767) {
-                        document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
+                        document
+                          .querySelector(".cr-sidebar")
+                          .classList.toggle("cr-sidebar--open");
                       }
                     }}
                     className={({ isActive }) =>
@@ -226,72 +258,152 @@ useEffect(() => {
                 </NavItem>
               ))}
 
-              {role=="RO" && <>
-                <CollapsibleSection
-                  iconClass="custom"
-                  icon={MdExtension}
-                  label="MY Tray"
-                  isOpen={isOpenComponents}
-                  toggle={() => setOpenComponents(!isOpenComponents)}
-                  items={tray_components}
-                />
+              {/* <CollapsibleSection
+                iconClass="custom"
+                icon={MdExtension}
+                label="Lead Management"
+                isOpen={isOpenClientMgmt}
+                toggle={() => setOpenClientMgmt(!isOpenClientMgmt)}
+                items={clientLeadmgmt}
+              /> */}
 
-              
-                <CollapsibleSection
-                  iconClass="custom"
-                  icon={MdManageAccounts}
-                  label="Lead Management"
-                  isOpen={isopenLead}
-                  toggle={() => setOpenLead(!isopenLead)}
-                  items={leadManagement}
-                />
-                <CollapsibleSection
-                  iconClass="custom"
-                  icon={MdPeopleAlt}
-                  label="User Management"
-                  isOpen={isOpenUser}
-                  toggle={() => setOpenUser(!isOpenUser)}
-                  items={userManagement}
-                />
-                <CollapsibleSection
-                  iconClass="custom"
-                  icon={MdSummarize}
-                  label="MIS"
-                  isOpen={isOpenMis}
-                  toggle={() => setOpenMis(!isOpenMis)}
-                  items={mis}
-                />
-              </>}
-              
-              {role=="Admin"&&adminNavItems.map(({ to, name, exact, Icon }, index) => (
-                <NavItem key={index} className={bem.e("nav-item")}>
-                  <NavLink
-                    to={to}
-                    onClick={()=>{
-                      if (window.innerWidth <= 767) {
-                        document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
+              <CollapsibleSection
+                iconClass="custom"
+                icon={MdExtension}
+                label="Lead Board"
+                isOpen={isOpenComponents}
+                toggle={() => setOpenComponents(!isOpenComponents)}
+                items={filteredTrayComponents}
+              />
+              <CollapsibleSection
+                iconClass="custom"
+                icon={MdManageAccounts}
+                label="Lead Management"
+                isOpen={isopenLead}
+                toggle={() => setOpenLead(!isopenLead)}
+                items={leadManagement}
+              />
+               {role == "Admin" &&
+                adminNavItems.map(({ to, name, exact, Icon }, index) => (
+                  <NavItem key={index} className={bem.e("nav-item")}>
+                    <NavLink
+                      to={to}
+                      onClick={() => {
+                        if (window.innerWidth <= 767) {
+                          document
+                            .querySelector(".cr-sidebar")
+                            .classList.toggle("cr-sidebar--open");
+                        }
+                      }}
+                      className={({ isActive }) =>
+                        `nav-link ${isActive ? "active" : ""}`
                       }
-                    }}
-                    className={({ isActive }) =>
-                      `nav-link ${isActive ? "active" : ""}`
-                    }
-                    end={exact}
-                  >
-                    <Icon className={bem.e("nav-item-icon")} />
-                    <span>{name}</span>
-                  </NavLink>
-                </NavItem>
-              ))}
+                      end={exact}
+                    >
+                      <Icon className={bem.e("nav-item-icon")} />
+                      <span>{name}</span>
+                    </NavLink>
+                  </NavItem>
+                ))}
+              {(role === "Admin") && (
+                <>
+                  <NavItem className={bem.e("nav-item")}>
+                    <NavLink
+                      to={"/user-list"}
+                      onClick={() => {
+                        if (window.innerWidth <= 767) {
+                          document
+                            .querySelector(".cr-sidebar")
+                            .classList.toggle("cr-sidebar--open");
+                        }
+                      }}
+                      className={({ isActive }) =>
+                        `nav-link ${isActive ? "active" : ""}`
+                      }
+                      end={false}
+                    >
+                      <MdPeopleAlt className={bem.e("nav-item-icon")} />
+                      <span>Manage Users</span>
+                    </NavLink>
+                  </NavItem>
+                  
+                </>
+              )}
+              
+              {(role === "SO") && (
+                <>
+                  <CollapsibleSection
+                    iconClass="custom"
+                    icon={MdPeopleAlt}
+                    label="User Management"
+                    isOpen={isOpenUser}
+                    toggle={() => setOpenUser(!isOpenUser)}
+                    items={userManagement}
+                  />
 
-              {role=="Admin" &&<>
-                <CollapsibleSection
-                  iconClass="custom"
-                  icon={MdSettings}
-                  label="Settings"
-                  isOpen={openSettings}
-                  toggle={() => setOpenSettings(!openSettings)}
-                  items={settings}
-                /></>}
+                  
+                </>
+              )}
+              {(role === "Admin") && (
+                <>
+                  <NavItem className={bem.e("nav-item")}>
+                    <NavLink
+                      to={"/mis/so-mis"}
+                      onClick={() => {
+                        if (window.innerWidth <= 767) {
+                          document
+                            .querySelector(".cr-sidebar")
+                            .classList.toggle("cr-sidebar--open");
+                        }
+                      }}
+                      className={({ isActive }) =>
+                        `nav-link ${isActive ? "active" : ""}`
+                      }
+                      end={false}
+                    >
+                      <MdSummarize className={bem.e("nav-item-icon")} />
+                      <span>MIS</span>
+                    </NavLink>
+                  </NavItem>
+                  
+                </>
+              )}
+              {(role === "SO") && (
+              <CollapsibleSection
+                    iconClass="custom"
+                    icon={MdSummarize}
+                    label="MIS"
+                    isOpen={isOpenMis}
+                    toggle={() => setOpenMis(!isOpenMis)}
+                    items={mis}
+                  />)}
+              {(role === "Client") && (
+                <>
+                  <CollapsibleSection
+                    iconClass="custom"
+                    icon={MdSummarize}
+                    label="MIS"
+                    isOpen={isOpenMis}
+                    toggle={() => setOpenMis(!isOpenMis)}
+                    items={clientmis}
+                  />
+                </>
+              )}
+
+             
+
+              {role == "Admin" && (
+                <>
+                  <CollapsibleSection
+                    iconClass="custom"
+                    icon={MdSettings}
+                    label="Settings"
+                    isOpen={openSettings}
+                    toggle={() => setOpenSettings(!openSettings)}
+                    items={settings}
+                  />
+                </>
+              )}
             </Nav>
           </div>
         </aside>

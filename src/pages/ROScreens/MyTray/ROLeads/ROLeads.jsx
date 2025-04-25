@@ -79,7 +79,7 @@ const data = React.useMemo(
       vehicledetails: "KA12B5695",
       clientdetails: "CHOLAMANDALAM IN..",
       execdetails: "RANGANTHA 7353286216",
-      rouser: "ajvaluesadmin DAVANGERE",
+      souser: "ajvaluesadmin DAVANGERE",
       assign: "03/04/2025 03:53 PM",
     },
     {
@@ -88,7 +88,7 @@ const data = React.useMemo(
       vehicledetails: "KA12B5695",
       clientdetails: "CHOLAMANDALAM IN..",
       execdetails: "RANGANTHA 7353286216",
-      rouser: "ajvaluesadmin DAVANGERE",
+      souser: "ajvaluesadmin DAVANGERE",
       assign: "03/04/2025 03:53 PM",
     },
     {
@@ -97,7 +97,7 @@ const data = React.useMemo(
       vehicledetails: "KA12B5695",
       clientdetails: "CHOLAMANDALAM IN..",
       execdetails: "RANGANTHA 7353286216",
-      rouser: "ajvaluesadmin DAVANGERE",
+      souser: "ajvaluesadmin DAVANGERE",
       assign: "03/04/2025 03:53 PM",
     },
     {
@@ -106,7 +106,7 @@ const data = React.useMemo(
       vehicledetails: "KA12B5695",
       clientdetails: "CHOLAMANDALAM IN..",
       execdetails: "RANGANTHA 7353286216",
-      rouser: "ajvaluesadmin DAVANGERE",
+      souser: "ajvaluesadmin DAVANGERE",
       assign: "03/04/2025 03:53 PM",
     },
     {
@@ -115,7 +115,7 @@ const data = React.useMemo(
       vehicledetails: "KA12B5695",
       clientdetails: "CHOLAMANDALAM IN..",
       execdetails: "RANGANTHA 7353286216", 
-      rouser: "ajvaluesadmin DAVANGERE",
+      souser: "ajvaluesadmin DAVANGERE",
       assign: "03/04/2025 03:53 PM",
     },
 
@@ -129,27 +129,27 @@ const data = React.useMemo(
         accessor: "contact",
       },
       {
-        Header: "Req.No",
+        Header: "Lead ID",
         accessor: "reqno",
       },
       {
-        Header: "Vehicle Details",
+        Header: "Vehicle Information",
         accessor: "vehicledetails",
       },
       {
-        Header: "Client Details",
+        Header: "Client Information",
         accessor: "clientdetails",
       },
       {
-        Header: "Exec Details",
+        Header: "Executive Information",
         accessor: "execdetails",
       },
       {
-        Header: "RO User",
-        accessor: "rouser",
+        Header: "SO User",
+        accessor: "souser",
       },
       {
-        Header: "Assigned on",
+        Header: "Logged on",
         accessor: "assign",
       },
 
@@ -158,12 +158,12 @@ const data = React.useMemo(
         id: "actions",
         Cell: ({ row }) => {
           const handleSelect = (action) => {
-                  console.log("actions",action);
-                   setShowModal(true)
-                   setTitle(action);
-                   setselectedCompany();
+            console.log("actions", action);
+            setShowModal(true);
+            setTitle(action);
+            setselectedCompany();
             // const rowData = row.original;
-         
+
             // switch (action) {
             //   case "Remarks":
             //     console.log("Opening remarks for:", rowData);
@@ -192,27 +192,27 @@ const data = React.useMemo(
               <Dropdown.Menu>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Lead Remarks")}
+                  onClick={() => handleSelect("Lead Status")}
                 >
-                  Remarks
+                  Status
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Assign To Valuator")}
+                  onClick={() => handleSelect("Allocate To Valuator")}
                 >
-                  Assign
+                  Allcoate
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Lead Reject")}
+                  onClick={() => handleSelect("Decline Lead")}
                 >
-                  Reject
+                  Decline
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="fontsize-14"
                   onClick={() => handleSelect("Lead History")}
                 >
-                  History
+                  Case File
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -227,10 +227,10 @@ const data = React.useMemo(
 
   return (
     <Page
-      title="RO Leads"
+      title="SO Leads"
       breadcrumbs={[
-        { name: "My Tray", link: "/mytray" },
-        { name: "RO Leads", active: true },
+        { name: "Lead board"},
+        { name: "SO Leads", active: true },
       ]}
     >
       <div>
@@ -246,7 +246,7 @@ const data = React.useMemo(
             closebuttontext="Close"
           >
             <div>
-              {title === "Lead Remarks" && (
+              {title === "Lead Status" && (
                 <div className="lead_remarks ">
                   <div>
                     <Formik
@@ -269,7 +269,7 @@ const data = React.useMemo(
                                 className="mb-3"
                               >
                                 <BootstrapForm.Label className="mb-1">
-                                  Remarks <span className="text-danger">*</span>
+                                  Status <span className="text-danger">*</span>
                                 </BootstrapForm.Label>
                                 <Field
                                   name="remarks"
@@ -334,7 +334,7 @@ const data = React.useMemo(
               )}
 
               {/* *********************ASSIGN******************/}
-              {title === "Assign To Valuator" && (
+              {title === "Allocate To Valuator" && (
                 <div className="lead_assign">
                   <Formik
                     initialValues={{
@@ -523,7 +523,7 @@ const data = React.useMemo(
                   </Formik>
                 </div>
               )}
-              {title === "Lead Reject" && (
+              {title === "Decline Lead" && (
                 <div className="lead_reject">
                   <Formik
                     initialValues={{

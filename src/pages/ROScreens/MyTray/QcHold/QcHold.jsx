@@ -87,11 +87,11 @@ const QcHold = () => {
   const columns = React.useMemo(
     () => [
       {
-        Header: "Req.No",
+        Header: "Lead ID",
         accessor: "reqno",
       },
       {
-        Header: "Vehicle Details",
+        Header: "Vehicle Information",
         accessor: "vehicledetails",
       },
       {
@@ -130,23 +130,23 @@ const QcHold = () => {
               <Dropdown.Menu>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Lead Remarks")}
+                  onClick={() => handleSelect("Lead Status")}
                 >
-                  Remarks
+                  Status
                 </Dropdown.Item>
                 <Dropdown.Item className="fontsize-14">Approve</Dropdown.Item>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Lead Reject")}
+                  onClick={() => handleSelect("Decline Lead")}
                 >
-                  Reject
+                 Decline
                 </Dropdown.Item>
 
                 <Dropdown.Item
                   className="fontsize-14"
                   onClick={() => handleSelect("Lead History")}
                 >
-                  History
+                  Case File
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -166,7 +166,7 @@ const QcHold = () => {
     <Page
       title="QC Hold"
       breadcrumbs={[
-        { name: "My Tray", link: "/mytray" },
+        { name: "Leader board"},
         { name: "QC Hold", active: true },
       ]}
     >
@@ -213,7 +213,7 @@ const QcHold = () => {
               closebuttontext="Close"
             >
               <div>
-                {title === "Lead Remarks" && (
+                {title === "Lead Status" && (
                   <div className="lead_remarks ">
                     <div>
                       <Formik
@@ -236,7 +236,7 @@ const QcHold = () => {
                                   className="mb-3"
                                 >
                                   <BootstrapForm.Label className="mb-1">
-                                    Remarks{" "}
+                                    Status{" "}
                                     <span className="text-danger">*</span>
                                   </BootstrapForm.Label>
                                   <Field
@@ -301,7 +301,7 @@ const QcHold = () => {
                   </div>
                 )}
 
-                {title === "Lead Reject" && (
+                {title === "Decline Lead" && (
                   <div className="lead_reject">
                     <Formik
                       initialValues={{

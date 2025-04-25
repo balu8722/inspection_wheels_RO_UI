@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/href-no-hash */
-import Page from "../../../../components/Page";
+import Page from "../../../components/Page"
 import React from "react";
 import { useEffect,  useState  } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import MultiSelectDropdown from "../../../../components/MultiSelectDropdown/MultiSelectDropdown"; 
+import MultiSelectDropdown from "../../../components/MultiSelectDropdown/MultiSelectDropdown"; 
 import {
   Button,
   Card,
@@ -17,20 +17,18 @@ import {
   FormGroup,
 } from "react-bootstrap";
 
-const RoMis = () => {
-const [selectedOptions, setSelectedOptions] = useState([]);
-const [selectedClient, setselectedClient] = useState([]);
-const [selectedLead, setselectedLead] = useState([]);
-const [selectedVehilce, setselectedVehilce] = useState([]);
-const [selectedCategory, setselectedCategory] = useState([]);
-;
-
- const datefilteroptions = [
-   { value: "ro", label: "Lead created" },
-   { value: "admin", label: "RO confirmation done" },
-   { value: "client", label: "QC hold" },
-   { value: "manager", label: "Inspection completed" },
- ];
+const ClientMis = () => {
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedClient, setselectedClient] = useState([]);
+  const [selectedLead, setselectedLead] = useState([]);
+  const [selectedVehilce, setselectedVehilce] = useState([]);
+  const [selectedCategory, setselectedCategory] = useState([]);
+  const datefilteroptions = [
+    { value: "ro", label: "Lead created" },
+    { value: "admin", label: "RO confirmation done" },
+    { value: "client", label: "QC hold" },
+    { value: "manager", label: "Inspection completed" },
+  ];
 
   const leadList = [
     { value: "ro", label: "RO lead" },
@@ -39,22 +37,20 @@ const [selectedCategory, setselectedCategory] = useState([]);
     { value: "manager", label: "RO confirmation leads" },
     { value: "manager", label: "Approved leads" },
     { value: "manager", label: "Rejected lead" },
-    { value: "manager", label: "Inspection completed leads" }
-    
+    { value: "manager", label: "Inspection completed leads" },
   ];
-    const vehilceType = [
-      { value: "retails", label: "Retail" },
-      { value: "repo", label: "Repo" }
-     
-    ];
+  const vehilceType = [
+    { value: "retails", label: "Retail" },
+    { value: "repo", label: "Repo" },
+  ];
 
-        const vehilceCategory = [
-          { value: "ro", label: "2 wheeler" },
-          { value: "admin", label: "4 wheeler" },
-          { value: "admin", label: "commercial vehicles" },
-          { value: "admin", label: "farm equipments" },
-          { value: "admin", label: "construction equipments" },
-        ];
+  const vehilceCategory = [
+    { value: "ro", label: "2 wheeler" },
+    { value: "admin", label: "4 wheeler" },
+    { value: "admin", label: "commercial vehicles" },
+    { value: "admin", label: "farm equipments" },
+    { value: "admin", label: "construction equipments" },
+  ];
 
   const clientList = [
     { value: "ro", label: "ICICI Bank" },
@@ -65,12 +61,12 @@ const [selectedCategory, setselectedCategory] = useState([]);
 
   return (
     <Page
-      title="So MIS"
-      breadcrumbs={[{ name: "MIS" }, { name: "So MIS", active: true }]}
+      title="Client MIS"
+      breadcrumbs={[{ name: "MIS" }, { name: "Client MIS", active: true }]}
     >
       <div className="create_lead">
         <div>
-          <Form >
+          <Form>
             <div className="mt-4">
               <h5>Lead Download</h5>
             </div>
@@ -80,11 +76,7 @@ const [selectedCategory, setselectedCategory] = useState([]);
                   <Form.Label>
                     Date Range<span className="text-danger">*</span>
                   </Form.Label>
-                  <Form.Control
-                    type="date"
-                    placeholder="Date Range"
-                  />
-               
+                  <Form.Control type="date" placeholder="Date Range" />
                 </Form.Group>
               </Col>
               <Col className="mb-4" xs={12} sm={12} md={6}>
@@ -181,4 +173,4 @@ const [selectedCategory, setselectedCategory] = useState([]);
   );
 };
 
-export default RoMis;
+export default ClientMis;

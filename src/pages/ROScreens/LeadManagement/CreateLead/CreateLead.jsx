@@ -333,7 +333,7 @@ const CreateLead = () => {
                       />
                     </BootstrapForm.Group>
                   </Col>
-                  {/* <Col md={6}>
+                  <Col md={6}>
                     <BootstrapForm.Group
                       controlId="prospectNo"
                       className="mb-2"
@@ -348,7 +348,7 @@ const CreateLead = () => {
                         placeholder="Enter Prospect No."
                       />
                     </BootstrapForm.Group>
-                  </Col> */}
+                  </Col>
                   <Col md={6}>
                     <BootstrapForm.Group controlId="vehicle" className="mb-2">
                       <BootstrapForm.Label className="mb-1">
@@ -556,50 +556,8 @@ const CreateLead = () => {
                       />
                     </BootstrapForm.Group>
                   </Col>
-                  <Col md={6}>
-                    <BootstrapForm.Group
-                      controlId="registrationDate"
-                      className="mb-2"
-                    >
-                      <BootstrapForm.Label className="mb-1">
-                        Registration Month/Year
-                      </BootstrapForm.Label>
-                      <Field
-                        name="registrationDate"
-                        type="date"
-                        className="form-control"
-                      />
-                    </BootstrapForm.Group>
-                  </Col>
-                  <Col md={6}>
-                    <BootstrapForm.Group controlId="chassisNo" className="mb-2">
-                      <BootstrapForm.Label className="mb-1">
-                        Chassis No
-                      </BootstrapForm.Label>
-                      <Field
-                        name="chassisNo"
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter Chassis No"
-                      />
-                    </BootstrapForm.Group>
-                  </Col>
-                  <Col md={6}>
-                    <BootstrapForm.Group
-                      controlId="noOfOwners"
-                      className="mb-2"
-                    >
-                      <BootstrapForm.Label className="mb-1">
-                        No of owners
-                      </BootstrapForm.Label>
-                      <Field
-                        name="noOfOwners"
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter No of owners"
-                      />
-                    </BootstrapForm.Group>
-                  </Col>
+               
+               
                   <div>
                     <h4>Executive Details</h4>
                   </div>

@@ -92,7 +92,7 @@ const ProfileScreen = () => {
                 <Col md={6}>
                   <BootstrapForm.Group controlId="empno" className="mb-2">
                     <BootstrapForm.Label className="mb-1">
-                      Emp. No. <span className="text-danger">*</span>
+                      Emp. ID <span className="text-danger">*</span>
                     </BootstrapForm.Label>
                     <Field name="empno" className="form-control" />
                     <ErrorMessage

@@ -32,14 +32,31 @@ const navigate=useNavigate();
 
   const handleSubmit = (values)=> {
     if(isLogin){
-      dispatch(setIsAuth(
-        {
-          isAuth:true,
-          data:{role:values.username=="admin"?"Admin":"RO"}
-        }
-      ))
+      dispatch(
+        setIsAuth({
+          isAuth: true,
+          // data:{role:values.username=="admin"?"Admin":"RO"}
+          data: {
+            role:
+              values.username === "admin"
+                ? "Admin"
+                : values.username === "client"
+                ? "Client"
+                : "SO",
+          },
+        })
+      );
       localStorage.setItem("isAuth",true)
-      localStorage.setItem("role",values.username=="admin"?"Admin":"RO")
+      // localStorage.setItem("role",values.username=="admin"?"Admin":"RO")
+      localStorage.setItem(
+        "role",
+        values.username === "admin"
+          ? "Admin"
+          : values.username === "client"
+          ? "Client"
+          : "SO"
+      );
+
       navigate("/dashboards",{replace:true})
     }else{
       alert("Reuest sent to the Admin")

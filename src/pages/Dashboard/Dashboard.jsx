@@ -62,57 +62,58 @@ const Dashboard = () => {
 
       const columns = useMemo(
         () => [
-            {
-                Header: "Company",
-                accessor: "company"
-            },
-            {
-                Header: "Ro Lead",
-                accessor: "rolead"
-            },
-            {
-                Header: "Assigned",
-                accessor: "assigned"
-            },
-            {
-                Header: "Reassigned",
-                accessor: "reassigned"
-            },
-            {
-                Header: "RO Confirmation",
-                accessor: "roconfirmation"
-            },
-            {
-                Header: "QC",
-                accessor: "qc"
-            },
-            {
-                Header: "QC Hold",
-                accessor: "qchold"
-            },
-            {
-                Header: "Inspection Completed",
-                accessor: "insecptioncompleted"
-            },
-            {
-                Header: "Reject",
-                accessor: "reject"
-            },
-            {
-                Header: "Total",
-                accessor: "total"
-            },
-        ], []
-    );
+          {
+            Header: "Company",
+            accessor: "company",
+          },
+          {
+            Header: "So Lead",
+            accessor: "solead",
+          },
+          {
+            Header: "Allocated",
+            accessor: "allocated",
+          },
+          {
+            Header: "Reallocated",
+            accessor: "reallocated",
+          },
+          {
+            Header: "SO Confirmation",
+            accessor: "soconfirmation",
+          },
+          {
+            Header: "QC",
+            accessor: "qc",
+          },
+          {
+            Header: "QC Hold",
+            accessor: "qchold",
+          },
+          {
+            Header: "Inspection Completed",
+            accessor: "insecptioncompleted",
+          },
+          {
+            Header: "Declined",
+            accessor: "declined",
+          },
+          {
+            Header: "Total",
+            accessor: "total",
+          },
+        ],
+        []
+      );
 
     const _client_data=[
-      { company: "Chola", rolead: 28, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
-      { company: "Bajaj", rolead: 22, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
-      { company: "ICICI", rolead: 35, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
-      { company: "Kormadana", rolead: 31, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
-      { company: "hdcf", rolead: 26, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
-      { company: "katnataka", rolead: 29, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
-      { company: "BOB", rolead: 40, assigned: 23, reassigned: 67, roconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, reject: 12, total: 102 },
+      { company: "Chola", solead: 28, allocated: 23, reallocated: 67, soconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, declined: 12, total: 102 },
+      { company: "Bajaj", solead: 22, allocated: 23, reallocated: 67, soconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, declined: 12, total: 102 },
+      { company: "ICICI", solead: 35, allocated: 23, reallocated: 67, soconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, declined: 12, total: 102 },
+      { company: "Kormadana", solead: 31, allocated: 23, reallocated: 67, soconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, declined: 12, total: 102 },
+      { company: "hdcf", solead: 26, allocated: 23, reallocated: 67, soconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, declined: 12, total: 102 },
+      { company: "katnataka", solead: 29, allocated: 23, reallocated: 67, soconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, declined: 12, total: 102 },
+      { company: "BOB", solead: 40, allocated: 23, reallocated: 67, soconfirmation: 22, qc: 12, qchold: 33, insecptioncompleted: 55, declined: 12, total: 102 },
     ]
 
   const vehiclecolumns = React.useMemo(
@@ -122,20 +123,20 @@ const Dashboard = () => {
         accessor: "vehicletype",
       },
       {
-        Header: "RO Lead",
-        accessor: "rolead",
+        Header: "SO Lead",
+        accessor: "solead",
       },
       {
-        Header: "Assigned",
-        accessor: "assigned",
+        Header: "Allocated",
+        accessor: "allocated",
       },
       {
-        Header: "Reassigned",
-        accessor: "reassigned",
+        Header: "Reallocated",
+        accessor: "reallocated",
       },
       {
-        Header: "RO Confirmation",
-        accessor: "roconfirmation",
+        Header: "SO Confirmation",
+        accessor: "soconfirmation",
       },
       {
         Header: "QC",
@@ -150,8 +151,8 @@ const Dashboard = () => {
         accessor: "inspection",
       },
       {
-        Header: "Reject",
-        accessor: "reject",
+        Header: "Declined",
+        accessor: "declined",
       },
       {
         Header: "Total",
@@ -166,38 +167,38 @@ const vehicledata = React.useMemo(
   () => [
     {
       vehicletype: "Procurement	",
-      rolead: 28,
-      assigned: 23,
-      reassigned: 67,
-      roconfirmation: 23,
+      solead: 28,
+      allocated: 23,
+      reallocated: 67,
+      soconfirmation: 23,
       qc: 22,
       qchold: 99,
       inspection: 33,
-      reject: 78,
+      declined: 78,
       total: 102,
     },
     {
       vehicletype: "Repo	",
-      rolead: 28,
-      assigned: 23,
-      reassigned: 67,
-      roconfirmation: 23,
+      solead: 28,
+      allocated: 23,
+      reallocated: 67,
+      soconfirmation: 23,
       qc: 22,
       qchold: 99,
       inspection: 33,
-      reject: 78,
+      declined: 78,
       total: 102,
     },
     {
       vehicletype: "Retail	",
-      rolead: 28,
-      assigned: 23,
-      reassigned: 67,
-      roconfirmation: 23,
+      solead: 28,
+      allocated: 23,
+      reallocated: 67,
+      soconfirmation: 23,
       qc: 22,
       qchold: 99,
       inspection: 33,
-      reject: 78,
+      declined: 78,
       total: 102,
     },
   ],
@@ -209,18 +210,31 @@ const vehicledata = React.useMemo(
     <div className="dashboard mt-3">
       <Page>
         <div>
-          <h3 className="mb-3">Welcome to {role=="Admin"?"Admin":"RO"}</h3>
+          <h3 className="mb-3">
+            {/* {role=="Admin"?"Admin":"RO"} */}
+            Welcome to{" "}
+            {role?.toLowerCase() === "admin"
+              ? "Admin"
+              : role?.toLowerCase() === "client"
+              ? "Client"
+              : "SO"}
+          </h3>
         </div>
         <div className="bg-white p-3 rounded">
           <Form>
             <Row className="align-items-end justify-content-end g-3">
               <Col xs={12} sm={4} md={3}>
                 <Form.Label>Month</Form.Label>
-                  <Form.Select value={month} onChange={(e) => setMonth(e.target.value)}>
-                    {months.map((m) => (
-                      <option key={m} value={m}>{m}</option>
-                    ))}
-                  </Form.Select>
+                <Form.Select
+                  value={month}
+                  onChange={(e) => setMonth(e.target.value)}
+                >
+                  {months.map((m) => (
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
+                  ))}
+                </Form.Select>
               </Col>
 
               <Col xs={12} sm={4} md={3}>
@@ -299,6 +313,28 @@ const vehicledata = React.useMemo(
             </Tab>
           </Tabs>
         </div>}
+        {role?.trim().toLowerCase() !== "client" && (
+          <div className="tab_section mt-4 my-3">
+            <Tabs defaultActiveKey="client" id="tab_component" className="mb-3">
+              <Tab eventKey="client" title="Client Count">
+                <div className="overflow-hor-scroll">
+                  {/* <Clientcount /> */}
+                  <h5>Client Count</h5>
+                  <CommonTable propColumns={columns} propData={_client_data} />
+                  {/* <Table /> */}
+                </div>
+              </Tab>
+              <Tab eventKey="vehicle" title="Vehicle Type Count">
+                <h5>Vehicle Type Count</h5>
+                {/* <DataTable columns={vehiclecolumns} data={vehicledata} /> */}
+                <CommonTable
+                  propColumns={vehiclecolumns}
+                  propData={vehicledata}
+                />
+              </Tab>
+            </Tabs>
+          </div>
+        )}
       </Page>
     </div>
   );
