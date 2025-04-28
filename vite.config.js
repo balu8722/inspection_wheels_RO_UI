@@ -7,9 +7,12 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        silenceDeprecations: ["import"] // ✅ Silences import deprecations
+        silenceDeprecations: ["import"]
       }
     }
   },
-  base: "/"
+  base: "/",
+  server: {
+    host: true, 
+  }
 })

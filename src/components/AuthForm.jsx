@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useState } from 'react';
 import logo from "../assets/img/logo/inspection_logo.png"
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -7,6 +7,9 @@ import { Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { PasswordShowHide } from './PasswordShow/PasswordShowHide';
+import { PostRequestHook } from '../api/Services';
+import { CONFIG_URL } from '../api/api.config';
+import  { showNotification } from './Notifications';
 
 export const STATE_LOGIN = 'LOGIN';
 export const STATE_SIGNUP = 'SIGNUP';
@@ -16,6 +19,10 @@ const AuthForm = (props) => {
     authState = STATE_LOGIN,
     onChangeAuthState,
   }=props
+
+  const {postRequest,getRequest}=PostRequestHook()
+
+  const [forgotPasswordMessage,setForgotPasswordMessage]=useState("")
 
 const dispatch=useDispatch();
 const navigate=useNavigate();
@@ -30,36 +37,44 @@ const navigate=useNavigate();
     [onChangeAuthState]
   );
 
-  const handleSubmit = (values)=> {
+  const handleSubmit = async(values)=> {
     if(isLogin){
-      dispatch(
-        setIsAuth({
-          isAuth: true,
-          // data:{role:values.username=="admin"?"Admin":"RO"}
-          data: {
-            role:
-              values.username === "admin"
-                ? "Admin"
-                : values.username === "client"
-                ? "Client"
-                : "SO",
-          },
-        })
-      );
-      localStorage.setItem("isAuth",true)
-      // localStorage.setItem("role",values.username=="admin"?"Admin":"RO")
-      localStorage.setItem(
-        "role",
-        values.username === "admin"
-          ? "Admin"
-          : values.username === "client"
-          ? "Client"
-          : "SO"
-      );
+      // console.log("values",values)
+      let _data={username:values.username,password:values.password}
+      const response=await postRequest(CONFIG_URL.SIGNIN,_data)
+      // console.log("response",response)
+      if(response.status==200){
+        localStorage.setItem("isAuth",true)
+        localStorage.setItem("token",response.data.data.token)
+        localStorage.setItem("refreshtoken",response.data.data.refreshtoken)
+        localStorage.setItem("role",
+          response.data?.data?.roleId ? "Admin" : (response.data.data?.source_table === "subofficers"?"SO":"Client")
+        );
 
-      navigate("/dashboards",{replace:true})
+        dispatch(
+          setIsAuth({
+            isAuth: true,
+            token:response.data.data.token,
+            refreshtoken:response.data.data.refreshtoken,
+            role:response.data?.data?.roleId ? "Admin" : (response.data.data?.source_table === "subofficers"?"SO":"Client")
+          })
+        );
+  
+        showNotification("success",response?.data?.message)
+        navigate("/dashboards",{replace:true})
+      }else{
+        showNotification("error",response?.response?.data?.message||response?.data?.message)
+      }
     }else{
-      alert("Reuest sent to the Admin")
+      const response=await getRequest(`${CONFIG_URL.FORGOT_PASSWORD}${values?.email}`)
+      // console.log("response",response)
+      if(response.status==200){
+        setForgotPasswordMessage(response?.data?.message)
+        // showNotification("success",response?.data?.message)
+      }else{
+        setForgotPasswordMessage("")
+        showNotification("error",response?.response?.data?.message||response?.data?.message)
+      }
     }
   };
 
@@ -83,7 +98,7 @@ const navigate=useNavigate();
           }
     ),
     onSubmit: (values,{resetForm}) => {
-      resetForm()
+      // resetForm()
       handleSubmit(values)
     },
   });
@@ -135,6 +150,9 @@ const navigate=useNavigate();
       )}
 
       {isSignup && (
+        <>{forgotPasswordMessage?<>
+          <h6>{forgotPasswordMessage}</h6>
+        </>:
         <Form.Group>
           <Form.Label htmlFor="email">Email</Form.Label>
           <Form.Control
@@ -150,11 +168,12 @@ const navigate=useNavigate();
           <Form.Control.Feedback type="invalid">
             {formik.errors.email}
           </Form.Control.Feedback>
-        </Form.Group>
+        </Form.Group>}
+        </>
       )}
 
-      {/* <hr /> */}
-      <div className="text-center mt-3">
+    
+      {!forgotPasswordMessage &&<div className="text-center mt-3">
         <Button
           size={isSignup ? "md" : "md"}
           variant="outline-primary"
@@ -162,14 +181,14 @@ const navigate=useNavigate();
         >
           {isSignup ? 'Request Password Change' : 'Log In'}
         </Button>
-      </div>
+      </div>}
     </Form>
 
     
       
 
     <div className="text-end mt-3">
-        <Link className='text-dark' to={isSignup?"/login":"/forgotpassword"} 
+        <Link className='text-success' to={isSignup?"/login":"/forgotpassword"} 
         onClick={handleChangeAuthState(isSignup?STATE_LOGIN:STATE_SIGNUP)}>
               {isSignup?"Back to Login":"Forgot Password"}
             </Link>

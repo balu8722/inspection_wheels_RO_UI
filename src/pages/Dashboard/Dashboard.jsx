@@ -3,15 +3,14 @@ import Page from "../../components/Page";
 import "./Dashboard.scss";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import Clientcount from "./ClientCount/ClientCount"
 // import Table from "../../components/Table/Table"
 import { Button, Card, CardBody, Col, Form, Row,Badge } from "react-bootstrap";
 import { CommonTable } from "../../components/Table/CommonTable";
 import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-  const {userdata}=useSelector(state=>state.users)
-  let role=userdata?.role?userdata?.role:"";
+  const {role}=useSelector(state=>state.users)
+  // let role=userdata?.role?userdata?.role:"";
 
       const currentDate = new Date();
       let _month= new Intl.DateTimeFormat('en-US', { month: 'long' }).format(currentDate)

@@ -4,9 +4,9 @@ import { CONFIG_URL } from "../../api/api.config";
 
 const {postRequest,putRequest,deleteRequest,getRequest}=PostRequestHook()
 
-// Define Async Thunk to Fetch Users
-export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  const response = await getRequest(CONFIG_URL.USERS);
+// Define get user data
+export const fetchUserProfileData = createAsyncThunk("users/fetchUserProfileData", async () => {
+  const response = await getRequest(CONFIG_URL.GET_PROFILE_DATA);
   return response.data;
 });
 // Async Thunk to Fetch Posts
@@ -14,12 +14,15 @@ export const fetchPosts = createAsyncThunk("users/fetchPosts", async () => {
   const response = await getRequest(CONFIG_URL.POSTS);
   return response.data;
 });
-//
+// get 
 
 const usersSlice = createSlice({
   name: "users",
   initialState: {
     isAuth:false,
+    role:null,
+    token:null,
+    refreshtoken:null,
     userdata:null,
     usersLit: [],
     posts: [],
@@ -29,19 +32,21 @@ const usersSlice = createSlice({
   reducers: {
     setIsAuth: (state, action) => {
       state.isAuth = action.payload.isAuth;
-      state.userdata = action.payload.data;
+      state.token = action.payload.token;
+      state.refreshtoken = action.payload.refreshtoken;
+      state.role = action.payload.role;
     },
-  }, // No regular reducers needed for now
+  }, 
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUsers.pending, (state) => {
+      .addCase(fetchUserProfileData.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchUsers.fulfilled, (state, action) => {
+      .addCase(fetchUserProfileData.fulfilled, (state, action) => {
         state.loading = false;
-        state.users = action.payload;
+        state.userdata = action.payload;
       })
-      .addCase(fetchUsers.rejected, (state, action) => {
+      .addCase(fetchUserProfileData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Something went wrong";
       })

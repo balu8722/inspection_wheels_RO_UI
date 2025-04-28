@@ -9,22 +9,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/reduction.scss';
 import Dashboard from './pages/Dashboard/Dashboard';
 
-const AlertPage = React.lazy(() => import('./pages/AlertPage'));
-const AuthModalPage = React.lazy(() => import('./pages/AuthModalPage'));
-const BadgePage = React.lazy(() => import('./pages/BadgePage'));
-const ButtonGroupPage = React.lazy(() => import('./pages/ButtonGroupPage'));
-const ButtonPage = React.lazy(() => import('./pages/ButtonPage'));
-const CardPage = React.lazy(() => import('./pages/CardPage'));
+// const AuthModalPage = React.lazy(() => import('./pages/AuthModalPage'));
+// const BadgePage = React.lazy(() => import('./pages/BadgePage'));
+// const ButtonGroupPage = React.lazy(() => import('./pages/ButtonGroupPage'));
+// const ButtonPage = React.lazy(() => import('./pages/ButtonPage'));
+// const CardPage = React.lazy(() => import('./pages/CardPage'));
 // const ChartPage = React.lazy(() => import('./pages/ChartPage'));
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
-const DropdownPage = React.lazy(() => import('./pages/DropdownPage'));
-const FormPage = React.lazy(() => import('./pages/FormPage'));
-const InputGroupPage = React.lazy(() => import('./pages/InputGroupPage'));
-const ModalPage = React.lazy(() => import('./pages/ModalPage'));
-const ProgressPage = React.lazy(() => import('./pages/ProgressPage')); 
-const TablePage = React.lazy(() => import('./pages/TablePage'));
-const TypographyPage = React.lazy(() => import('./pages/TypographyPage'));
-const WidgetPage = React.lazy(() => import('./pages/WidgetPage'));
+// const DropdownPage = React.lazy(() => import('./pages/DropdownPage'));
+// const FormPage = React.lazy(() => import('./pages/FormPage'));
+// const InputGroupPage = React.lazy(() => import('./pages/InputGroupPage'));
+// const ModalPage = React.lazy(() => import('./pages/ModalPage'));
+// const ProgressPage = React.lazy(() => import('./pages/ProgressPage')); 
+// const TablePage = React.lazy(() => import('./pages/TablePage'));
+// const TypographyPage = React.lazy(() => import('./pages/TypographyPage'));
+// const WidgetPage = React.lazy(() => import('./pages/WidgetPage'));
 
 import Roleads from "./pages/ROScreens/MyTray/ROLeads/ROLeads";
 import Assigned from "./pages/ROScreens/MyTray/Assigned/Assigned";
@@ -54,6 +53,8 @@ import RCStatus from './pages/AdminScreens/Settings/RCStatus';
 import ManageRoles from './pages/AdminScreens/Settings/ManageRoles';
 import ClientMis from './pages/ClientScreens/MIS/ClientMis';
 import ClientLeads from './pages/ClientScreens/ClientLeads';
+import ResetPassword from './pages/Auth/ResetPassword';
+import Notifications from './components/Notifications';
 
 // removing popover warning
 if (import.meta.env.DEV) {
@@ -74,21 +75,28 @@ if (import.meta.env.DEV) {
 const App =()=> {
   const dispatch=useDispatch();
   const navigate=useNavigate();
-  const {isAuth}=useSelector(state=>state.users)
+  // const {isAuth,token,refreshtoken}=useSelector(state=>state.users)
   useEffect(()=>{
     let _isAuth= localStorage.getItem("isAuth")
     let _role=localStorage.getItem("role")
+    let _token=localStorage.getItem("token")
+    let _refreshtoken=localStorage.getItem("refreshtoken")
 
     dispatch(setIsAuth(
       {
         isAuth:_isAuth=="true"?true:false,
-        data:{role:_role}
+        token:_token,
+        refreshtoken:_refreshtoken,
+        role:_role
       }
     ))
   },[])
   
     return (
-      <Routes>
+      <>
+    <Notifications />
+    
+    <Routes>
         <Route
           path="/"
           element={
@@ -248,6 +256,14 @@ const App =()=> {
           }
         />
         <Route
+          path="/resetpassword/:token"
+          element={
+            <EmptyLayout>
+              <ResetPassword />
+            </EmptyLayout>
+          }
+        />
+        <Route
           path="/dashboard"
           element={
             <MainLayout>
@@ -257,7 +273,7 @@ const App =()=> {
             </MainLayout>
           }
         />
-        <Route
+        {/* <Route
           path="/login-modal"
           element={
             <MainLayout>
@@ -266,7 +282,7 @@ const App =()=> {
               </React.Suspense>
             </MainLayout>
           }
-        />
+        /> */}
         {/* Repeat same structure for all routes */}
         <Route path="*" element={<Navigate to="/" />} />
         {/* <Route exact path="/buttons" component={ButtonPage} /> */}
@@ -383,6 +399,7 @@ const App =()=> {
           }
         />
       </Routes>
+    </>
     );
 }
 export default App;

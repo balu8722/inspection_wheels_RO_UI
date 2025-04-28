@@ -176,8 +176,8 @@ const CollapsibleSection = ({ icon: Icon, label, isOpen, toggle, items }) => (
 
 
 const Sidebar = () => {
-  const {userdata}=useSelector(state=>state.users)
-  let role=userdata?.role?userdata?.role:"";
+  const {role}=useSelector(state=>state.users)
+  // let role=userdata?.role?userdata?.role:"";
      console.log("role",role);
      const normalizedRole = role?.trim().toLowerCase();
      const filteredTrayComponents =

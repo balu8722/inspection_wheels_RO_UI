@@ -32,6 +32,7 @@
     "react-simple-maps": "^3.0.0",
     "react-sizeme": "^3.0.2",
     "react-table": "^7.8.0",
+    "react-toastify": "^11.0.5",
     "reactstrap": "^9.2.3",
     "redux": "^5.0.1",
     "sass": "^1.69.5",

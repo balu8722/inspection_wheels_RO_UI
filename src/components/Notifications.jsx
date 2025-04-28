@@ -1,43 +1,28 @@
 import React from 'react';
-import PropTypes from '../utils/propTypes';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { Media } from 'reactstrap';
-
-import Avatar from './Avatar';
-
-const Notifications = ({ notificationsData }) => {
-  return (
-    notificationsData &&
-    notificationsData.length &&
-    notificationsData.map(({ id, avatar, message, date }) => (
-      <Media key={id} className="pb-2">
-        <Media left className="align-self-center pr-3">
-          <Avatar tag={Media} object src={avatar} alt="Avatar" />
-        </Media>
-        <Media body middle className="align-self-center">
-          {message}
-        </Media>
-        <Media right className="align-self-center">
-          <small className="text-muted">{date}</small>
-        </Media>
-      </Media>
-    ))
-  );
+const Notifications = () => {
+  return <ToastContainer position="top-right" autoClose={3000} />;
 };
 
-Notifications.propTypes = {
-  notificationsData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.ID,
-      avatar: PropTypes.string,
-      message: PropTypes.node,
-      date: PropTypes.date,
-    })
-  ),
-};
-
-Notifications.defaultProps = {
-  notificationsData: [],
+export const showNotification = (type, message) => {
+  switch (type) {
+    case 'success':
+      toast.success(message);
+      break;
+    case 'error':
+      toast.error(message);
+      break;
+    case 'info':
+      toast.info(message);
+      break;
+    case 'warning':
+      toast.warning(message);
+      break;
+    default:
+      toast(message);
+  }
 };
 
 export default Notifications;
