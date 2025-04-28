@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Formik,
   Form,
@@ -15,18 +15,23 @@ import {
   Tooltip,
   Card
 } from 'react-bootstrap';
+import { Link, useNavigate } from "react-router-dom";
 import { useDropzone } from 'react-dropzone';
 import Page from '../../../components/Page';
 import defaultAvatar from '../../../assets/img/avatar-placeholder.png';
+import { CONFIG_URL } from "../../../api/api.config";
+import  { showNotification } from "../../../components/Notifications";
+import { PostRequestHook } from '../../../api/Services';
+import Loader from '../../../components/Loader/Loader';
 
 const validationSchema = Yup.object({
   username: Yup.string().required('Required'),
-  empName: Yup.string().required('Required'),
+  name: Yup.string().required('Required'),
   address: Yup.string(),
   city: Yup.string().required('Required'),
   pincode: Yup.string().required('Required'),
   callerId: Yup.string().required('Required'),
-  empNo: Yup.string().required('Required'),
+//   empNo: Yup.string().required('Required'),
   email: Yup.string().email('Invalid email').required('Required'),
   state: Yup.string().required('Required'),
   area: Yup.string().required('Required'),
@@ -37,165 +42,310 @@ const validationSchema = Yup.object({
 
 const AddNewRO = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
-
+ const [isLoading, setIsLoading] = useState(false); 
   const onDrop = acceptedFiles => {
     const reader = new FileReader();
     reader.onload = () => setUploadedImage(reader.result);
     reader.readAsDataURL(acceptedFiles[0]);
   };
 
+    const {postRequest,getRequest}=PostRequestHook()
+    const navigate = useNavigate();
+
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
+   const handleSubmit = async (values) => {
+      setIsLoading(true);
+       let payload = {
+         name: values.name,
+         city: values.city,
+         email: values.email,
+         pincode: values.pincode,
+         state: values.state,
+         secondary_contact_no: values.callerId || null,
+         area: values.area || null,
+         address: values.address,
+         contact_no: values.mobile,
+         profile_image: values.profile_image || null,
+         username: values.username,
+         password: values.password,
+         confirmPassword: values.confirm_password,
+         gender: null,
+         dob: null,
+       };
+      const response = await postRequest(CONFIG_URL.CREATE_SO, payload);
+            setIsLoading(false);
+            if (response.status == 200 || response.status == 201) {
+              showNotification(
+                "success",
+                CONFIG_URL.STATUS_MSG.SUCCESS.SO_REGISTERED
+              );
+              navigate("/managero");
+            } else {
+              showNotification(
+                "error",
+                response?.response?.data?.message ||
+                  response?.data?.message ||
+                  "An unexpected error occurred"
+              );
+            }
+   }
+
+    useEffect(() => {
+      if (isLoading) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "auto";
+      }
+      return () => {
+        document.body.style.overflow = "auto"; // Reset on unmount
+      };
+    }, [isLoading]);
+
   return (
-    <Page className={"dashboard mt-3"} title={'Add RO'} breadcrumbs={[{name:"Home", active:false},{name:"add RO", active:true}]}>
-            
-        <div className="bg-white p-3">
-            <Formik
-                initialValues={{
-                    username: '',
-                    empName: '',
-                    address: '',
-                    city: '',
-                    pincode: '',
-                    callerId: '',
-                    empNo: '',
-                    email: '',
-                    state: '',
-                    area: '',
-                    mobile: ''
-                }}
-                validationSchema={validationSchema}
-                onSubmit={(values) => {
-                    console.log(values);
-                }}
-                >
-                {() => (
-                    <Form>
-                    <Row>
-                        <Col md={6}>
-                        <BootstrapForm.Group controlId="empName" className='mb-2'>
-                            <BootstrapForm.Label className='mb-1'>Emp. Name <span className='text-danger'>*</span></BootstrapForm.Label>
-                            <Field name="empName" className="form-control" />
-                            <ErrorMessage name="empName" component="div" className="text-danger" />
-                        </BootstrapForm.Group>
+    <Page
+      className={"dashboard mt-3"}
+      title={"Add SO"}
+      breadcrumbs={[
+        { name: "Home", active: false },
+        { name: "add SO", active: true },
+      ]}
+    >
+      <div className="bg-white p-3">
+        <Formik
+          initialValues={{
+            username: "",
+            name: "",
+            address: "",
+            city: "",
+            pincode: "",
+            callerId: "",
+            // empNo: '',
+            email: "",
+            state: "",
+            area: "",
+            mobile: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={(values) => {
+            handleSubmit(values);
+          }}
+        >
+          {() => (
+            <Form>
+              <Row>
+                {isLoading && <Loader />} {/* Show loader */}
+                <Col md={6}>
+                  <BootstrapForm.Group controlId="name" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      Emp. Name <span className="text-danger">*</span>
+                    </BootstrapForm.Label>
+                    <Field name="name" className="form-control" />
+                    <ErrorMessage
+                      name="name"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
 
-                        <BootstrapForm.Group controlId="city" className='mb-2'>
-                            <BootstrapForm.Label className='mb-1'>City <span className='text-danger'>*</span></BootstrapForm.Label>
-                            <Field name="city" className="form-control" />
-                            <ErrorMessage name="city" component="div" className="text-danger" />
-                        </BootstrapForm.Group>
+                  <BootstrapForm.Group controlId="city" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      City <span className="text-danger">*</span>
+                    </BootstrapForm.Label>
+                    <Field name="city" className="form-control" />
+                    <ErrorMessage
+                      name="city"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
 
-                        <BootstrapForm.Group controlId="pincode" className='mb-2'>
-                            <BootstrapForm.Label className='mb-1'>Pincode <span className='text-danger'>*</span></BootstrapForm.Label>
-                            <Field name="pincode" className="form-control" />
-                            <ErrorMessage name="pincode" component="div" className="text-danger" />
-                        </BootstrapForm.Group>
+                  <BootstrapForm.Group controlId="pincode" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      Pincode <span className="text-danger">*</span>
+                    </BootstrapForm.Label>
+                    <Field name="pincode" className="form-control" />
+                    <ErrorMessage
+                      name="pincode"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
 
-                        <BootstrapForm.Group controlId="callerId" className='mb-2'>
-                            <BootstrapForm.Label className='mb-1'>Caller ID <span className='text-danger'>*</span></BootstrapForm.Label>
-                            <Field name="callerId" className="form-control" />
-                            <ErrorMessage name="callerId" component="div" className="text-danger" />
-                        </BootstrapForm.Group>
+                  <BootstrapForm.Group controlId="callerId" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      Caller ID <span className="text-danger">*</span>
+                    </BootstrapForm.Label>
+                    <Field name="callerId" className="form-control" />
+                    <ErrorMessage
+                      name="callerId"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
 
-                        <BootstrapForm.Group controlId="address" className='mb-2'>
-                            <BootstrapForm.Label className='mb-1'>Address</BootstrapForm.Label>
-                            <Field name="address" className="form-control" />
-                            <ErrorMessage name="address" component="div" className="text-danger" />
-                        </BootstrapForm.Group>
-                        </Col>
-
-                        <Col md={6}>
-                        <BootstrapForm.Group controlId="empNo" className='mb-2'>
+                  <BootstrapForm.Group controlId="address" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      Address
+                    </BootstrapForm.Label>
+                    <Field name="address" className="form-control" />
+                    <ErrorMessage
+                      name="address"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
+                </Col>
+                <Col md={6}>
+                  {/* <BootstrapForm.Group controlId="empNo" className='mb-2'>
                             <BootstrapForm.Label className='mb-1'>Emp. No <span className='text-danger'>*</span></BootstrapForm.Label>
                             <Field name="empNo" className="form-control" />
                             <ErrorMessage name="empNo" component="div" className="text-danger" />
-                        </BootstrapForm.Group>
+                        </BootstrapForm.Group> */}
 
-                        <BootstrapForm.Group controlId="email" className='mb-2'>
-                            <BootstrapForm.Label className='mb-1'>Email <span className='text-danger'>*</span></BootstrapForm.Label>
-                            <Field name="email" className="form-control" type="email" />
-                            <ErrorMessage name="email" component="div" className="text-danger" />
-                        </BootstrapForm.Group>
+                  <BootstrapForm.Group controlId="email" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      Email <span className="text-danger">*</span>
+                    </BootstrapForm.Label>
+                    <Field name="email" className="form-control" type="email" />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
 
-                        <BootstrapForm.Group controlId="state" className='mb-2'>
-                            <BootstrapForm.Label className='mb-1'>State <span className='text-danger'>*</span></BootstrapForm.Label>
-                            <Field name="state" className="form-control" />
-                            <ErrorMessage name="state" component="div" className="text-danger" />
-                        </BootstrapForm.Group>
+                  <BootstrapForm.Group controlId="state" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      State <span className="text-danger">*</span>
+                    </BootstrapForm.Label>
+                    <Field name="state" className="form-control" />
+                    <ErrorMessage
+                      name="state"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
 
-                        <BootstrapForm.Group controlId="area" className='mb-2'>
-                            <BootstrapForm.Label className='mb-1'>Area <span className='text-danger'>*</span></BootstrapForm.Label>
-                            <Field name="area" className="form-control" />
-                            <ErrorMessage name="area" component="div" className="text-danger" />
-                        </BootstrapForm.Group>
+                  <BootstrapForm.Group controlId="area" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      Area <span className="text-danger">*</span>
+                    </BootstrapForm.Label>
+                    <Field name="area" className="form-control" />
+                    <ErrorMessage
+                      name="area"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
 
-                        <BootstrapForm.Group controlId="mobile" className='mb-2'>
-                            <BootstrapForm.Label className='mb-1'>Mobile <span className='text-danger'>*</span></BootstrapForm.Label>
-                            <Field name="mobile" className="form-control" />
-                            <ErrorMessage name="mobile" component="div" className="text-danger" />
-                        </BootstrapForm.Group>
-                        </Col>
-                    </Row>
-                    <div className="mt-4">
-                    <BootstrapForm.Label>Image Upload <span className='text-danger'>*</span></BootstrapForm.Label>
-                    
-                    <Card>
-                        <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip>Drag & drop or click to upload image</Tooltip>}
-                        >
-                        <div {...getRootProps()} style={{ textAlign: 'center', cursor: 'pointer' }}>
-                            <input {...getInputProps()} />
-                        
-                            <img
-                                src={uploadedImage?uploadedImage:defaultAvatar}
-                                alt="Uploaded Preview"
-                                style={{ width: 120, height: 120, borderRadius: '50%' }}
-                            />
-                            {/* )
+                  <BootstrapForm.Group controlId="mobile" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      Mobile <span className="text-danger">*</span>
+                    </BootstrapForm.Label>
+                    <Field name="mobile" className="form-control" />
+                    <ErrorMessage
+                      name="mobile"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
+                </Col>
+              </Row>
+              <div className="mt-4">
+                <BootstrapForm.Label>
+                  Image Upload <span className="text-danger">*</span>
+                </BootstrapForm.Label>
+
+                <Card>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={
+                      <Tooltip>Drag & drop or click to upload image</Tooltip>
+                    }
+                  >
+                    <div
+                      {...getRootProps()}
+                      style={{ textAlign: "center", cursor: "pointer" }}
+                    >
+                      <input {...getInputProps()} />
+
+                      <img
+                        src={uploadedImage ? uploadedImage : defaultAvatar}
+                        alt="Uploaded Preview"
+                        style={{ width: 120, height: 120, borderRadius: "50%" }}
+                      />
+                      {/* )
                             {uploadedImage ? ( : (
                             <p className="text-muted">Drag and drop or click to upload an image</p>
                             )} */}
-                        </div>
-                        </OverlayTrigger>
-                    </Card>
                     </div>
+                  </OverlayTrigger>
+                </Card>
+              </div>
 
-                    <h5 className='mt-4 mb-3'>Login Credentials</h5>
-                    <Row>
-                        <Col md={4}>
-                        <BootstrapForm.Group controlId="username" className='mb-2'>
-                            <BootstrapForm.Label className='mb-1'>Username <span className='text-danger'>*</span></BootstrapForm.Label>
-                            <Field name="username" className="form-control" />
-                            <ErrorMessage name="username" component="div" className="text-danger" />
-                        </BootstrapForm.Group>
-                        </Col>
+              <h5 className="mt-4 mb-3">Login Credentials</h5>
+              <Row>
+                <Col md={4}>
+                  <BootstrapForm.Group controlId="username" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      Username <span className="text-danger">*</span>
+                    </BootstrapForm.Label>
+                    <Field name="username" className="form-control" />
+                    <ErrorMessage
+                      name="username"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
+                </Col>
 
-                        <Col md={4}>
-                            <BootstrapForm.Group controlId="empNo" className='mb-2'>
-                                <BootstrapForm.Label className='mb-1'>Password<span className='text-danger'>*</span></BootstrapForm.Label>
-                                <Field name="password" className="form-control" type="password" />
-                                <ErrorMessage name="empNo" component="div" className="text-danger" />
-                            </BootstrapForm.Group>
-                        </Col>
-                        <Col md={4}>
-                            <BootstrapForm.Group controlId="empNo" className='mb-2'>
-                                <BootstrapForm.Label className='mb-1'>Confirm Password<span className='text-danger'>*</span></BootstrapForm.Label>
-                                <Field name="confirm_password" className="form-control" type="password" />
-                                <ErrorMessage name="empNo" component="div" className="text-danger" />
-                            </BootstrapForm.Group>
-                        </Col>
-                    </Row>
+                <Col md={4}>
+                  <BootstrapForm.Group controlId="empNo" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      Password<span className="text-danger">*</span>
+                    </BootstrapForm.Label>
+                    <Field
+                      name="password"
+                      className="form-control"
+                      type="password"
+                    />
+                    <ErrorMessage
+                      name="empNo"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
+                </Col>
+                <Col md={4}>
+                  <BootstrapForm.Group controlId="empNo" className="mb-2">
+                    <BootstrapForm.Label className="mb-1">
+                      Confirm Password<span className="text-danger">*</span>
+                    </BootstrapForm.Label>
+                    <Field
+                      name="confirm_password"
+                      className="form-control"
+                      type="password"
+                    />
+                    <ErrorMessage
+                      name="empNo"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </BootstrapForm.Group>
+                </Col>
+              </Row>
 
-                    <div className="text-end">
-                        <Button type="submit" variant="outline-primary mt-4">Save</Button>
-                    </div>
-                    </Form>
-                )}
-            </Formik>
-        </div>
+              <div className="text-end">
+                <Button type="submit" variant="outline-primary mt-4">
+                  Save
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </Page>
-   
   );
 };
 

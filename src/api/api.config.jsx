@@ -26,7 +26,7 @@ export const CONFIG_URL = {
     DELETE_VEHICLE_CATEGORY:"/client/deleteVehicleCategory/",
 
     // client 
-    GET_CLIENTS_LIST:"/client/list/",
+    GET_CLIENTS_LIST:"/client/list/:rowperpage/:pgno",
     UPDATE_CLIENT_BY_ID:"/client/updateVehicleCategory/",
     CREATE_CLIENT:"/client/createVehicleCategory",
     DELETE_CLIENT_BY_ID:"/client/deleteVehicleCategory/",
