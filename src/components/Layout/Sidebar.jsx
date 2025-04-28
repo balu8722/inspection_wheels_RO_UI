@@ -118,7 +118,7 @@ const adminNavItems = [
  
   
   { to: "/manageclient", name: "Manage Client", exact: false, Icon: MdInsertChart },
-  { to: "/managero", name: "Manage RO", exact: false, Icon: MdWeb },
+  { to: "/managero", name: "Manage SO", exact: false, Icon: MdWeb },
   { to: "/managevaluator", name: "Manage Valuator", exact: false, Icon: MdWidgets }
 ];
 

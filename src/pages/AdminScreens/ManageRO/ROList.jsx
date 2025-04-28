@@ -1,126 +1,152 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Page from "../../../components/Page";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { Button, Card, CardBody, Col, Form, Row,Badge } from "react-bootstrap";
+import { Button, Card, CardBody, Col, Form, Row, Badge } from "react-bootstrap";
 import { CommonTable } from "../../../components/Table/CommonTable";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
+import { MdMoreVert } from "react-icons/md";
+import { Dropdown } from "react-bootstrap";
+import { fetchSOList } from "../../../redux/slices/soSlice";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const ROList = () => {
-      const columns = useMemo(
-        () => [
-            {
-                Header: "Username",
-                accessor: "username"
-            },
-            {
-                Header: "Emp. Name",
-                accessor: "emp_name"
-            },
-            {
-                Header: "Emp. No.",
-                accessor: "emp_no"
-            },
-            {
-                Header: "Email",
-                accessor: "email"
-            },
-            {
-                Header: "Phone number",
-                accessor: "phone"
-            },
-            {
-                Header: "Actions",
-                accessor: "actions",
-                disableSortBy:true,
-                Cell: ({ row }) => (
-                  <div className="d-flex justify-content-center gap-2">
-                    <Link to="/addnewro?id=1"> <FaEdit /></Link>
-                    {/* <Button variant="transparent" size="sm" onClick={() => {}}>
-                      <FaEdit />
-                    </Button> */}
-                    {/* <Button variant="transparent" size="sm" onClick={() => {}}>
-                      <FaTrash />
-                    </Button> */}
-                  </div>
-                ),
-              },
-        ], []
-    );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const _client_data=[
-      { username: "ajvaluesadmin", emp_name: "Lorem", emp_no: 8431604030, email: "test@gmail.com", phone: 7876787656},
-      { username: "johndoe", emp_name: "John Doe", emp_no: 8431604031, email: "test2@gmail.com", phone: 5467587656},
-    ]
-    
-  return (
-      <Page className={"dashboard mt-3"} title={'Reasonal Officers'} breadcrumbs={[{name:"Home", active:false},{name:"RO", active:true}]}>
-        <div className="text-end mb-3">
-            <Link to={"/addnewro"} className="btn btn-outline-primary">Add RO</Link>
-        </div>
-        <CommonTable propColumns={columns} propData={_client_data} />
-        {/* <div>
-          <h3 className="mb-3">Welcome to Inspection Wheels</h3>
-        </div> */}
-        {/* <div className="bg-white p-3 rounded">
-          <Form>
-            <Row className="align-items-end justify-content-end g-3">
-              <Col xs={12} sm={4} md={3}>
-                <Form.Label>Month</Form.Label>
-                  <Form.Select value={month} onChange={(e) => setMonth(e.target.value)}>
-                    {months.map((m) => (
-                      <option key={m} value={m}>{m}</option>
-                    ))}
-                  </Form.Select>
-              </Col>
+  const { so, loading, error } = useSelector((state) => state.so);
+  const [clientData, setClientData] = useState([]); // Local state for mapped data
 
-              <Col xs={12} sm={4} md={3}>
-                <Form.Label>Year</Form.Label>
-                <Form.Select value={year} onChange={(e) => setYear(e.target.value)}>
-                  {years.map((y) => (
-                    <option key={y} value={y}>{y}</option>
-                  ))}
-                </Form.Select>
-              </Col>
+  useEffect(() => {
+    dispatch(fetchSOList()); // Fetch SO list
+  }, [dispatch]);
 
-              <Col xs={12} sm={4} md={2}>
-                <Button 
-                  className="w-100 text-white" 
-                  style={{ backgroundColor: '#5c6ac4', borderColor: '#5c6ac4' }}
-                  onClick={handleFilter}
+  useEffect(() => {
+    if (so?.data?.list) {
+      // Map so.data.list to the desired structure
+      const mappedData = so.data.list.map((item) => ({
+        username: item.username,
+        emp_name: item.emp_name,
+        emp_no: item.emp_no,
+        email: item.email,
+        phone: item.phone,
+        userstatus: item.userstatus,
+      }));
+      setClientData(mappedData); // Set the mapped data to local state
+    }
+  }, [so]);
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Username",
+        accessor: "username",
+      },
+      {
+        Header: "Emp. Name",
+        accessor: "emp_name",
+      },
+      {
+        Header: "Emp. No.",
+        accessor: "emp_no",
+      },
+      {
+        Header: "Email",
+        accessor: "email",
+      },
+      {
+        Header: "Phone number",
+        accessor: "phone",
+      },
+      {
+        Header: "User status",
+        accessor: "userstatus",
+        Cell: ({ value }) => {
+
+          console.log("value====",value);
+          
+          const status = value?.trim()?.toLowerCase(); // to handle extra spaces
+          const isActive = status === "1";
+          return (
+            <button
+              className={`btn btn-sm text-white ${isActive ? "btn-success" : "btn-danger"}`}
+              disabled
+            >
+              {isActive ? "Active" : "Inactive"}
+            </button>
+          );
+        },
+      },
+      {
+        Header: "Actions",
+        id: "actions",
+        Cell: ({ row }) => {
+          const handleSelect = (action) => {
+            console.log("actions", action);
+          };
+
+          return (
+            <Dropdown>
+              <Dropdown.Toggle
+                variant="light"
+                className="p-1 border-0 shadow-none three_dots"
+                id="dropdown-basic"
+              >
+                <MdMoreVert />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  className="fontsize-14"
+                  onClick={() => handleSelect("Lead Status")}
                 >
-                  Filter
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </div> */}
-        {/* <div className="py-2 mt-3">
-          <h5>Dashboard</h5>
-        </div> */}
-        {/* <Row>
-          {counts.map((item,i)=>{
-            return  <Col md={4} sm={6} xs={12} lg={3} className="mb-3">
-            <Card inverse className="border-0 card_padding">
-            <div className="text-end">
-                <Badge className={`font-weight-400 ${item.status_bgclass}`}>{item.status}</Badge>
-              </div>
-              <div>
-                <h5 className="count text-black font_18"><strong>{item.count}</strong></h5>
-              </div>
-              
-              <CardBody className="d-flex p-0">
-                <div>
-                  <p className="text-black mb-0">{item.name}</p>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          })}
-        </Row>
-         */}
-      </Page>
+                  <Link to="/addnewro?id=1"> Edit</Link>
+                </Dropdown.Item>
+                <Dropdown.Item
+                  className="fontsize-14"
+                  onClick={() => handleSelect("Allocate To Valuator")}
+                >
+                  Delete
+                </Dropdown.Item>
+                <Dropdown.Item
+                  className="fontsize-14"
+                  onClick={() => handleSelect("Decline Lead")}
+                >
+                  Active
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          );
+        },
+      },
+    ],
+    []
+  );
+
+  return (
+    <Page
+      className={"dashboard mt-3"}
+      title={"Reasonal Officers"}
+      breadcrumbs={[
+        { name: "Home", active: false },
+        { name: "SO", active: true },
+      ]}
+    >
+      <div className="text-end mb-3">
+        <Link to={"/addnewro"} className="btn btn-outline-primary">
+          Add SO
+        </Link>
+      </div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p className="text-danger">Error: {error}</p>
+      ) : (
+        <CommonTable propColumns={columns} propData={clientData} />
+      )}
+    </Page>
   );
 };
 

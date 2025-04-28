@@ -36,8 +36,8 @@ axiosInstance.interceptors.response.use(
 
 axiosInstance.interceptors.request.use(
     (request) => {
-    //     let authToken = store.getState().users.access_token
-    //   if(authToken) request.headers["Authorization"] = `Bearer ${authToken}`
+        let authToken = localStorage.getItem("token")
+      if(authToken) request.headers["Authorization"] = `Bearer ${authToken}`
 
         return new Promise((resolve, reject) => {
             resolve(request);
