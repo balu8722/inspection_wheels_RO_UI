@@ -31,4 +31,13 @@ export const CONFIG_URL = {
     CREATE_CLIENT:"/client/createVehicleCategory",
     DELETE_CLIENT_BY_ID:"/client/deleteVehicleCategory/",
 
+    // SO apis
+  CREATE_SO: "/so/create",
+  // GET_RO_LIST: "/so/list/:rowsPerPage/:pageno",
+  GET_RO_LIST: "/so/list/10/1",
+  STATUS_MSG: {
+    SUCCESS: {
+      SO_REGISTERED: "Sub Officer created successfully.",
+    },
+  },
 }
