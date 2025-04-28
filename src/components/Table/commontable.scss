@@ -1,6 +1,6 @@
 .table_design {
   background: #ffffff;
-  padding: 10px 0 0 0;
+  padding: 0px 0 0 0;
   border-radius: 10px;
   box-shadow: 0 2px 18px rgba(0, 0, 0, 0.02) !important;
   border: 1px solid #eaedf27a;
@@ -10,14 +10,9 @@
     border: 1px solid #e2dfdf;
     width: 100%;
   }
-.select-btn{
-  border-radius: 8px;
-    padding: 6px 10px !important;
-    border: 1px solid rgb(204, 204, 204);
-}
 
   .table_scroll {
-    width: calc(100vw - 300px);
+    width: calc(100% - 30px);
     overflow-x: scroll;
     margin: 0 auto;
     &::-webkit-scrollbar {
@@ -30,9 +25,6 @@
     &::-webkit-scrollbar-thumb {
       background-color: #fff;
     }
-    // @media (max-width:767px) {
-    //   width: 100%;
-    // }
   }
 
   table td,
@@ -43,6 +35,9 @@
   }
   table thead tr {
     background-color: #e2dfdf !important;
+    &.bg_filter{
+      background-color: #c14a655c !important;
+    }
   }
 
   // table tr:nth-child(even){background-color: #f2f2f2;}
@@ -119,6 +114,8 @@
     background: none;
     color: #fff;
     font-weight: 900;
+    padding: 0;
+    margin: 0 12px;
   }
 
   .skipToBtn:disabled {
@@ -143,12 +140,15 @@
   .tablenav {
     margin-top: 16px;
     .pageNumber {
-      background-color: #0e4b67;
-      padding: 10px 20px;
+      background-color: #007bff;
+      padding: 4px 8px;
       border-radius: 5px;
       text-align: center;
       color: #fff;
       margin: 0px;
+      border-color: #007bff;
+      line-height: 1;
+    font-size: 14px;
     }
   }
   .three_dots.dropdown-toggle::after{
@@ -169,13 +169,14 @@
   gap: 5px;
   align-items: center;
   .pageNumber {
-    background-color: #00c6b0;
+    background-color: #007bff;
     padding: 5px 12px;
     border-radius: 5px;
     text-align: center;
     color: #fff;
     margin: 0px;
     font-size: 18px;
+    border-color: #007bff;
   }
 
   .actionBtn {
@@ -185,11 +186,15 @@
     font-weight: 600;
     border: none;
     padding: 4px 8px;
+    height: auto;
+    line-height: 1;
+    font-size: 14px;
   }
 
   .actionBtn:disabled {
-    background: #c6bdbd;
-    color: #fff;
+    background: #d6d6d6;
+    border-color: #d6d6d6;
+    color: #a1a1a1;
     opacity: 0.5;
   }
 
@@ -207,34 +212,76 @@
   }
 }
 
-.cr-sidebar.cr-sidebar--open + .cr-content {
-  .table_design .table_scroll{
-    width: calc(100vw - 300px) !important;
- }
-}
-.cr-sidebar + .cr-content{
-  .table_design .table_scroll{
-    width: calc(100vw - 60px) !important;
- }
+.common-table-container {
+  .table-controls {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .selectTag {
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th {
+        background-color: #6a82fb;
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+
+        .header-cell {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+
+      td {
+        // text-align: center;
+        padding: 12px;
+        vertical-align: middle;
+
+        &:hover {
+          background-color: rgba(106, 130, 251, 0.1);
+        }
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      tr:hover {
+        background-color: rgba(106, 130, 251, 0.2);
+      }
+    }
+  }
+
+  .table-navigation {
+    margin-top: 15px;
+  }
 }
 
-@media (max-width:767px) {
-  .cr-sidebar.cr-sidebar--open + .cr-content {
-    .table_design .table_scroll{
-      width: calc(100vw - 60px) !important;
-   }
-  }
-  .cr-sidebar + .cr-content{
-    .table_design .table_scroll{
-      width: calc(100vw - 300px) !important;
-   }
-  }
-  // table font size
-
-  .table_design table th{
-      font-size: 13px;
-  }
-    .table_design table tr td{
-      font-size: 13px;
-  }
+.column-filter {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-top: 5px;
 }
+

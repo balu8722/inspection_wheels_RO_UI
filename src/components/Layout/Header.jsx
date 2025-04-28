@@ -62,11 +62,12 @@ const Header =() => {
 
   const logout=()=>{
     localStorage.clear();
-    dispatch(setIsAuth(false))
     dispatch(setIsAuth(
           {
             isAuth:false,
-            data:{role:""}
+            token:null,
+            refreshtoken:null,
+            role:null
           }
         ))
     navigate("/",{replace:true})

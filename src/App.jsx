@@ -49,7 +49,6 @@ import SummaryMis from './pages/ROScreens/MIS/SummaryMis/SummaryMis';
 import RoMis from './pages/ROScreens/MIS/RoMis/RoMis';
 import VehicleType from './pages/AdminScreens/Settings/vehicletype';
 import VehicleCategory from './pages/AdminScreens/Settings/VehicleCategory';
-import RCStatus from './pages/AdminScreens/Settings/RCStatus';
 import ManageRoles from './pages/AdminScreens/Settings/ManageRoles';
 import ClientMis from './pages/ClientScreens/MIS/ClientMis';
 import ClientLeads from './pages/ClientScreens/ClientLeads';
@@ -75,7 +74,7 @@ if (import.meta.env.DEV) {
 const App =()=> {
   const dispatch=useDispatch();
   const navigate=useNavigate();
-  // const {isAuth,token,refreshtoken}=useSelector(state=>state.users)
+  const {isAuth,token,refreshtoken}=useSelector(state=>state.users)
   useEffect(()=>{
     let _isAuth= localStorage.getItem("isAuth")
     let _role=localStorage.getItem("role")
@@ -374,16 +373,6 @@ const App =()=> {
             <MainLayout>
               <React.Suspense fallback={<PageSpinner />}>
                 <VehicleCategory />
-              </React.Suspense>
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/rcstatus"
-          element={
-            <MainLayout>
-              <React.Suspense fallback={<PageSpinner />}>
-                <RCStatus />
               </React.Suspense>
             </MainLayout>
           }

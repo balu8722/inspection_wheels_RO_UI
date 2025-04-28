@@ -1,20 +1,25 @@
 import React, { useEffect } from "react";
 import { Content, Footer, Header, Sidebar } from "../../components/Layout";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {useNavigate } from "react-router-dom";
+import { fetchVehicleCategory, fetchVehicleTypes } from "../../redux/slices/clientsSlice";
 
 const MainLayout = ({ children }) => {
   const navigate=useNavigate()
+  const dispatch=useDispatch();
   const {isAuth}=useSelector(state=>state.users)
   
   useEffect(() => {
-  // console.log("isAuth",isAuth)
     let _isAuth=localStorage.getItem("isAuth")
-    // console.log("_isAuth",_isAuth)
     if(_isAuth!="true"){
       navigate("/",{replace:true})
     }
   }, [isAuth]);
+
+  useEffect(()=>{ 
+    dispatch(fetchVehicleTypes())
+    dispatch(fetchVehicleCategory())
+  },[dispatch])
 
   // const toggleSidebar = () => {
   //   const sidebar = document.querySelector(".cr-sidebar");

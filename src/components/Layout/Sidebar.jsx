@@ -125,10 +125,7 @@ const adminNavItems = [
 const settings = [
   { to: "/roles", name: "Manage Roles", Icon: FiChevronsRight },
   { to: "/vehicletype", name: "Vehicle Type", Icon: FiChevronsRight },
-  { to: "/vehiclecategory", name: "Vehicle Category", Icon: FiChevronsRight },
-  { to: "/rcstatus", name: "RC status", Icon: FiChevronsRight },
-  // { to: "/input-groups", name: "Reasons Type", Icon: FiChevronsRight },
-  // { to: "/dropdowns", name: "Account Type", Icon: FiChevronsRight }
+  { to: "/vehiclecategory", name: "Vehicle Category", Icon: FiChevronsRight }
 ];
 
 const clientLeadmgmt = [
@@ -178,7 +175,7 @@ const CollapsibleSection = ({ icon: Icon, label, isOpen, toggle, items }) => (
 const Sidebar = () => {
   const {role}=useSelector(state=>state.users)
   // let role=userdata?.role?userdata?.role:"";
-     console.log("role",role);
+    //  console.log("role",role);
      const normalizedRole = role?.trim().toLowerCase();
      const filteredTrayComponents =
        normalizedRole === "admin"

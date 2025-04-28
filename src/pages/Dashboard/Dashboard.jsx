@@ -1,22 +1,31 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Page from "../../components/Page";
 import "./Dashboard.scss";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-// import Table from "../../components/Table/Table"
 import { Button, Card, CardBody, Col, Form, Row,Badge } from "react-bootstrap";
 import { CommonTable } from "../../components/Table/CommonTable";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+const months = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
+
+const currentDate = new Date();
+const currentYear = currentDate.getFullYear();
+const years = Array.from({ length: currentYear - 2010 + 1 }, (_, i) => currentYear - i);
 
 const Dashboard = () => {
   const {role}=useSelector(state=>state.users)
-  // let role=userdata?.role?userdata?.role:"";
+    const {vehicleTypes}=useSelector(state=>state.clients)
+    console.log("vehicleTypes",vehicleTypes)
+    console.log("role",role)
 
-      const currentDate = new Date();
-      let _month= new Intl.DateTimeFormat('en-US', { month: 'long' }).format(currentDate)
+    let _month= new Intl.DateTimeFormat('en-US', { month: 'long' }).format(currentDate)
 
-      const [month, setMonth] = useState(_month);
-      const [year, setYear] = useState(currentDate.getFullYear());
+    const [month, setMonth] = useState(_month);
+    const [year, setYear] = useState(currentDate.getFullYear());
 
       const counts=[{count:1,status:"RO Lead",name:"Total RO-Leads",status_bgclass:"ro_lead"},
         {count:15,status:"Assigned",name:"Total Assigned",status_bgclass:"assigned"},
@@ -51,13 +60,7 @@ const Dashboard = () => {
         console.log(`Filtering for ${month}, ${year}`);
       };
     
-      const months = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-      ];
-    
-      const currentYear = currentDate.getFullYear();
-      const years = Array.from({ length: currentYear - 2010 + 1 }, (_, i) => currentYear - i);
+      
 
       const columns = useMemo(
         () => [
@@ -203,6 +206,7 @@ const vehicledata = React.useMemo(
   ],
   []
 );
+
     
   return (
     // add title title="Dashboard"
@@ -296,15 +300,12 @@ const vehicledata = React.useMemo(
           <Tabs defaultActiveKey="client" id="tab_component" className="mb-3">
             <Tab eventKey="client" title="Client Count">
               <div className="overflow-hor-scroll">
-                {/* <Clientcount /> */}
                 <h5>Client Count</h5>
                 <CommonTable propColumns={columns} propData={_client_data} />
-                {/* <Table /> */}
               </div>
             </Tab>
             <Tab eventKey="vehicle" title="Vehicle Type Count">
               <h5>Vehicle Type Count</h5>
-              {/* <DataTable columns={vehiclecolumns} data={vehicledata} /> */}
               <CommonTable
                 propColumns={vehiclecolumns}
                 propData={vehicledata}
@@ -317,15 +318,12 @@ const vehicledata = React.useMemo(
             <Tabs defaultActiveKey="client" id="tab_component" className="mb-3">
               <Tab eventKey="client" title="Client Count">
                 <div className="overflow-hor-scroll">
-                  {/* <Clientcount /> */}
                   <h5>Client Count</h5>
                   <CommonTable propColumns={columns} propData={_client_data} />
-                  {/* <Table /> */}
                 </div>
               </Tab>
               <Tab eventKey="vehicle" title="Vehicle Type Count">
                 <h5>Vehicle Type Count</h5>
-                {/* <DataTable columns={vehiclecolumns} data={vehicledata} /> */}
                 <CommonTable
                   propColumns={vehiclecolumns}
                   propData={vehicledata}

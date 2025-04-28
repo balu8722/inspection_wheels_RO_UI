@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {PostRequestHook} from "../../api/Services"
 import { CONFIG_URL } from "../../api/api.config";
 
-const {postRequest,putRequest,deleteRequest,getRequest}=PostRequestHook()
+const {postRequest,putRequest,deleteRequest,getRequest}=PostRequestHook();
 
 // Define get user data
 export const fetchUserProfileData = createAsyncThunk("users/fetchUserProfileData", async () => {
@@ -14,14 +14,13 @@ export const fetchPosts = createAsyncThunk("users/fetchPosts", async () => {
   const response = await getRequest(CONFIG_URL.POSTS);
   return response.data;
 });
-// get 
 
 const usersSlice = createSlice({
   name: "users",
   initialState: {
     isAuth:false,
     role:null,
-    token:null,
+    access_token:null,
     refreshtoken:null,
     userdata:null,
     usersLit: [],
@@ -32,10 +31,16 @@ const usersSlice = createSlice({
   reducers: {
     setIsAuth: (state, action) => {
       state.isAuth = action.payload.isAuth;
-      state.token = action.payload.token;
+      state.access_token = action.payload.token;
       state.refreshtoken = action.payload.refreshtoken;
       state.role = action.payload.role;
     },
+    resetAuth:(state)=>{
+      state.isAuth = false;
+      state.access_token = null;
+      state.refreshtoken = null;
+      state.role = null;
+    }
   }, 
   extraReducers: (builder) => {
     builder

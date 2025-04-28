@@ -1,7 +1,5 @@
 import React, { useMemo, useState } from "react";
 import Page from "../../../components/Page";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
 import { Button, Card, CardBody, Col, Form, Row,Badge } from "react-bootstrap";
 import { CommonTable } from "../../../components/Table/CommonTable";
 import { Link, useNavigate } from "react-router-dom";
@@ -74,10 +72,13 @@ const ClientsList = () => {
   return (
     <>
       <Page className={"dashboard mt-3"} title={'Client List'} breadcrumbs={[{name:"Home", active:false},{name:"clients", active:true}]}>
-        <div className="text-end mb-3">
+        {/* <div className="text-end mb-3">
             <Link to={"/addnewclient"} className="btn btn-outline-primary">Add Client</Link>
-        </div>
-        <CommonTable propColumns={columns} propData={_client_data} />
+        </div> */}
+        <CommonTable propColumns={columns} propData={_client_data} isPagination={true}
+        extraComponent={<>
+            <Link to={"/addnewclient"} className="btn btn-outline-primary">Add Client</Link>
+        </>} />
       </Page>
       <CommanModel 
         onClose={()=>setShowModel(false)}

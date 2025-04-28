@@ -1,11 +1,18 @@
 import axios from 'axios'
-import { baseUrl, CONFIG_URL } from "./api.config"
-// import { store } from '../redux/store';
+import { baseUrl } from "./api.config"
+import { showNotification } from '../components/Notifications';
 
 
 const axiosInstance = axios.create({
     baseURL: baseUrl
 })
+
+let reduxStore = null;
+
+// Function to inject store AFTER it's created
+export const injectStore = (_store) => {
+    reduxStore = _store;
+};
 
 // function refreshToken() {
 //     return axiosInstance.post(configUrl.refreshTokren, {
@@ -20,8 +27,11 @@ axiosInstance.interceptors.response.use(
         })
     },
     async (error) => {
-
-        if (error.response.status === 403) {
+        
+        if (error.response.status === 401 && error.response.data.message=="Token expired") {
+            localStorage.clear();
+            showNotification("error","Session expired, Please login again")
+            reduxStore?.dispatch({type:"users/resetAuth"})
             // const rs = await refreshToken();
             // const { accessToken } = rs.token;
             // store.dispatch(setAccessToken(rs.token))
@@ -36,8 +46,8 @@ axiosInstance.interceptors.response.use(
 
 axiosInstance.interceptors.request.use(
     (request) => {
-    //     let authToken = store.getState().users.access_token
-    //   if(authToken) request.headers["Authorization"] = `Bearer ${authToken}`
+        let authToken = localStorage.getItem('token');
+      if(authToken) request.headers["Authorization"] = `Bearer ${authToken}`
 
         return new Promise((resolve, reject) => {
             resolve(request);

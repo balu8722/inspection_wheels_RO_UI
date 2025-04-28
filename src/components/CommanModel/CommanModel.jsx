@@ -24,7 +24,7 @@ const CommanModel = ({
     >
       <Modal.Header className="border-0 py-3" closeButton>
         <Modal.Title>
-          <h5>{title}</h5>
+          <h4>{title}</h4>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>

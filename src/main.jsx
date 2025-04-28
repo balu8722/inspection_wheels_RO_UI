@@ -30,7 +30,10 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./redux/store";
 import {  useLocation } from "react-router-dom";
+import { injectStore } from "./api/Interceptors";
 // import "./utils/custom-methods"
+
+injectStore(store);
 
 function ScrollToTopOnRouteChange() {
   const { pathname } = useLocation();
