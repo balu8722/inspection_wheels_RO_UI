@@ -61,7 +61,7 @@ const navigate=useNavigate();
         );
   
         showNotification("success",response?.data?.message)
-        navigate("/dashboards",{replace:true})
+        navigate("/dashboard",{replace:true})
       }else{
         showNotification("error",response?.response?.data?.message||response?.data?.message)
       }

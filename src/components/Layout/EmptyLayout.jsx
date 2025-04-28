@@ -8,7 +8,7 @@ const EmptyLayout = ({ children, ...restProps }) => {
   const {isAuth}=useSelector(state=>state.users)
   useEffect(() => {
     if(isAuth){
-      navigate("/dashboards")
+      navigate("/dashboard")
     }
   }, [isAuth]);
   return (

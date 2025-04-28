@@ -15,7 +15,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 // const ButtonPage = React.lazy(() => import('./pages/ButtonPage'));
 // const CardPage = React.lazy(() => import('./pages/CardPage'));
 // const ChartPage = React.lazy(() => import('./pages/ChartPage'));
-const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
+// const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 // const DropdownPage = React.lazy(() => import('./pages/DropdownPage'));
 // const FormPage = React.lazy(() => import('./pages/FormPage'));
 // const InputGroupPage = React.lazy(() => import('./pages/InputGroupPage'));
@@ -106,7 +106,7 @@ const App =()=> {
           }
         />
         <Route
-          path="/dashboards"
+          path="/dashboard"
           element={
             <MainLayout>
               <React.Suspense fallback={<PageSpinner />}>
@@ -263,7 +263,7 @@ const App =()=> {
             </EmptyLayout>
           }
         />
-        <Route
+        {/* <Route
           path="/dashboard"
           element={
             <MainLayout>
@@ -272,7 +272,7 @@ const App =()=> {
               </React.Suspense>
             </MainLayout>
           }
-        />
+        /> */}
         {/* <Route
           path="/login-modal"
           element={

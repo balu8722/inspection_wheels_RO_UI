@@ -58,7 +58,7 @@ const sidebarBackground = {
 };
 
 const sidebarLabels = [
-  { to: "/dashboards", name: "Dashboard", exact: true, Icon: MdDashboard },
+  { to: "/dashboard", name: "Dashboard", exact: true, Icon: MdDashboard },
 ];
 // 
 
