@@ -45,10 +45,8 @@ export const PostRequestHook = () => {
         // dispatch(setLoader(true))
         try {
             const response = await axiosInstance.get(url);
-            console.log("response",response)
             return response.data
         } catch (error) {
-            console.log("response",error.response)
             return error.response
         } finally {
             // dispatch(setLoader(false))
