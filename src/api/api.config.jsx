@@ -35,6 +35,6 @@ export const CONFIG_URL = {
   CREATE_SO: "/so/create",
   GET_SO_BY_ID: "/so/list",
   UPDATE_SO_BY_ID: "/so/update",
-  // GET_RO_LIST: "/so/list/:rowsPerPage/:pageno",
-  GET_RO_LIST: "/so/list/10/1",
+  GET_RO_LIST: "/so/list/:rowperpage/:pgno",
+  // GET_RO_LIST: "/so/list/10/1",
 };
