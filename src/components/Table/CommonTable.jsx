@@ -221,7 +221,7 @@ export const CommonTable = (props) => {
                 <option value="" disabled>
                   Select
                 </option>
-                {[5, 10, 15, 25, 50].map((pageSize) => (
+                {[1,2,5, 10, 15, 25, 50].map((pageSize) => (
                   <option key={pageSize} value={pageSize}>
                     {pageSize}
                   </option>

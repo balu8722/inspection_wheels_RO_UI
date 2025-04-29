@@ -27,9 +27,10 @@ export const CONFIG_URL = {
 
     // client 
     GET_CLIENTS_LIST:"/client/list/:rowperpage/:pgno",
-    UPDATE_CLIENT_BY_ID:"/client/updateVehicleCategory/",
-    CREATE_CLIENT:"/client/createVehicleCategory",
-    DELETE_CLIENT_BY_ID:"/client/deleteVehicleCategory/",
+    UPDATE_CLIENT_BY_ID:"/client/update/:clientId",
+    CREATE_CLIENT:"/client/create",
+    DEACTIVATE_CLIENT_BY_ID:"/client/deactivate/:clientId",
+    ACTIVATE_CLIENT_BY_ID:"/client/activate/:clientId",
 
     // SO apis
   CREATE_SO: "/so/create",

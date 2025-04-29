@@ -9,6 +9,7 @@ export const fetchUserProfileData = createAsyncThunk("users/fetchUserProfileData
   const response = await getRequest(CONFIG_URL.GET_PROFILE_DATA);
   return response.data;
 });
+
 // Async Thunk to Fetch Posts
 export const fetchPosts = createAsyncThunk("users/fetchPosts", async () => {
   const response = await getRequest(CONFIG_URL.POSTS);
