@@ -198,22 +198,7 @@ const Sidebar = () => {
    const [isOpenClientMgmt, setOpenClientMgmt] = useState(false);
     const [isOpenMis, setOpenMis] = useState(false);
    const location = useLocation();
-useEffect(() => {
-  const openPaths = [
-    "/ro-leads",
-    "/assigned",
-    "/reassigned",
-    "/ro-confirmation",
-    "/qc-hold",
-    "/inspection-completed",
-  ];
 
-  if (openPaths.includes(location.pathname)) {
-    setOpenComponents(true);
-  } else {
-    setOpenComponents(false);
-  }
-}, [location.pathname]);
 
       return (
         // <aside className={bem.b()} data-image={sidebarBgImage}>
