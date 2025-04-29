@@ -1,31 +1,60 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Page from "../../../components/Page";
 import { Button, Card, CardBody, Col, Form, Row,Badge } from "react-bootstrap";
 import { CommonTable } from "../../../components/Table/CommonTable";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEdit, FaSync, FaTrash, FaTrashAlt, FaUndo } from "react-icons/fa";
 import CommanModel from "../../../components/CommanModel/CommanModel";
+import { useDispatch } from "react-redux";
+import { CONFIG_URL } from "../../../api/api.config";
+import { PostRequestHook } from "../../../api/Services";
+import { showNotification } from "../../../components/Notifications";
 
 const ClientsList = () => {
-  const navigate = useNavigate();
+  const navigate=useNavigate()
+  const {getRequest}=PostRequestHook()
   const [showModel, setShowModel] = useState(false);
-      const columns = useMemo(
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [pageNo, setPageNo] = useState(1);
+  const [paginationData, setPaginantionData] = useState({});
+  const [clientList, setClientList] = useState([]);
+
+
+  useEffect(()=>{
+    getClientList(rowsPerPage,pageNo)
+  },[])
+
+  const getClientList=async (rowsperpage=10,pageNo=1)=>{
+   const URL = CONFIG_URL.GET_CLIENTS_LIST.replace(':rowperpage',rowsperpage).replace(':pgno',pageNo)
+    const response = await getRequest(URL);
+    if(response.status==200){
+      let {list,...rest}=response.data
+      console.log("list",list)
+      setClientList(list)
+      setPaginantionData(rest)
+    }else{
+      showNotification("error",response?.response?.data?.message||response?.data?.message)
+    }
+    
+  }
+
+    const columns = useMemo(
         () => [
             {
                 Header: "Username",
                 accessor: "username"
             },
             {
-                Header: "Comapny Name",
+                Header: "Company Name",
                 accessor: "company_name"
             },
             {
                 Header: "Company Id",
-                accessor: "company_no"
+                accessor: "emp_id"
             },
             {
                 Header: "Contact Person",
-                accessor: "contactperson"
+                accessor: "contact_person_name"
             },
             {
                 Header: "Email",
@@ -33,7 +62,24 @@ const ClientsList = () => {
             },
             {
                 Header: "Phone number",
-                accessor: "phone"
+                accessor: "contact_no"
+            },
+            {
+                Header: "Status",
+                accessor: "status",
+                Cell: ({ value }) => {
+                  const isActive = value == 1;
+                  return (
+                    <button
+                      className={`btn btn-sm text-white ${
+                        isActive ? "btn-success" : "btn-danger"
+                      }`}
+                      disabled
+                    >
+                      {isActive ? "Active" : "Inactive"}
+                    </button>
+                  );
+                },
             },
             {
                 Header: "Actions",
@@ -41,13 +87,9 @@ const ClientsList = () => {
                 disableSortBy:true,
                 Cell: ({ row }) => {
                   const { original } = row;
-                  const { isActive } = original;
-                  console.log("isActive", isActive);
+                  const { status } = original;
                   return(
                   <div className="d-flex justify-content-center gap-3">
-                    {/* <div>
-                      <Link to="/addnewro?id=1" className="text-primary"> <FaEdit /></Link>
-                    </div> */}
                     <Button variant="transparent" className="p-0 m-0 border-0" size="sm" onClick={() => {
                       navigate("/addnewro?id=1")
                     }}>
@@ -56,7 +98,7 @@ const ClientsList = () => {
                     <Button variant="transparent" className="p-0 m-0 border-0" size="sm" onClick={() => {
                       setShowModel(true)
                     }}>
-                      {isActive?<FaTrashAlt title="Delete" className="text-primary" />:<FaSync title="reactivate" className="text-primary" />}
+                      {status?<FaTrashAlt title="Delete" className="text-danger" />:<FaSync title="reactivate" className="text-primary" />}
                     </Button>
                   </div>
                 )},
@@ -64,18 +106,25 @@ const ClientsList = () => {
         ], []
     );
 
-    const _client_data=[
-      { username: "Chola12", contactperson: "Lorem",company_name:"Chola", company_no: 8431604030, email: "test@gmail.com", phone: 7876787656,isActive:true},
-      { username: "Bajaj12", contactperson: "John Doe",company_name:"Bajaj", company_no: 8431604031, email: "test2@gmail.com", phone: 5467587656,isActive:false},
-    ]
+    const handlePagination=(pageno)=>{
+      getClientList(paginationData.rowsPerPage,pageno)
+    }
+
+    const handleManualSetPageSizeData=(pagesize)=>{
+      setPaginantionData({...paginationData,rowsPerPage:pagesize})
+      getClientList(pagesize,1)
+    }
     
   return (
     <>
       <Page className={"dashboard mt-3"} title={'Client List'} breadcrumbs={[{name:"Home", active:false},{name:"clients", active:true}]}>
-        {/* <div className="text-end mb-3">
-            <Link to={"/addnewclient"} className="btn btn-outline-primary">Add Client</Link>
-        </div> */}
-        <CommonTable propColumns={columns} propData={_client_data} isPagination={true}
+        
+        <CommonTable propColumns={columns} propData={clientList} 
+        isPagination={true}
+        isManualPagination={true}
+        manualPageSize={paginationData.rowsPerPage}
+        manualSetPageSize={handleManualSetPageSizeData}
+        paginationDetails={paginationData} gotoParticularPages={handlePagination}
         extraComponent={<>
             <Link to={"/addnewclient"} className="btn btn-outline-primary">Add Client</Link>
         </>} />

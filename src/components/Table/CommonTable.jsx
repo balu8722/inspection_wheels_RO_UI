@@ -21,8 +21,13 @@ export const CommonTable = (props) => {
     filterComponent,
     extraComponent,
     subTableColumns = [],
+    paginationDetails={},
+    gotoParticularPages=()=>{},
+    isManualPagination=false,
+    manualPageSize=10,
+    manualSetPageSize=()=>{}
   } = props;
-
+// console.log("paginationDetails",paginationDetails)
   const [expandedRows, setExpandedRows] = useState([]); 
 
   const toggleRowExpansion = (rowId) => {
@@ -63,14 +68,16 @@ export const CommonTable = (props) => {
     useSortBy,
     usePagination
   );
-
   const { globalFilter, pageSize, pageIndex } = state;
-
-  // Determine the rows to display (all rows if pagination is disabled)
+  
   const displayRows = isPagination ? page : rows;
 
+  const handleManualGotoPage=(pageNo)=>{
+    gotoParticularPages(pageNo+1)
+  }
+
   return (
-    <div>
+    <>
       <div className="table_design">
         <>
           <div
@@ -198,12 +205,18 @@ export const CommonTable = (props) => {
         {isPagination && (
           <div className="d-md-flex justify-content-between align-items-end px-3 pb-3">
             <div className="text-end">
-              <span>Show</span>
+              <span className="small">Show</span>
               <select
                 id="tablenumber"
-                value={pageSize}
+                value={isManualPagination?manualPageSize:pageSize}
                 className="selectTag ms-2"
-                onChange={(e) => setPageSize(Number(e.target.value))}
+                onChange={(e) => {
+                  if(isManualPagination){
+                    manualSetPageSize(Number(e.target.value))
+                  }else{
+                    setPageSize(Number(e.target.value))
+                  }
+                }}
               >
                 <option value="" disabled>
                   Select
@@ -215,7 +228,7 @@ export const CommonTable = (props) => {
                 ))}
               </select>
             </div>
-            <TableNavigation
+           {!isManualPagination && <TableNavigation
               pageIndex={pageIndex}
               gotoPage={gotoPage}
               previousPage={previousPage}
@@ -223,10 +236,20 @@ export const CommonTable = (props) => {
               pageCount={pageCount}
               canNextPage={canNextPage}
               canPreviousPage={canPreviousPage}
-            />
+            />}
+           {isManualPagination && paginationDetails?.totalPages&& 
+           <TableNavigation
+              pageIndex={paginationDetails?.pageNo?(Number(paginationDetails.pageNo)-1):1}
+              gotoPage={handleManualGotoPage}
+              previousPage={()=>gotoParticularPages(Number(paginationDetails?.pageNo)-1)}
+              nextPage={()=>gotoParticularPages(Number(paginationDetails?.pageNo)+1)}
+              pageCount={paginationDetails?.totalPages}
+              canNextPage={(paginationDetails?.pageNo) < paginationDetails?.totalPages }
+              canPreviousPage={(paginationDetails?.pageNo) > 1}
+            />}
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };

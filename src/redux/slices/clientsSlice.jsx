@@ -15,14 +15,6 @@ export const fetchVehicleCategory = createAsyncThunk("clients/fetchVehicleCatego
   return response?.data||[];
 });
 
-// get Client list
-export const fetchClientList = createAsyncThunk("clients/fetchClientList", async (data) => {
-  // const response = await getRequest(`${CONFIG_URL.GET_CLIENTS_LIST}${data.rowPerPage}/${data.pageNo}`);
-  const URL = CONFIG_URL.GET_CLIENTS_LIST.replace(':rowperpage',data.rowPerPage).replace(':pgno',data.pageNo)
-  const response = await getRequest(URL);
-  return response?.data||{};
-});
-
 
 const clientsSlice = createSlice({
   name: "clients",
