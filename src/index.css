@@ -131,3 +131,7 @@ button:focus-visible {
   text-decoration: none !important;
   color: #000 !important;
 }
+
+.table_design .menu-option{
+padding: 5px 0 5px 0;
+}

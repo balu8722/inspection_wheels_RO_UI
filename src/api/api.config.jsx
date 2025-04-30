@@ -36,5 +36,14 @@ export const CONFIG_URL = {
   GET_SO_BY_ID: "/so/list",
   UPDATE_SO_BY_ID: "/so/update",
   GET_RO_LIST: "/so/list/:rowperpage/:pgno",
-  // GET_RO_LIST: "/so/list/10/1",
+  DEACTIVATE_SO_BY_ID: "/so/delete/:soId",
+  ACTIVATE_SO_BY_ID: "/so/activate/:soId",
+
+  // Valuator APIS
+  CREATE_VALUATOR: "/valuator/create",
+  UPDATE_VALUATOR_BY_ID: "/valuator/update",
+  GET_VALUATOR_BY_ID: "/valuator/list",
+  GET_VALUATOR_LIST: "/valuator/list/:rowperpage/:pgno",
+  DEACTIVATE_VALUATOR_BY_ID: "/valuator/delete/:valuatorId",
+  ACTIVATE_VALUATOR_BY_ID: "/valuator/activate/:valuatorId",
 };
