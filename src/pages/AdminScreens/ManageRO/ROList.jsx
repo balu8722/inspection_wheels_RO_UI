@@ -5,7 +5,7 @@ import Tabs from "react-bootstrap/Tabs";
 import { Button, Card, CardBody, Col, Form, Row, Badge } from "react-bootstrap";
 import { CommonTable } from "../../../components/Table/CommonTable";
 import { Link } from "react-router-dom";
-import { FaEdit, FaSyncAlt } from "react-icons/fa";
+import { FaEdit, FaSyncAlt, FaTrash } from "react-icons/fa";
 import { MdMoreVert } from "react-icons/md";
 import { Dropdown } from "react-bootstrap";
 import { fetchSOList } from "../../../redux/slices/soSlice";
@@ -122,7 +122,7 @@ const ROList = () => {
                       setSODetails(row.original);
                     }}
                   >
-                    <FaSyncAlt className="text-secondary" /> Deactivate
+                    <FaTrash className="text-secondary" /> Deactivate
                   </Dropdown.Item>
                 ) : (
                   <Dropdown.Item
