@@ -28,6 +28,7 @@ const VehicleCategory = () => {
         setIsEdit(false)
         setShowModel(false)
         setDeleteModelShow(false)
+        formik.resetForm()
     };
 
 
@@ -79,8 +80,8 @@ const VehicleCategory = () => {
         }
 
     const validationSchema = Yup.object({
-        name: Yup.string().required("Required"),
-        short_code: Yup.string().required("Required"),
+        name: Yup.string().trim().required("Required"),
+        short_code: Yup.string().trim().required("Required"),
         description: Yup.string(),
     });
 
@@ -98,6 +99,7 @@ const VehicleCategory = () => {
     });
 
     const handleAddUpdateVehicleCategory=async (data,clearForm=()=>{})=>{
+        data={...data,name:data.name.trim(),short_code:data.short_code.trim().toUpperCase()}
         let _data={...data}
         if(isEdit){
         delete _data.short_code
@@ -136,12 +138,16 @@ const VehicleCategory = () => {
                     { name: "Vehicle category", active: true },
                 ]}
             >
-                <div className="text-end mb-3">
+                {/* <div className="text-end mb-3">
                     <Button variant="outline-primary" onClick={() => setShowModel(true)}>
                         Add Vehicle Category
                     </Button>
-                </div>
-                <CommonTable propColumns={columns} propData={vehicleCategories} />
+                </div> */}
+                <CommonTable propColumns={columns} propData={vehicleCategories} extraComponent={<>
+                    <Button variant="outline-primary" onClick={() => setShowModel(true)}>
+                        Add Vehicle Category
+                    </Button>
+                    </>} />
             </Page>
 
     {/*  edit model  */}
@@ -176,7 +182,7 @@ const VehicleCategory = () => {
                                 type="text"
                                 placeholder="Enter short code"
                                 name="short_code"
-                                value={formik.values.short_code}
+                                value={formik.values.short_code.trim().toUpperCase()}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 isInvalid={formik.touched.short_code && !!formik.errors.short_code}

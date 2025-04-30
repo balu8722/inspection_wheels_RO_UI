@@ -9,34 +9,38 @@ import { FaEdit } from "react-icons/fa";
 import { MdMoreVert } from "react-icons/md";
 import { Dropdown } from "react-bootstrap";
 import { fetchSOList } from "../../../redux/slices/soSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { CONFIG_URL } from "../../../api/api.config";
+import { PostRequestHook } from "../../../api/Services";
 
 const ROList = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+      const {getRequest}=PostRequestHook()
+      const dispatch = useDispatch();
+      const navigate = useNavigate();
+      const [soList, setSOList] = useState([]);
+      const [paginationData, setPaginantionData] = useState({});
+      // const [rowsPerPage, setRowsPerPage] = useState(10);
+      // const [pageNo, setPageNo] = useState(1);
 
-  const { so, loading, error } = useSelector((state) => state.so);
-  const [clientData, setClientData] = useState([]); // Local state for mapped data
 
-  useEffect(() => {
-    dispatch(fetchSOList()); // Fetch SO list
-  }, [dispatch]);
+  useEffect(()=>{
+    getSOList(paginationData?.rowsPerPage||10,paginationData?.pageNo||1);
+  },[])
 
-  useEffect(() => {
-    if (so?.data?.list) {
-      // Map so.data.list to the desired structure
-      const mappedData = so.data.list.map((item) => ({
-        username: item.username,
-        emp_name: item.emp_name,
-        emp_no: item.emp_no,
-        email: item.email,
-        phone: item.phone,
-        userstatus: item.userstatus,
-      }));
-      setClientData(mappedData); // Set the mapped data to local state
+    const getSOList=async (rowsperpage=10,pageNo=1)=>{
+     const URL = CONFIG_URL.GET_RO_LIST.replace(":rowperpage",rowsperpage).replace(":pgno", pageNo);
+      const response = await getRequest(URL);
+      if(response.status==200){
+        let {list,...rest}=response.data;
+        console.log("list",list)
+         setSOList([...list]);
+        setPaginantionData({...rest})
+      }else{
+        showNotification("error",response?.response?.data?.message||response?.data?.message)
+      }
+      
     }
-  }, [so]);
 
   const columns = useMemo(
     () => [
@@ -46,11 +50,11 @@ const ROList = () => {
       },
       {
         Header: "Emp. Name",
-        accessor: "emp_name",
+        accessor: "name",
       },
       {
         Header: "Emp. No.",
-        accessor: "emp_no",
+        accessor: "emp_id",
       },
       {
         Header: "Email",
@@ -58,20 +62,18 @@ const ROList = () => {
       },
       {
         Header: "Phone number",
-        accessor: "phone",
+        accessor: "contact_no",
       },
       {
         Header: "User status",
-        accessor: "userstatus",
-        Cell: ({ value }) => {
-
-          console.log("value====",value);
-          
-          const status = value?.trim()?.toLowerCase(); // to handle extra spaces
-          const isActive = status === "1";
+        accessor: "status",
+        Cell: ({ row }) => {
+          const isActive = row.original.status == "1";
           return (
             <button
-              className={`btn btn-sm text-white ${isActive ? "btn-success" : "btn-danger"}`}
+              className={`btn btn-sm text-white ${
+                isActive ? "btn-success" : "btn-danger"
+              }`}
               disabled
             >
               {isActive ? "Active" : "Inactive"}
@@ -83,10 +85,7 @@ const ROList = () => {
         Header: "Actions",
         id: "actions",
         Cell: ({ row }) => {
-          const handleSelect = (action) => {
-            console.log("actions", action);
-          };
-
+          const isActive = row.original.status == "1";
           return (
             <Dropdown>
               <Dropdown.Toggle
@@ -100,22 +99,30 @@ const ROList = () => {
               <Dropdown.Menu>
                 <Dropdown.Item
                   className="fontsize-14"
-                  onClick={() => handleSelect("Lead Status")}
                 >
-                  <Link to="/addnewro?id=1"> Edit</Link>
+                 
+                  <Link
+                    className="dropdown-item"
+                    to={`/addnewro?id=${row.original.id}`}
+                  >
+                    Edit
+                  </Link>
                 </Dropdown.Item>
-                <Dropdown.Item
-                  className="fontsize-14"
-                  onClick={() => handleSelect("Allocate To Valuator")}
-                >
-                  Delete
-                </Dropdown.Item>
-                <Dropdown.Item
-                  className="fontsize-14"
-                  onClick={() => handleSelect("Decline Lead")}
-                >
-                  Active
-                </Dropdown.Item>
+                {isActive ? (
+                  <Dropdown.Item
+                    className="fontsize-14"
+                  
+                  >
+                    Deactive
+                  </Dropdown.Item>
+                ) : (
+                  <Dropdown.Item
+                    className="fontsize-14"
+                    // onClick={() => handleSelect("Decline Lead")}
+                  >
+                    Active
+                  </Dropdown.Item>
+                )}
               </Dropdown.Menu>
             </Dropdown>
           );
@@ -124,28 +131,41 @@ const ROList = () => {
     ],
     []
   );
+  const handlePagination = (pageno) => {
+    getSOList(paginationData.rowsPerPage, pageno);
+  };
 
+  const handleManualSetPageSizeData = (pagesize) => {
+    setPaginantionData({ ...paginationData, rowsPerPage: pagesize });
+    getSOList(pagesize, 1);
+  };
   return (
     <Page
       className={"dashboard mt-3"}
-      title={"Reasonal Officers"}
+      title={"Sub Officers"}
       breadcrumbs={[
         { name: "Home", active: false },
-        { name: "SO", active: true },
+        { name: "Sub Officers", active: true },
       ]}
     >
-      <div className="text-end mb-3">
-        <Link to={"/addnewro"} className="btn btn-outline-primary">
-          Add SO
-        </Link>
-      </div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p className="text-danger">Error: {error}</p>
-      ) : (
-        <CommonTable propColumns={columns} propData={clientData} />
-      )}
+      <CommonTable
+        propColumns={columns}
+        propData={soList}
+        isPagination={true}
+        isManualPagination={true}
+        manualPageSize={paginationData.rowsPerPage}
+        manualSetPageSize={handleManualSetPageSizeData}
+        paginationDetails={paginationData}
+        gotoParticularPages={handlePagination}
+        extraComponent={
+          <>
+            <Link to={"/addnewro"} className="btn btn-outline-primary">
+              Add SO
+            </Link>
+          </>
+        }
+      />
+      {/* )} */}
     </Page>
   );
 };

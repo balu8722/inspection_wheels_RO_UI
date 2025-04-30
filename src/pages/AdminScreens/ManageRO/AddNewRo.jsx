@@ -15,7 +15,7 @@ import {
   Tooltip,
   Card
 } from 'react-bootstrap';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDropzone } from 'react-dropzone';
 import Page from '../../../components/Page';
 import defaultAvatar from '../../../assets/img/avatar-placeholder.png';
@@ -24,117 +24,187 @@ import  { showNotification } from "../../../components/Notifications";
 import { PostRequestHook } from '../../../api/Services';
 import Loader from '../../../components/Loader/Loader';
 
-const validationSchema = Yup.object({
-  username: Yup.string().required('Required'),
-  name: Yup.string().required('Required'),
-  address: Yup.string(),
-  city: Yup.string().required('Required'),
-  pincode: Yup.string().required('Required'),
-  callerId: Yup.string().required('Required'),
-//   empNo: Yup.string().required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
-  state: Yup.string().required('Required'),
-  area: Yup.string().required('Required'),
-  mobile: Yup.string().required('Required'),
-  password: Yup.string().required('Required'),
-  confirm_password: Yup.string().required('Required')
-});
-
 const AddNewRO = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const Soid = queryParams.get("id");
+
   const [uploadedImage, setUploadedImage] = useState(null);
- const [isLoading, setIsLoading] = useState(false); 
-  const onDrop = acceptedFiles => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [initialValues, setInitialValues] = useState({
+    username: "",
+    name: "",
+    address: "",
+    city: "",
+    pincode: "",
+    callerId: "",
+    email: "",
+    state: "",
+    area: "",
+    mobile: "",
+    password: "",
+    confirm_password: "",
+    gender: null,
+    dob: null,
+  });
+
+  const { postRequest, getRequest, putRequest } = PostRequestHook();
+  const navigate = useNavigate();
+
+  const onDrop = (acceptedFiles) => {
     const reader = new FileReader();
     reader.onload = () => setUploadedImage(reader.result);
     reader.readAsDataURL(acceptedFiles[0]);
   };
 
-    const {postRequest,getRequest}=PostRequestHook()
-    const navigate = useNavigate();
-
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-   const handleSubmit = async (values) => {
-      setIsLoading(true);
-       let payload = {
-         name: values.name,
-         city: values.city,
-         email: values.email,
-         pincode: values.pincode,
-         state: values.state,
-         secondary_contact_no: values.callerId || null,
-         area: values.area || null,
-         address: values.address,
-         contact_no: values.mobile,
-         profile_image: values.profile_image || null,
-         username: values.username,
-         password: values.password,
-         confirmPassword: values.confirm_password,
-         gender: null,
-         dob: null,
-       };
-      const response = await postRequest(CONFIG_URL.CREATE_SO, payload);
-            setIsLoading(false);
-            if (response.status == 200 || response.status == 201) {
-              showNotification(
-                "success",
-                CONFIG_URL.STATUS_MSG.SUCCESS.SO_REGISTERED
-              );
-              navigate("/managero");
-            } else {
-              showNotification(
-                "error",
-                response?.response?.data?.message ||
-                  response?.data?.message ||
-                  "An unexpected error occurred"
-              );
-            }
-   }
+  const validationSchema = Yup.object({
+    username: Yup.string().required("Required"),
+    name: Yup.string().required("Required"),
+    address: Yup.string(),
+    city: Yup.string().required("Required"),
+    pincode: Yup.string().required("Required"),
+    callerId: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+    state: Yup.string().required("Required"),
+    area: Yup.string().required("Required"),
+    mobile: Yup.string().required("Required"),
+    ...(Soid
+      ? {} // No password validation for editing
+      : {
+          password: Yup.string().required("Required"),
+          confirm_password: Yup.string()
+            .required("Required")
+            .oneOf([Yup.ref("password"), null], "Passwords must match"),
+        }),
+  });
 
-    useEffect(() => {
-      if (isLoading) {
-        document.body.style.overflow = "hidden";
+  const handleSubmit = async (values) => {
+    setIsLoading(true);
+    let payload = {
+      name: values.name,
+      city: values.city,
+      email: values.email,
+      pincode: values.pincode,
+      state: values.state,
+      secondary_contact_no: String(values.callerId) || null,
+      area: values.area || null,
+      address: values.address,
+      contact_no: String(values.mobile),
+      profile_image: uploadedImage || null,
+      username: values.username,
+      gender: null, // Explicitly set gender to null
+      dob: null, // Explicitly set dob to null
+      ...(Soid
+        ? {}
+        : {
+            password: values.password,
+            confirmPassword: values.confirm_password,
+          }),
+    };
+
+    try {
+      let response;
+      if (Soid) {
+       console.log("=======>",payload);
+        delete payload.username;
+        response = await putRequest(`${CONFIG_URL.UPDATE_SO_BY_ID}/${Soid}`,payload);
       } else {
-        document.body.style.overflow = "auto";
+        response = await postRequest(CONFIG_URL.CREATE_SO, payload);
       }
-      return () => {
-        document.body.style.overflow = "auto"; // Reset on unmount
-      };
-    }, [isLoading]);
+
+      if (response.status === 200 || response.status === 201) {
+        showNotification("success", response.data.message);
+        navigate("/managero");
+      } else {
+        showNotification(
+          "error",
+          response?.response?.data?.message ||
+            response?.data?.message ||
+            "An unexpected error occurred"
+        );
+      }
+    } catch (error) {
+      showNotification("error", "Failed to submit the form.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchingdata = async () => {
+    if (Soid) {
+      setIsLoading(true);
+      try {
+        const response = await getRequest(`${CONFIG_URL.GET_SO_BY_ID}/${Soid}`);
+        if (response.status === 200) {
+          const data = response.data;
+          setInitialValues({
+            username: data.username,
+            emp_id: data.emp_id,
+            name: data.name,
+            address: data.address,
+            city: data.city,
+            pincode: data.pincode,
+            callerId: data.secondary_contact_no,
+            email: data.email,
+            state: data.state,
+            area: data.area,
+            mobile: data.contact_no,
+            password: "",
+            confirm_password: "",
+            gender: null,
+            dob: null,
+          });
+          setUploadedImage(data.profile_image || null);
+        }
+      } catch (error) {
+        // showNotification("error", "Failed to fetch data for editing.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (Soid) {
+      fetchingdata();
+    }
+  }, [Soid]);
+
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isLoading]);
 
   return (
     <Page
       className={"dashboard mt-3"}
-      title={"Add SO"}
+      title={Soid ? "Edit SO" : "Add SO"}
       breadcrumbs={[
         { name: "Home", active: false },
-        { name: "add SO", active: true },
+        { name: Soid ? "Edit SO" : "Add SO", active: true },
       ]}
     >
       <div className="bg-white p-3">
         <Formik
-          initialValues={{
-            username: "",
-            name: "",
-            address: "",
-            city: "",
-            pincode: "",
-            callerId: "",
-            // empNo: '',
-            email: "",
-            state: "",
-            area: "",
-            mobile: "",
-          }}
+          initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values) => {
             handleSubmit(values);
           }}
+          enableReinitialize
         >
           {() => (
             <Form>
               <Row>
-                {isLoading && <Loader />} {/* Show loader */}
+                {isLoading && <Loader />}
                 <Col md={6}>
                   <BootstrapForm.Group controlId="name" className="mb-2">
                     <BootstrapForm.Label className="mb-1">
@@ -197,11 +267,14 @@ const AddNewRO = () => {
                   </BootstrapForm.Group>
                 </Col>
                 <Col md={6}>
-                  {/* <BootstrapForm.Group controlId="empNo" className='mb-2'>
-                            <BootstrapForm.Label className='mb-1'>Emp. No <span className='text-danger'>*</span></BootstrapForm.Label>
-                            <Field name="empNo" className="form-control" />
-                            <ErrorMessage name="empNo" component="div" className="text-danger" />
-                        </BootstrapForm.Group> */}
+                  {Soid ? (
+                    <BootstrapForm.Group controlId="emp_id" className="mb-2">
+                      <BootstrapForm.Label className="mb-1">
+                        Emp. No <span className="text-danger">*</span>
+                      </BootstrapForm.Label>
+                      <Field name="emp_id" className="form-control" disabled />
+                    </BootstrapForm.Group>
+                  ) : null}
 
                   <BootstrapForm.Group controlId="email" className="mb-2">
                     <BootstrapForm.Label className="mb-1">
@@ -275,10 +348,6 @@ const AddNewRO = () => {
                         alt="Uploaded Preview"
                         style={{ width: 120, height: 120, borderRadius: "50%" }}
                       />
-                      {/* )
-                            {uploadedImage ? ( : (
-                            <p className="text-muted">Drag and drop or click to upload an image</p>
-                            )} */}
                     </div>
                   </OverlayTrigger>
                 </Card>
@@ -291,7 +360,11 @@ const AddNewRO = () => {
                     <BootstrapForm.Label className="mb-1">
                       Username <span className="text-danger">*</span>
                     </BootstrapForm.Label>
-                    <Field name="username" className="form-control" />
+                    <Field
+                      name="username"
+                      className="form-control"
+                      disabled={Boolean(Soid)}
+                    />
                     <ErrorMessage
                       name="username"
                       component="div"
@@ -301,44 +374,51 @@ const AddNewRO = () => {
                 </Col>
 
                 <Col md={4}>
-                  <BootstrapForm.Group controlId="empNo" className="mb-2">
-                    <BootstrapForm.Label className="mb-1">
-                      Password<span className="text-danger">*</span>
-                    </BootstrapForm.Label>
-                    <Field
-                      name="password"
-                      className="form-control"
-                      type="password"
-                    />
-                    <ErrorMessage
-                      name="empNo"
-                      component="div"
-                      className="text-danger"
-                    />
-                  </BootstrapForm.Group>
+                  {Soid ? null : (
+                    <BootstrapForm.Group controlId="password" className="mb-2">
+                      <BootstrapForm.Label className="mb-1">
+                        Password<span className="text-danger">*</span>
+                      </BootstrapForm.Label>
+                      <Field
+                        name="password"
+                        className="form-control"
+                        type="password"
+                      />
+                      <ErrorMessage
+                        name="password"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </BootstrapForm.Group>
+                  )}
                 </Col>
                 <Col md={4}>
-                  <BootstrapForm.Group controlId="empNo" className="mb-2">
-                    <BootstrapForm.Label className="mb-1">
-                      Confirm Password<span className="text-danger">*</span>
-                    </BootstrapForm.Label>
-                    <Field
-                      name="confirm_password"
-                      className="form-control"
-                      type="password"
-                    />
-                    <ErrorMessage
-                      name="empNo"
-                      component="div"
-                      className="text-danger"
-                    />
-                  </BootstrapForm.Group>
+                  {Soid ? null : (
+                    <BootstrapForm.Group
+                      controlId="confirm_password"
+                      className="mb-2"
+                    >
+                      <BootstrapForm.Label className="mb-1">
+                        Confirm Password<span className="text-danger">*</span>
+                      </BootstrapForm.Label>
+                      <Field
+                        name="confirm_password"
+                        className="form-control"
+                        type="password"
+                      />
+                      <ErrorMessage
+                        name="confirm_password"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </BootstrapForm.Group>
+                  )}
                 </Col>
               </Row>
 
               <div className="text-end">
                 <Button type="submit" variant="outline-primary mt-4">
-                  Save
+                  {Soid ? "Update" : "Save"}
                 </Button>
               </div>
             </Form>

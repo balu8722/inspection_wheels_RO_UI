@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Formik,
   Form,
@@ -21,16 +21,16 @@ import defaultAvatar from '../../../assets/img/avatar-placeholder.png';
 import { PasswordShowHide } from '../../../components/PasswordShow/PasswordShowHide';
 import MultiSelectDropdown from '../../../components/MultiSelectDropdown/MultiSelectDropdown';
 import { useSelector } from 'react-redux';
-import { mapToValueLabel } from '../../../utils/commonFunctions';
+import { getObjectsByIds, mapToValueLabel } from '../../../utils/commonFunctions';
 import { CONFIG_URL } from '../../../api/api.config';
 import { showNotification } from '../../../components/Notifications';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { PostRequestHook } from '../../../api/Services';
 
 const validationSchema = Yup.object({
-  username: Yup.string().required('Required'),
-  company_name: Yup.string().required('Required'),
-  contact_person_name: Yup.string().required('Required'),
+  username: Yup.string().trim().required('Required'),
+  company_name: Yup.string().trim().required('Required'),
+  contact_person_name: Yup.string().trim().required('Required'),
   address: Yup.string().notRequired(),
   city: Yup.string().notRequired(),
   pincode: Yup.string().notRequired(),
@@ -38,8 +38,8 @@ const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email').required('Required'),
   state: Yup.string().notRequired(),
   area: Yup.string().notRequired(),
-  contact_no: Yup.string().required('Required'),
-  password: Yup.string().required('Required'),
+  contact_no: Yup.string().trim().required('Required'),
+  password: Yup.string().trim().required('Required'),
   confirmPassword:Yup.string()
   .oneOf(
     [Yup.ref("password"), null],
@@ -52,14 +52,35 @@ const validationSchema = Yup.object({
     })).min(1, 'Required')
 });
 
+const clientFormInitialValues={
+    username: '',
+    company_name: '',
+    contact_person_name:  "",
+    address: '',
+    city: '',
+    pincode: '',
+    secondary_contact_no: '',
+    email: '',
+    state: '',
+    area: '',
+    contact_no: '',
+    vehicletypes: [],
+    password:'Welcome@123',
+    confirmPassword:'Welcome@123'
+}
+
 const AddNewClient = () => {
     const {vehicleTypes}=useSelector((state)=>state.clients)
     const navigate=useNavigate();
-    const {id}=useParams();
-    console.log("id====>",id)
-    const {postRequest,putRequest}=PostRequestHook()
+    const [clientIdParams]=useSearchParams();
+    const id = clientIdParams.get('id');
+    
+    const {postRequest,putRequest,getRequest}=PostRequestHook();
     
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editDetails, setEditDetails] = useState({});
+  const [formValues,setFormValues]=useState(clientFormInitialValues)
 
   const onDrop = acceptedFiles => {
     const reader = new FileReader();
@@ -69,28 +90,57 @@ const AddNewClient = () => {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const clientFormInitialValues={
-    username: '',
-    company_name: '',
-    contact_person_name:"",
-    address: '',
-    city: '',
-    pincode: '',
-    secondary_contact_no: '',
-    email: '',
-    state: '',
-    area: '',
-    contact_no: '',
-    vehicletypes:[],
-    password:'Welcome@123',
-    confirmPassword:'Welcome@123'
+  useEffect(()=>{
+    if(id){
+        setIsEdit(true)
+        getClientDetails(id)
+    }
+  },[id])
+
+  
+
+const getClientDetails=async (clientId)=>{
+    let url=CONFIG_URL.GET_CLIENTS_DETAILS_BY_ID.replace(":clienId",clientId)
+    const response=await getRequest(url)
+    if(response.status==200){
+        let formData=response.data
+        let addedVehicleIds=formData.vehicletypes.split(",").map(item=>Number(item));
+        let _addedVehicleTypes=mapToValueLabel(getObjectsByIds(vehicleTypes,addedVehicleIds),'id','name')
+        setIsEdit(true)
+        setEditDetails(formData)
+        setFormValues({
+            username:formData?.username|| '',
+            company_name: formData?.company_name|| '',
+            contact_person_name: formData?.contact_person_name|| "",
+            address: formData?.address|| '',
+            city: formData?.city|| '',
+            pincode: formData?.pincode|| '',
+            secondary_contact_no: formData?.secondary_contact_no|| '',
+            email: formData?.email|| '',
+            state:formData?.state||  '',
+            area: formData?.area|| '',
+            contact_no: formData?.contact_no|| '',
+            vehicletypes:formData?.vehicletypes?_addedVehicleTypes: [],
+            password:'Welcome@123',
+            confirmPassword:'Welcome@123'
+        })
+    }else{
+        setIsEdit(false)
+        showNotification("error",response?.response?.data?.message||response?.data?.message)
+    }
+
 }
 
 const handleAddUpdateClient=async (values,clearForm=()=>{})=>{
     console.log(values);
     let vehicleTypeIds=values.vehicletypes.map(item=>item.value)
-    let data={...values,vehicletypes:vehicleTypeIds}
-        let response= await postRequest(CONFIG_URL.CREATE_CLIENT,data)
+    let data={...values,vehicletypes:vehicleTypeIds,email:values.email.trim(),contact_no:values.contact_no.toString().trim(),
+        company_name:values.company_name.trim(),
+        contact_person_name:values.contact_person_name.trim(),
+        username:values.username.trim()}
+         console.log("data",data)
+         let {password,confirmPassword,username,...rest}=data;
+        let response=isEdit? await putRequest(CONFIG_URL.UPDATE_CLIENT_BY_ID.replace(":clientId",id),rest) : await postRequest(CONFIG_URL.CREATE_CLIENT,data)
         if(response.status==200||response.status==201){
                 clearForm()
                 showNotification("success",response?.data?.message)
@@ -101,11 +151,12 @@ const handleAddUpdateClient=async (values,clearForm=()=>{})=>{
 }
 
   return (
-    <Page className={"dashboard mt-3"} title={'Add Client'} breadcrumbs={[{name:"Home", active:false},{name:"add Client", active:true}]}>
+    <Page className={"dashboard mt-3"} title={`${isEdit?'Edit Client':'Add Client'}`} breadcrumbs={[{name:"Home", active:false},{name:`${isEdit?'Edit Client':'Add Client'}`, active:true}]}>
             
         <div className="bg-white p-3">
             <Formik
-                initialValues={clientFormInitialValues}
+                initialValues={formValues}
+                enableReinitialize={true}
                 validationSchema={validationSchema}
                 onSubmit={(values,{resetForm}) => {
                     handleAddUpdateClient(values,resetForm)
@@ -114,6 +165,26 @@ const handleAddUpdateClient=async (values,clearForm=()=>{})=>{
                 {({values,handleBlur,handleChange,errors,touched,setFieldValue}) => (
                     <Form>
                     <Row>
+                        {isEdit &&<>
+                        <Col md={6}>
+                            <BootstrapForm.Group controlId="company_name" className='mb-2'>
+                                <BootstrapForm.Label className='mb-1' >Company Id </BootstrapForm.Label>
+                                <BootstrapForm.Control
+                                    type="text"
+                                    name="emp_id"
+                                    value={editDetails?.emp_id||""}
+                                    disabled
+                                />
+                            </BootstrapForm.Group>
+                        </Col>
+                        <Col md={6}>
+                        <BootstrapForm.Group controlId="username" className='mb-2'>
+                            <BootstrapForm.Label className='mb-1'>Username</BootstrapForm.Label>
+                            <Field name="username" className="form-control" disabled />
+                            <ErrorMessage name="username" component="div" className="text-danger small" />
+                        </BootstrapForm.Group>
+                        </Col>
+                        </>}
                         <Col md={6}>
                         <BootstrapForm.Group controlId="company_name" className='mb-2'>
                             <BootstrapForm.Label className='mb-1'>Company Name <span className='text-danger'>*</span></BootstrapForm.Label>
@@ -222,13 +293,24 @@ const handleAddUpdateClient=async (values,clearForm=()=>{})=>{
                         </OverlayTrigger>
                     </Card>
                     </div>
-
+                   {!isEdit && <>
                     <h5 className='mt-4 mb-3'>Login Credentials</h5>
                     <Row>
                         <Col md={4}>
                         <BootstrapForm.Group controlId="username" className='mb-2'>
                             <BootstrapForm.Label className='mb-1'>Username <span className='text-danger'>*</span></BootstrapForm.Label>
-                            <Field name="username" className="form-control" />
+                            <Field name="username" className="form-control">
+                                {({ field, form }) => (
+                                    <input
+                                        {...field}
+                                        className="form-control"
+                                        onChange={(e) => {
+                                        const trimmed = e.target.value.trim(); 
+                                        form.setFieldValue('username', trimmed);
+                                        }}
+                                    />
+                                )}
+                            </Field>
                             <ErrorMessage name="username" component="div" className="text-danger small" />
                         </BootstrapForm.Group>
                         </Col>
@@ -238,7 +320,10 @@ const handleAddUpdateClient=async (values,clearForm=()=>{})=>{
                                     name="password"
                                     input_label="Password"
                                     placeholder="Password"
-                                    handleChange={handleChange}
+                                    handleChange={(e)=>{
+                                        let value=e.target.value.trim()
+                                        setFieldValue("password",value)
+                                    }}
                                     handleBlur={handleBlur}
                                     value={values.password}
                                     formikValidation={touched.password && errors.password ? (
@@ -264,9 +349,10 @@ const handleAddUpdateClient=async (values,clearForm=()=>{})=>{
                                 />
                         </Col>
                     </Row>
+                    </>}
 
                     <div className="text-end">
-                        <Button type="submit" variant="outline-primary mt-4">Save</Button>
+                        <Button type="submit" variant="outline-primary mt-4">{isEdit?"Update":"Save"}</Button>
                     </div>
                     </Form>
                 )}
